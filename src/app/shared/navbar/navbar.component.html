@@ -1,0 +1,198 @@
+<div class="wrapper" style="background: whitesmoke;height: 750px;">
+  <header class="top-nav ">
+    <div>
+      <div class="nav-header">
+        <button type="button" class="navbar-toggle pull-left sidebar-toggle" id="sidebarToggleSM">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <ul class="nav-notification pull-right">
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i></a>
+            <span class="badge badge-danger bounceIn">1</span>
+            <ul class="dropdown-menu dropdown-sm pull-right user-dropdown">
+              <li class="user-avatar">
+                <!--<img src="assets/img/teamwork/images/profile/profile1.jpg" alt="" class="img-circle">-->
+                <div class="user-content">
+                  <h5 class="no-m-bottom">Jane Doe</h5>
+                  <div class="m-top-xs">
+                    <a class="m-right-sm">Profile</a>
+                    <a>Log out</a>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a>
+                  Inbox
+                  <span class="badge badge-danger bounceIn animation-delay2 pull-right">1</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  Notification
+                  <span class="badge badge-purple bounceIn animation-delay3 pull-right">2</span>
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a>Setting</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <a class="brand" style="padding-left:45px;margin-top: -3px;">
+          <!--<img src="assets/img/teamwork/images/logo.png">-->
+        </a>
+      </div>
+      <div class="nav-container">
+        <ul class="nav-notification" style="margin-left:125px;">
+          <li class="nav-item" style="margin-right: 1px;">
+            <a [routerLink]="['']">
+              <i class="fa fa-home" style="font-size:15px;margin-right:13px;"></i>
+              <span class="font-bold" style="font-size:18px;">主页</span>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-right: 1px;">
+            <a [routerLink]="['filmComment']">
+              <i class=" fa fa-clone" style="font-size:14px;margin-right:13px;"></i>
+              <span class="font-bold" style="font-size:18px;">影评</span>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-right: 1px;">
+            <a [routerLink]="['filmType']">
+              <i class="fa fa-file-text-o" style="font-size:14px;margin-right:13px;"></i>
+              <span class="font-bold" style="font-size:18px;">分类</span>
+            </a>
+          </li>
+          <!--<li class="dropdown">-->
+          <!--<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="font-size:18px;"> 更多<b-->
+          <!--class="caret" style="margin-left:10px;"></b></a>-->
+          <!--<ul id="menu2" class="dropdown-menu" aria-labelledby="drop4" style="border: none;">-->
+          <!--<li><a><i class=" fa fa-list"></i> &nbsp;&nbsp;项目</a></li>-->
+          <!--<li><a> <i class=" fa fa-calendar-plus-o "></i> &nbsp;&nbsp;日程</a></li>-->
+          <!--</ul>-->
+          <!--</li>-->
+        </ul>
+        <div class="pull-right m-right-sm">
+          <ul class="nav-notification">
+            <li>
+              <a data-toggle="dropdown"><img src="assets/img/navbar/inform.png" alt=""
+                                             style="height: 24px;width: 24px;"></a>
+              <span class="badge badge-danger bounceIn animation-delay6 active">3</span>
+              <ul class="dropdown-menu message pull-right" style="border: none;margin-top: 3px;">
+                <li style="padding:10px">
+                  <span>您共有3条消息</span>
+                  <span class="pull-right"> <i class="fa fa-angle-double-right" style="font-size:18px;"></i></span>
+                </li>
+                <li>
+                  <a class="clearfix">
+                    <img src="assets/img/navbar/touxiang-men.png" alt="User Avatar">
+                    <div class="detail">
+                      <strong>仲梦阳</strong>
+                      <p class="no-margin">
+                        样式修改更新，请查收
+                      </p>
+                      <small class="text-muted"><i class="fa fa-check text-success"></i> 27分钟前</small>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="clearfix">
+                    <img src="assets/img/navbar/touxiang-women.png" alt="User Avatar">
+                    <div class="detail">
+                      <strong>王凯</strong>
+                      <p class="no-margin">
+                        js效果已部署
+                      </p>
+                      <small class="text-muted"><i class="fa fa-check text-success"></i> 5小时前</small>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="clearfix">
+                    <img src="assets/img/navbar/touxiang-men2.png" alt="User Avatar">
+                    <div class="detail m-left-sm">
+                      <strong>xxx</strong>
+                      <p class="no-margin">
+                        雅典娜发来一条需处理动态
+                      </p>
+                      <small class="text-muted"><i class="fa fa-reply"></i> 11月22日 9:30</small>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a data-toggle="dropdown"><img src="assets/img/navbar/add.png" alt=""
+                                             style="height: 24px;width: 24px;"></a>
+              <ul class="dropdown-menu notification  pull-right" style="border: none;margin-top: 5px;">
+                <li>
+                  <a>
+                    <i class="fa fa-plus" style="margin-left:7px;"></i>
+                    <span class="m-left-xs">新增动态</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <i class="fa fa-plus" style="margin-left:7px;"></i>
+                    <span class="m-left-xs">新增任务</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <i class="fa fa-plus" style="margin-left:7px;"></i>
+                    <span class="m-left-xs">新增日程</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <i class="fa fa-plus" style="margin-left:7px;"></i>
+                    <span class="m-left-xs">新增项目</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <div class="user-block hidden-xs" style="margin-left:10px;">
+            <a id="userToggle" data-toggle="dropdown" (click)="showUser()">
+              <img src="assets/img/navbar/touxiang-women.png" alt=""
+                   class="img-circle inline-block user-profile-pic">
+              <div class="user-detail inline-block" style="font-size: 18px">
+                王凯
+                <i class="fa fa-angle-down"></i>
+              </div>
+            </a>
+            <div class="panel border dropdown-menu user-panel">
+              <div class="panel-body paddingTB-sm">
+                <ul style="top:5px;">
+                  <li>
+                    <a>
+                      <i class="fa fa-user fa-lg"></i> &nbsp;<span class="m-left-xs">个人信息</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="fa fa-power-off fa-lg"></i> &nbsp;<span class="m-left-xs">退出</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- ./top-nav-inner -->
+  </header>
+
+  <div style="position: relative ! important; right: 0px; top: 0px;margin-top: -45px;">
+    <div class="main-container">
+      <div style="margin-top:5px;margin-left: 5px;margin-left:-163px;margin-right: -110px;">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+

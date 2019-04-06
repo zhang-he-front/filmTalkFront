@@ -1,0 +1,41 @@
+.carousel-container {
+  margin-bottom: 40px;
+}
+
+.pc_imgBox{
+  display: block;
+  height: 210px;
+  width: 100%;
+  background-size: cover;
+  background-position:  center;
+  background-repeat: no-repeat;
+}
+.carousel-indicators{
+  background: #ccc;
+}
+
+.imageStyle {
+  width: 190px;
+  height: 230px;
+}
+.productStyle {
+  padding-left: 1px;
+}
+
+p,span{
+  font-size: 18px;
+}
+
+
+[nz-carousel-content] {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}
+
+h3 {
+  color: #fff;
+}

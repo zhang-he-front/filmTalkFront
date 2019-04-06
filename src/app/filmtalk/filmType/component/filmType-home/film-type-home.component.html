@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-md-9">
+    <ul class="nav nav-tabs tab-style2 tab-right" id="tabTop" style="margin-bottom: 7px;border-bottom: 0px solid #ddd;font-size: 18px;">
+      <li class="dropdown" style="margin-top:7px;margin-left:5px;" ></li>
+      <li class="active"  (click)="showTab(1)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
+          <span class="text-wrapper">全部</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(3)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
+          <span class="text-wrapper">喜剧</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">动作</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">科幻</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">惊悚</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">武侠</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">青春</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">励志</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">爱情</span>
+        </a>
+      </li>
+      <li class=""  (click)="showTab(4)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
+          <span class="text-wrapper">历史</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="row" style="height: 750px; overflow-y: auto;margin-left: 4px;">
+      <div *ngFor="let product of products" class="col-md-4 col-sm-4 col-md-4 productStyle">
+        <div class="thumbnail">
+          <img class="imageStyle" [src]="imgUrl" style="margin-left: 4px;">
+          <div class="caption">
+            <h4 class="pull-right">{{product.price}}</h4>
+            <h4><a [routerLink]="['product', product.id]">{{product.title}}</a></h4>
+            <p>{{product.desc}}</p>
+          </div>
+          <div>
+            <app-stars [rating]="product.rating"></app-stars>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" style="margin-top: 29px;width: 324px">
+    <div class="smart-widget-header" style="color:#3b9cd6;border-bottom: none;border-radius:0;">
+      <a href="#" class="tooltips" style="color:#ff9a32;font-size: 18px;"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;口碑排行榜...</a>
+    </div>
+    <div class="smart-widget-inner">
+      <ul class="list-group to-do-list sortable-list no-border">
+        <li class="list-group-item ad1" style="height: 45px;">
+          <span>1.</span>
+          <span class="ck1">部门会议<img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+        <li class="list-group-item ad1">
+          <span>1.</span>
+          <span class="ck1">部门会议 <img src="images/item.png" alt="" style="margin-left:15px;margin-top:-3px;"></span>
+        </li>
+      </ul>
+
+      <!--<div class="smart-widget-header" style="color:#3b9cd6;border-top:1px solid #ddd;border-bottom: none;border-radius:0;">-->
+      <!--<a href="#" class="tooltips" style="color:#ff9a32;"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;三天到期任务</a>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+

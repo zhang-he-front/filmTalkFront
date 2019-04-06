@@ -1,0 +1,24 @@
+.carousel-container {
+  margin-bottom: 40px;
+}
+
+.pc_imgBox{
+  display: block;
+  height: 210px;
+  width: 100%;
+  background-size: cover;
+  background-position:  center;
+  background-repeat: no-repeat;
+}
+.carousel-indicators{
+  background: #ccc;
+}
+
+.imageStyle {
+  width: 194px;
+  height: 50px;
+}
+.productStyle {
+  padding-left: 1px;
+}
+
