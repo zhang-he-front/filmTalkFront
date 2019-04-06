@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
 
 
   reqData() { // 向后台请求数据
-    var url = "/api/filmTalk_war_exploded/filmTalk/film/query";
+    var url = '/filmTalk_war_exploded/filmTalk/film/query';
     // 后面的异步请求中不可直接使用this，在异步中使用的this
     // 和这里的this不同
     var _that = this;
