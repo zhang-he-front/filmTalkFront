@@ -18,4 +18,6 @@ export class Film {
   isValid: number;          //删除表示，0-正常 1-删除
   create_time: Date; //创建时间
   update_time: Date; //修改时间
+
+  filmType: string; //类型
 }

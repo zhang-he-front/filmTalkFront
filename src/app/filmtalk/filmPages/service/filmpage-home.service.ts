@@ -11,13 +11,14 @@ export class FilmpageHomeService {
   }
 
 
-  /*
-    获取所有日程信息
+  /**
+   * 获取首页数据
+   * add by zyx 2019-4-7
+   * @returns {Observable<any>}
    */
   getPageData(): Observable<any> {
-    const url = 'http://localhost:8080/filmTalk_war_exploded/filmTalk/film/query';
+    const url = '/filmTalk/film/query';
     const body = {
-
     };
     return this.http.post(url, body);
   }

@@ -15,8 +15,8 @@
 }
 
 .imageStyle {
-  width: 190px;
-  height: 230px;
+  width: 185px;
+  height: 200px;
 }
 .productStyle {
   padding-left: 1px;
@@ -31,7 +31,7 @@ p,span{
   text-align: center;
   height: 160px;
   line-height: 160px;
-  background: #364d79;
+  background: #d0d5df;
   color: #fff;
   overflow: hidden;
 }
