@@ -121,27 +121,15 @@
                                              style="height: 24px;width: 24px;"></a>
               <ul class="dropdown-menu notification  pull-right" style="border: none;margin-top: 5px;">
                 <li>
-                  <a>
+                  <a (click)="showFilmModal()">
                     <i class="fa fa-plus" style="margin-left:7px;"></i>
-                    <span class="m-left-xs">新增动态</span>
+                    <span class="m-left-xs">新增电影</span>
                   </a>
                 </li>
                 <li>
-                  <a>
+                  <a (click)="showFilmTypeModal()">
                     <i class="fa fa-plus" style="margin-left:7px;"></i>
-                    <span class="m-left-xs">新增任务</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <i class="fa fa-plus" style="margin-left:7px;"></i>
-                    <span class="m-left-xs">新增日程</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <i class="fa fa-plus" style="margin-left:7px;"></i>
-                    <span class="m-left-xs">新增项目</span>
+                    <span class="m-left-xs">新增电影分类</span>
                   </a>
                 </li>
               </ul>
@@ -188,3 +176,57 @@
   </div>
 </div>
 
+<!--新增电影分类模态框-->
+<div class="modal fade" id="myFilmType" tabindex="-1" role="dialog" aria-labelledby="myFilmTypeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="pagesM modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 28px;">×</button>
+        <h4 class="modal-title" id="myFilmTypeLabel" style="font-size: 24px;">新建电影分类</h4>
+      </div>
+      <div class="modal-body">
+        <form class="no-margin" [formGroup]="typeForm" data-validate="parsley" novalidate="">
+          <div class="form-group row" style="padding:0 15px;">
+            <span class="col-xs-2 control-label text-center" style="margin-top: 10px;font-size: 18px;">电影类型</span>
+            <div class="col-xs-10">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-input-group >
+                    <input type="text" nz-input formControlName="TYPENAME" placeholder="请输入电影类型名称" style="font-size: 18px;"
+                           class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+                  </nz-input-group>
+                  <nz-form-explain *ngIf="typeForm.get('TYPENAME')?.dirty && typeForm.get('TYPENAME')?.errors" style="margin-top: 3px;color: red;">
+                    类型名不能为空
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="margin-top: -15px;">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="typeCancel()">取消</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade" id="myFilm" tabindex="-1" role="dialog" aria-labelledby="myFilmLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="pagesM modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 28px;">×</button>
+        <h4 class="modal-title" id="myFilmLabel" style="font-size: 24px;">新建电影分类</h4>
+      </div>
+      <div class="modal-body">
+        <app-create-film #createFilm></app-create-film>
+      </div>
+      <div class="modal-footer" style="margin-top: -15px;">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="typeCancel()">取消</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

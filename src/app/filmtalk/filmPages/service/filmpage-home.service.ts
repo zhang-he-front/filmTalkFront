@@ -17,7 +17,7 @@ export class FilmpageHomeService {
    * @returns {Observable<any>}
    */
   getPageData(): Observable<any> {
-    const url = '/filmTalk/film/query';
+    const url = '/film/query';
     const body = {
     };
     return this.http.post(url, body);

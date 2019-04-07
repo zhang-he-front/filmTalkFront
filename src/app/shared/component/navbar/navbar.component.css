@@ -7727,3 +7727,26 @@ button.close {
 }
 
 
+.iconSelected {
+  border: 2px solid #bbe6ff;
+}
+
+.form-control {
+  font-family: "Rubik", sans-serif;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+  font-size:16px;
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font-size:16px;
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font-size:16px;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  font-size:16px;
+}

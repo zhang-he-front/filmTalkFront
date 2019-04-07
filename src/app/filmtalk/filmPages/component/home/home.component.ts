@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Product, ProductService} from "../../service/product.service";
 import {FilmpageHomeService} from "../../service/filmpage-home.service";
-import {Film} from "../../model/film";
+import {Film} from "../../../../shared/model/film";
 
 declare var $: any;
 
@@ -12,24 +12,17 @@ declare var $: any;
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // 定义一个数组，接收从服务里面传来的参数
-  public products: Product[];
-  public imgUrl = 'http://placehold.it/320×150';
   futureArr: any[] = []; //即将上映
   likeArr: any[] = []; //猜你喜欢
   nowArr: any[] = []; //正在热播
   recentHotArr: any[] = []; //最近热门
 
-  array = ["assets/img/film/film1.webp", "assets/img/film/film1.webp", "assets/img/film/film1.webp", "assets/img/film/film1.webp"];
-
   constructor(private http: HttpClient,
-              private filmpageHomeService: FilmpageHomeService,
-              private productService: ProductService) {
+              private filmpageHomeService: FilmpageHomeService) {
   }
 
 
   ngOnInit() {
-    this.products = this.productService.getProduct();
     this.getPageData();
   }
 
@@ -37,7 +30,7 @@ export class HomeComponent implements OnInit {
   getPageData() {
     this.filmpageHomeService.getPageData().subscribe(res => {
       console.log(res);
-      this.dealWithData(res);
+      this.dealWithData(res.data);
     });
   }
 
@@ -83,6 +76,7 @@ export class HomeComponent implements OnInit {
           "film_language": res.recentHotArr[i].language,
           "location": res.recentHotArr[i].location,
           "show_time": res.recentHotArr[i].showTime,
+          "hour": res.recentHotArr[i].hour,
           "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
         });
       } else if (i >= 4 && i < 10) {
@@ -94,6 +88,7 @@ export class HomeComponent implements OnInit {
           "film_language": res.recentHotArr[i].language,
           "location": res.recentHotArr[i].location,
           "show_time": res.recentHotArr[i].showTime,
+          "hour": res.recentHotArr[i].hour,
           "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
         });
       }

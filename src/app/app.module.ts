@@ -7,14 +7,13 @@ import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { HomeComponent } from './filmtalk/filmPages/component/home/home.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import {Routes} from "@angular/router";
+import { NavbarComponent } from './shared/component/navbar/navbar.component';
 import { FilmTypeHomeComponent } from './filmtalk/filmType/component/filmType-home/film-type-home.component';
 import {FilmCommentHomeComponent} from "./filmtalk/filmComment/component/filmComment-home/film-comment-home.component";
-import { StarsComponent } from './shared/stars/stars.component';
+import { CreateFilmComponent } from './shared/component/create-film/create-film.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -24,12 +23,13 @@ registerLocaleData(zh);
     NavbarComponent,
     FilmTypeHomeComponent,
     FilmCommentHomeComponent,
-    StarsComponent
+    CreateFilmComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgZorroAntdModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule
