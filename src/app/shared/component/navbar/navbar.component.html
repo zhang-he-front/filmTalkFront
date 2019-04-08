@@ -230,3 +230,7 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="新建电影" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" style="z-index: 15">
+  <app-create-film #createFilm></app-create-film>
+</nz-modal>

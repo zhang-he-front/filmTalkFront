@@ -77,9 +77,21 @@
       <!--<nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>-->
       <!--</nz-select>-->
 
-      <nz-select style="width: 200px;display: block;" [(ngModel)]="singleValue" [nzSize]="size" nzShowSearch formControlName="selectType">
+      <!--<nz-select style="width: 200px;display: block;z-index: 2000" [(ngModel)]="singleValue" [nzSize]="size" nzShowSearch formControlName="selectType">-->
+        <!--<nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>-->
+      <!--</nz-select>-->
+
+      <nz-select formControlName="selectType"
+        [nzMaxTagCount]="3"
+        [nzMaxTagPlaceholder]="tagPlaceHolder"
+        style="width: 100%"
+        nzMode="multiple"
+        nzPlaceHolder="Please select"
+        [(ngModel)]="listOfSelectedValue"
+      >
         <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
       </nz-select>
+      <ng-template #tagPlaceHolder let-selectedList> and {{ selectedList.length }} more selected </ng-template>
 
     </div>
   </div>

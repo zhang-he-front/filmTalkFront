@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('createFilm') createFilm: CreateFilmComponent;  // 导航栏电影
   typeForm: FormGroup;
   filmType: Filmtype = new Filmtype();
+  isVisible: boolean = false;
 
 
   constructor(private fb: FormBuilder,
@@ -29,8 +30,16 @@ export class NavbarComponent implements OnInit {
 
   //展示电影模态框
   showFilmModal() {
-    $('#myFilm').modal();
+    this.isVisible = true;
+    // $('#myFilm').modal();
   }
+
+  handleCancel(){
+    this.isVisible = false;
+  }
+  handleOk(){
+    this.isVisible = false;
+}
 
   //关闭电影模态框
   hideFilmModal() {

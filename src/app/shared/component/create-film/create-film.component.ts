@@ -21,6 +21,8 @@ export class CreateFilmComponent implements OnInit {
     }
     this.listOfOption = children;
 
+    // this.listOfOption = children;
+
   }
 
   createFilmForm(){

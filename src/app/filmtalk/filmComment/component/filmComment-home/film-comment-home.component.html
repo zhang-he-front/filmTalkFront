@@ -9,43 +9,118 @@
                style="transition: transform 0ms ease-out; transform: translate3d(0px, 0px, 0px);">
             <div class="tab-pane fade active in" id="profileTab1" style="padding-bottom:20px;">
 
-              <div class="tab-pane fade active in" id="messages-2">
+              <div class="tab-pane fade active in" id="messages-2" *ngFor="let film of films">
 
-                <div class="d-flex flex-row comment-row" style="height: 102px;">
-                  <div class="comment-text w-1001">
-                    <div class="topYui">
-                      <input type="checkbox" style="display:none;" class="icc1" name="" value="">
+                <!--<div class="d-flex flex-row comment-row" style="height: 102px;">-->
+                <!--<div class="comment-text w-1001">-->
+                <!--<div class="topYui">-->
+                <!--<input type="checkbox" style="display:none;" class="icc1" name="" value="">-->
+                <!--</div>-->
+                <!--<h5><img src="images/E10.png" alt="">&nbsp;&nbsp;雅典娜 <label class="text-muted">转入E10 &nbsp;<span-->
+                <!--style="color:#e36159;">异常事件</span></label>-->
+                <!--</h5>-->
+
+                <!--<p class="cr-blue"> 请购转采购</p>-->
+                <!--<div class="comment-footer ">-->
+
+                <!--<span class="text-muted pull-left"> 11月20日 7:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class="action-icons1"-->
+                <!--style="margin-right: 20px; display: none;">-->
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="删除" id="sta"><i-->
+                <!--class="fa fa-trash-o"></i></a>&nbsp;&nbsp;-->
+
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="转任务" id="sta"><i-->
+                <!--class="fa fa-external-link"></i></a>&nbsp;&nbsp;-->
+
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="关注" id="sta"><i class="fa fa-star"></i></a>&nbsp;&nbsp;-->
+
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="点赞"><i class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>-->
+
+                <!--</span>-->
+                <!--<a class="text-z" style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">28</i>)-->
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;height: 192px;">
+                  <div class="comment-text" id="commentText-{{film.oid}}" (mouseenter)="isShowOperate(film)"
+                       (mouseleave)="isNotShowOperate(film)">
+                    <!--<div class="topYui">-->
+                    <!--<label nz-checkbox [hidden]="message.isShowChecked" [(ngModel)]="message.isChecked" (click)="singleCheckbox()" style="margin-left: 0px;"></label>-->
+                    <!--</div>-->
+                    <div class="row">
+                      <div class="col-md-1">
+                        <img src="{{film.image_path}}" alt="" style="height: 130px;padding-left: 15px;">
+                      </div>
+                      <div class="col-md-7">
+                        <h5 style="padding-left: 15px;">
+
+                          &nbsp;&nbsp;<span>{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <label class="text-muted">{{film.film_language}}&nbsp;</label>
+                          <br>
+                          <p class="cr-blue">迪士尼全新真人版《小飞象》改编自1941年推出的迪士尼同名经典动画，讲述了生来因一双大耳朵而遭人嘲笑的照吸
+                            引到一个充满心机的生意人文德维尔度，然而霍特·法瑞尔发现，游乐场光鲜亮丽的背后，充满种种见不得人的秘密。 </p>
+
+                          <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
+                        </h5>
+                      </div>
                     </div>
-                    <h5><img src="images/E10.png" alt="">&nbsp;&nbsp;雅典娜 <label class="text-muted">转入E10 &nbsp;<span
-                      style="color:#e36159;">异常事件</span></label>
-                    </h5>
 
-                    <p class="cr-blue"> 请购转采购</p>
+                    <!--<h5 (click)="sendDetail(message.OID,message.SOURCE)" style="padding-left: 15px;">-->
+                    <!--<img *ngIf="message.SOURCE != '3'" src="assets/img/teamwork/images/message/touxiang.png" alt="">-->
+                    <!--<img *ngIf="message.SOURCE == '3'" src="assets/img/teamwork/images/message/E10.png" alt="">-->
+                    <!--&nbsp;&nbsp;{{message.USERNAME}}-->
+                    <!--<label class="text-muted">{{message.TITLE}}&nbsp;<span [ngStyle]="{'color':message.event_type == '例行事件' ? '#aaa' : '#ff2e2e' }">{{message.event_type}}</span></label>-->
+                    <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
+                    <!--</h5>-->
+                    <ng-container *ngIf="film.film_staus == '0'">
+                      <span *ngIf="film.film_staus == '0'" class="badge badge-danger pull-right"
+                            style="margin-top:-115px;">正在热映</span>
+                      <span *ngIf="film.film_staus == '1'" class="badge badge-warning pull-right"
+                            style="margin-top:-115px;">即将上映</span>
+                    </ng-container>
+
+
+                    <!--<p class="cr-blue">{{film.film_detail}}</p>-->
                     <div class="comment-footer ">
-
-                      <span class="text-muted pull-left"> 11月20日 7:30</span>
+                      <span class="text-muted pull-left">{{film.show_time}}</span>
                       <span class="pull-right">
-                                                    <span class="action-icons1"
-                                                          style="margin-right: 20px; display: none;">
-                                                        <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                           data-original-title="删除" id="sta"><i
-                                                          class="fa fa-trash-o"></i></a>&nbsp;&nbsp;
-
-                                                        <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                           data-original-title="转任务" id="sta"><i
-                                                          class="fa fa-external-link"></i></a>&nbsp;&nbsp;
-
-                                                        <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                           data-original-title="关注" id="sta"><i class="fa fa-star"></i></a>&nbsp;&nbsp;
-
-                                                        <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                           data-original-title="点赞"><i class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>
-
-                                                    </span>
-                                                    <a class="text-z" style="font-weight:bold;margin-right: 30px;">评论
-                                                        (<i class="z-num">28</i>)
-                                                    </a>
-                                                </span>
+                  <span class="action-icons" style="margin-right: 20px;" [hidden]="film.isShowOperate">
+                    <!--<a class="tooltips" style="color:#666" nz-tooltip nzTitle="删除" (click)="showDeleteConfirm(message)">-->
+                    <!--<i class="fa fa-trash-o"></i>-->
+                    <!--</a>&nbsp;&nbsp;-->
+                    <a class="tooltips praise" nz-tooltip nzTitle="关注" [nzOverlayStyle]="{'font-size':'12px'}"
+                       (click)="messageSpecial(film)" [hidden]="film.isCollect">
+                      <i class="fa fa-star-o" style="color:#666"></i>
+                    </a>
+                    <a class="tooltips praise" nz-tooltip nzTitle="取消关注" [nzOverlayStyle]="{'font-size':'12px'}"
+                       (click)="messageSpecial(film)" [hidden]="!film.isCollect">
+                      <i class="fa fa-star" style="color:#666"></i>
+                    </a>&nbsp;&nbsp;
+                    <a class="tooltips praise" nz-tooltip nzTitle="点赞" [nzOverlayStyle]="{'font-size':'12px'}"
+                       (click)="messagePraise(film)" [hidden]="film.isPraise">
+                      <i class="fa fa-thumbs-o-up" style="color:#666"></i>
+                    </a>
+                    <a class="tooltips praise" nz-tooltip nzTitle="取消点赞" [nzOverlayStyle]="{'font-size':'12px'}"
+                       (click)="messagePraise(film)" [hidden]="!film.isPraise">
+                       <i class="fa fa-thumbs-up" style="color:#666"></i>
+                    </a>
+                    <span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;
+                 </span>
+                  <a class="text-z" style="font-weight:bold;" (click)="isShowReply(film)">评论
+                    <span>
+                      (<i class="z-num">{{film.numberReply}}</i>)
+                    </span>
+                  </a>
+                </span>
                     </div>
                   </div>
                 </div>
@@ -222,251 +297,251 @@
                   </div>
                 </div>
 
-                <div class="d-flex flex-row comment-row" style="height: 102px;">
-                  <div class="comment-text w-1002">
-                    <div class="topYui">
-                      <input type="checkbox" style="display:none;" class="icc2" name="" value="">
-                    </div>
-                    <h5><img src="images/E10.png" alt="">&nbsp;&nbsp; 雅典娜 <label class="text-muted">转入E10 例行事件
-                      &nbsp;<span style="color:#56c556;">(已转任务)</span></label></h5>
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月20日 7:30</span>
-                      <span class="pull-right">
-                                                        <span class="action-icons2"
-                                                              style="margin-right: 20px; display: none;">
-                                                            <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                               data-original-title="删除" id="sta"><i
-                                                              class="fa fa-trash-o"></i></a>&nbsp;&nbsp;
+                <!--<div class="d-flex flex-row comment-row" style="height: 102px;">-->
+                <!--<div class="comment-text w-1002">-->
+                <!--<div class="topYui">-->
+                <!--<input type="checkbox" style="display:none;" class="icc2" name="" value="">-->
+                <!--</div>-->
+                <!--<h5><img src="images/E10.png" alt="">&nbsp;&nbsp; 雅典娜 <label class="text-muted">转入E10 例行事件-->
+                <!--&nbsp;<span style="color:#56c556;">(已转任务)</span></label></h5>-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月20日 7:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class="action-icons2"-->
+                <!--style="margin-right: 20px; display: none;">-->
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="删除" id="sta"><i-->
+                <!--class="fa fa-trash-o"></i></a>&nbsp;&nbsp;-->
 
-                                                            <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                               data-original-title="转任务" id="sta"><i
-                                                              class="fa fa-external-link"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="转任务" id="sta"><i-->
+                <!--class="fa fa-external-link"></i></a>&nbsp;&nbsp;-->
 
-                                                            <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                               data-original-title="关注" id="sta"><i
-                                                              class="fa fa-star"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>&nbsp;&nbsp;-->
 
-                                                            <a href="#" class="tooltips" data-toggle="tooltip" title=""
-                                                               data-original-title="点赞"><i class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>
-                                                        </span>
-                                                        <a href="#" class=""
-                                                           style="font-weight:bold;margin-right: 30px;">评论
-                                                            (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips" data-toggle="tooltip" title=""-->
+                <!--data-original-title="点赞"><i class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                        </a>
-                                                    </span>
-                    </div>
-                  </div>
-                </div>
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
-                <div class="d-flex flex-row comment-row" style="height: 102px;">
-                  <div class="comment-text w-1003">
-                    <div class="topYui">
-                      <input type="checkbox" style="display:none;" class="icc3" name="" value="">
-                    </div>
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>
-                    </h5>
-                    <!--<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>-->
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月20日 7:30</span>
-                      <span class="pull-right">
-                                                            <span class="action-icons3"
-                                                                  style="margin-right: 20px; display: none;">
-                                                                  <a href="#" class="tooltips" data-toggle="tooltip"
-                                                                     title="" data-original-title="删除" id="sta"><i
-                                                                    class="fa fa-trash-o"></i></a>&nbsp;&nbsp;
+                <!--<div class="d-flex flex-row comment-row" style="height: 102px;">-->
+                <!--<div class="comment-text w-1003">-->
+                <!--<div class="topYui">-->
+                <!--<input type="checkbox" style="display:none;" class="icc3" name="" value="">-->
+                <!--</div>-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>-->
+                <!--</h5>-->
+                <!--&lt;!&ndash;<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>&ndash;&gt;-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月20日 7:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class="action-icons3"-->
+                <!--style="margin-right: 20px; display: none;">-->
+                <!--<a href="#" class="tooltips" data-toggle="tooltip"-->
+                <!--title="" data-original-title="删除" id="sta"><i-->
+                <!--class="fa fa-trash-o"></i></a>&nbsp;&nbsp;-->
 
-                                                                <a href="#" class="tooltips" data-toggle="tooltip"
-                                                                   title="" data-original-title="关注" id="sta"><i
-                                                                  class="fa fa-star"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips" data-toggle="tooltip"-->
+                <!--title="" data-original-title="关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>&nbsp;&nbsp;-->
 
-                                                                <a href="#" class="tooltips" data-toggle="tooltip"
-                                                                   title="" data-original-title="点赞"><i
-                                                                  class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>
-                                                            </span>
-                                                            <a href="#" class=""
-                                                               style="font-weight:bold;margin-right: 30px;">评论
-                                                                (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips" data-toggle="tooltip"-->
+                <!--title="" data-original-title="点赞"><i-->
+                <!--class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                            </a>
-                                                        </span>
-                    </div>
-                  </div>
-                </div>
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
-                <div class="d-flex flex-row comment-row" style="height: 102px;">
-                  <div class="comment-text w-1004">
-                    <div class="topYui">
-                      <input type="checkbox" style="display:none;" class="icc4" name="" value="">
-                    </div>
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>
-                    </h5>
-                    <!--<span class="badge badge-warning pull-right" style="margin-top:-30px;">紧急</span>-->
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月20日 7:30</span>
-                      <span class="pull-right">
-                                                                <span class="action-icons4"
-                                                                      style="margin-right: 20px; display: none;">
+                <!--<div class="d-flex flex-row comment-row" style="height: 102px;">-->
+                <!--<div class="comment-text w-1004">-->
+                <!--<div class="topYui">-->
+                <!--<input type="checkbox" style="display:none;" class="icc4" name="" value="">-->
+                <!--</div>-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>-->
+                <!--</h5>-->
+                <!--&lt;!&ndash;<span class="badge badge-warning pull-right" style="margin-top:-30px;">紧急</span>&ndash;&gt;-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月20日 7:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class="action-icons4"-->
+                <!--style="margin-right: 20px; display: none;">-->
 
-                                                                    <a href="#" class="tooltips" data-toggle="tooltip"
-                                                                       title="" data-original-title="关注" id="sta"><i
-                                                                      class="fa fa-star"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips" data-toggle="tooltip"-->
+                <!--title="" data-original-title="关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>&nbsp;&nbsp;-->
 
-                                                                    <a href="#" class="tooltips" data-toggle="tooltip"
-                                                                       title="" data-original-title="点赞"><i
-                                                                      class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>
-                                                                </span>
-                                                                <a href="#" class=""
-                                                                   style="font-weight:bold;margin-right: 30px;">评论
-                                                                    (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips" data-toggle="tooltip"-->
+                <!--title="" data-original-title="点赞"><i-->
+                <!--class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                                </a>
-                                                            </span>
-                    </div>
-                  </div>
-                </div>
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
-                <div class="d-flex flex-row comment-row" style="height: 102px;">
-                  <div class="comment-text w-1005">
-                    <div class="topYui">
-                      <input type="checkbox" style="display:none;" class="icc5" name="" value="">
-                    </div>
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李腾飞 <label class="text-muted">问题任务汇报</label>
-                    </h5>
+                <!--<div class="d-flex flex-row comment-row" style="height: 102px;">-->
+                <!--<div class="comment-text w-1005">-->
+                <!--<div class="topYui">-->
+                <!--<input type="checkbox" style="display:none;" class="icc5" name="" value="">-->
+                <!--</div>-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李腾飞 <label class="text-muted">问题任务汇报</label>-->
+                <!--</h5>-->
 
-                    <p class="cr-blue">
-                      移动平台设计初稿已完成</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月29日 4:30</span>
-                      <span class="pull-right">
-                                                                    <span class="action-icons5"
-                                                                          style="margin-right:20px;display:none;">
+                <!--<p class="cr-blue">-->
+                <!--移动平台设计初稿已完成</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月29日 4:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class="action-icons5"-->
+                <!--style="margin-right:20px;display:none;">-->
 
-                                                                        <a href="#" class="tooltips"
-                                                                           data-toggle="tooltip" title=""
-                                                                           data-original-title="关注" id="sta"><i
-                                                                          class="fa fa-star"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>&nbsp;&nbsp;-->
 
-                                                                        <a href="#" class="tooltips"
-                                                                           data-toggle="tooltip" title=""
-                                                                           data-original-title="点赞"><i
-                                                                          class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>
-                                                                    </span>
-                                                                    <a href="#" class=""
-                                                                       style="font-weight:bold;margin-right: 30px;">评论
-                                                                        (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="点赞"><i-->
+                <!--class="fa fa-thumbs-up"></i>&nbsp;<i>6</i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                                    </a>
-                                                                </span>
-                    </div>
-                  </div>
-                </div>
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
-                <div class="d-flex flex-row comment-row">
-                  <div class="comment-text ">
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>
-                    </h5>
-                    <!--<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>-->
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月29日 4:30</span>
-                      <span class="pull-right">
-                                                                        <span class=""
-                                                                              style="margin-right:20px;display:none;">
-
-
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="添加标签"><i
-                                                                              class="fa fa-tags"></i></a>&nbsp;&nbsp;
-
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="特别关注" id="sta"><i
-                                                                              class="fa fa-star"></i></a>
-                                                                        </span>
-                                                                        <a href="#" class=""
-                                                                           style="font-weight:bold;margin-right: 30px;">评论
-                                                                            (<i class="z-num">0</i>)
-
-                                                                        </a>
-                                                                    </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex flex-row comment-row">
-                  <div class="comment-text ">
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>
-                    </h5>
-                    <!--<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>-->
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月29日 4:30</span>
-                      <span class="pull-right">
-                                                                        <span class=""
-                                                                              style="margin-right:20px;display:none;">
+                <!--<div class="d-flex flex-row comment-row">-->
+                <!--<div class="comment-text ">-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>-->
+                <!--</h5>-->
+                <!--&lt;!&ndash;<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>&ndash;&gt;-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月29日 4:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class=""-->
+                <!--style="margin-right:20px;display:none;">-->
 
 
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="添加标签"><i
-                                                                              class="fa fa-tags"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="添加标签"><i-->
+                <!--class="fa fa-tags"></i></a>&nbsp;&nbsp;-->
 
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="特别关注" id="sta"><i
-                                                                              class="fa fa-star"></i></a>
-                                                                        </span>
-                                                                        <a href="#" class=""
-                                                                           style="font-weight:bold;margin-right: 30px;">评论
-                                                                            (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="特别关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                                        </a>
-                                                                    </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex flex-row comment-row">
-                  <div class="comment-text ">
-                    <h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>
-                    </h5>
-                    <!--<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>-->
-                    <p class="cr-blue">
-                      集成问题已处理好 ，相似处理说明</p>
-                    <div class="comment-footer ">
-                      <span class="text-muted pull-left"> 11月29日 4:30</span>
-                      <span class="pull-right">
-                                                                        <span class=""
-                                                                              style="margin-right:20px;display:none;">
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="d-flex flex-row comment-row">-->
+                <!--<div class="comment-text ">-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>-->
+                <!--</h5>-->
+                <!--&lt;!&ndash;<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>&ndash;&gt;-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月29日 4:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class=""-->
+                <!--style="margin-right:20px;display:none;">-->
 
 
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="添加标签"><i
-                                                                              class="fa fa-tags"></i></a>&nbsp;&nbsp;
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="添加标签"><i-->
+                <!--class="fa fa-tags"></i></a>&nbsp;&nbsp;-->
 
-                                                                            <a href="#" class="tooltips"
-                                                                               data-toggle="tooltip" title=""
-                                                                               data-original-title="特别关注" id="sta"><i
-                                                                              class="fa fa-star"></i></a>
-                                                                        </span>
-                                                                        <a href="#" class=""
-                                                                           style="font-weight:bold;margin-right: 30px;">评论
-                                                                            (<i class="z-num">0</i>)
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="特别关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
 
-                                                                        </a>
-                                                                    </span>
-                    </div>
-                  </div>
-                </div>
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="d-flex flex-row comment-row">-->
+                <!--<div class="comment-text ">-->
+                <!--<h5><img src="images/touxiang.png" alt="">&nbsp;&nbsp; 李志江 <label class="text-muted">投诉单一张</label>-->
+                <!--</h5>-->
+                <!--&lt;!&ndash;<span class="badge badge-danger pull-right" style="margin-top:-30px;">非常紧急</span>&ndash;&gt;-->
+                <!--<p class="cr-blue">-->
+                <!--集成问题已处理好 ，相似处理说明</p>-->
+                <!--<div class="comment-footer ">-->
+                <!--<span class="text-muted pull-left"> 11月29日 4:30</span>-->
+                <!--<span class="pull-right">-->
+                <!--<span class=""-->
+                <!--style="margin-right:20px;display:none;">-->
+
+
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="添加标签"><i-->
+                <!--class="fa fa-tags"></i></a>&nbsp;&nbsp;-->
+
+                <!--<a href="#" class="tooltips"-->
+                <!--data-toggle="tooltip" title=""-->
+                <!--data-original-title="特别关注" id="sta"><i-->
+                <!--class="fa fa-star"></i></a>-->
+                <!--</span>-->
+                <!--<a href="#" class=""-->
+                <!--style="font-weight:bold;margin-right: 30px;">评论-->
+                <!--(<i class="z-num">0</i>)-->
+
+                <!--</a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
               </div>
             </div>
 

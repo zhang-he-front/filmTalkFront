@@ -20,4 +20,10 @@ export class Film {
   update_time: Date; //修改时间
 
   filmType: string; //类型
+  isShowOperate: boolean;     // 是否显示操作按钮
+  isCollect: boolean = false;         // 是否收藏标识（默认不收藏）
+  isPraise: boolean = false;          // 是否点赞标识（默认不点赞）
+  isPraiseNumb: boolean = false;      // 是否显示点赞数（0不显示）
+  praiseNumb: number;                 // 点赞数
+  numberReply: number;                // 总评论数
 }

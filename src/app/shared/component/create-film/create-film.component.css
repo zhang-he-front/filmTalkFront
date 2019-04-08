@@ -23,9 +23,9 @@
   /**/
 /*}*/
 
-/*.ant-select-dropdown-menu, .ant-select-dropdown-menu-root, .ant-select-dropdown-menu-vertical{*/
-  /*z-index: 1050;*/
-/*}*/
+.ant-select-dropdown-menu, .ant-select-dropdown-menu-root, .ant-select-dropdown-menu-vertical{
+  z-index: 2999;
+}
 
 /*.ant-select-dropdown-menu {*/
   /*z-index: 1050;*/
