@@ -1,0 +1,43 @@
+.iconSelected {
+  border: 2px solid #bbe6ff;
+}
+
+.form-control {
+  font-family: "Rubik", sans-serif;
+}
+
+.ant-form-item {
+  margin: 0 0 0;
+  padding: 0;
+  color: rgba(0,0,0,.65);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum';
+  vertical-align: top;
+}
+
+/*.ant-select-dropdown {*/
+  /**/
+/*}*/
+
+/*.ant-select-dropdown-menu, .ant-select-dropdown-menu-root, .ant-select-dropdown-menu-vertical{*/
+  /*z-index: 1050;*/
+/*}*/
+
+/*.ant-select-dropdown-menu {*/
+  /*z-index: 1050;*/
+  /*max-height: 250px;*/
+  /*margin-bottom: 0;*/
+  /*padding-left: 0;*/
+  /*overflow: auto;*/
+  /*list-style: none;*/
+  /*outline: 0;*/
+/*}*/
+
+.selectT{
+  z-index: 99999;
+}
+

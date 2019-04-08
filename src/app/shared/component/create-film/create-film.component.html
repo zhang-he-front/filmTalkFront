@@ -1,0 +1,86 @@
+<form class="no-margin" [formGroup]="filmForm" data-validate="parsley" novalidate="">
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影名称</span>
+    <div class="col-xs-10">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="filmName" placeholder="请输入电影名称" style="font-size: 18px;"
+                   class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+          </nz-input-group>
+          <nz-form-explain *ngIf="filmForm.get('filmName')?.dirty && filmForm.get('filmName')?.errors" style="margin-top: 3px;color: red;">
+            类型名不能为空
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div><!-- /.col -->
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影时长</span>
+    <div class="col-xs-10">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="hour" placeholder="请输入时长" style="font-size: 18px;"
+                   class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+          </nz-input-group>
+          <nz-form-explain *ngIf="filmForm.get('hour')?.dirty && filmForm.get('hour')?.errors" style="margin-top: 3px;color: red;">
+            时长不能为空
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div><!-- /.col -->
+  </div>
+
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">上映时间</span>
+    <div class="col-xs-10">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="showTime" placeholder="请输入上映时间" style="font-size: 18px;"
+                   class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+          </nz-input-group>
+          <nz-form-explain *ngIf="filmForm.get('showTime')?.dirty && filmForm.get('showTime')?.errors" style="margin-top: 3px;color: red;">
+            上映时间不能为空
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div><!-- /.col -->
+  </div>
+
+
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">其他信息</span>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="language" placeholder="请输入电影语言" style="font-size: 18px;"
+           class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+  </div><!-- /.col -->
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="location" placeholder="请输入上映地点" style="font-size: 18px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div><!-- /.col -->
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影类型</span>
+    <div class="col-xs-5">
+      <!--<nz-select class="selectT"-->
+      <!--[nzMaxTagCount]="3" formControlName="selectType"-->
+      <!--style="width: 100%;"-->
+      <!--nzMode="multiple"-->
+      <!--nzPlaceHolder="Please select"-->
+      <!--[(ngModel)]="listOfSelectedValue">-->
+      <!--<nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>-->
+      <!--</nz-select>-->
+
+      <nz-select style="width: 200px;display: block;" [(ngModel)]="singleValue" [nzSize]="size" nzShowSearch formControlName="selectType">
+        <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+      </nz-select>
+
+    </div>
+  </div>
+</form>
