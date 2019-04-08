@@ -1,126 +1,55 @@
 <div class="row" style="margin-top: 60px;">
   <div class="col-md-9">
-    <ul class="nav nav-tabs tab-style2 tab-right" id="tabTop" style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
-      <li class="dropdown" style="margin-top:7px;margin-left:5px;" ></li>
-      <li class="active"  (click)="showTab(1)">
+    <ul class="nav nav-tabs tab-style2 tab-right" id="tabTop"
+        style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
+      <li class="dropdown" style="margin-top:7px;margin-left:5px;"></li>
+      <li class="active" (click)="showTab(0)">
         <a data-toggle="tab" aria-expanded="true">
           <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
           <span class="text-wrapper">全部</span>
         </a>
       </li>
-      <li class=""  (click)="showTab(3)">
+
+      <li class="" (click)="showTab(type.oid)" *ngFor="let type of fimType">
         <a data-toggle="tab" aria-expanded="true">
           <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
-          <span class="text-wrapper">喜剧</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">动作</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">科幻</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">惊悚</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">武侠</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">青春</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">励志</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">爱情</span>
-        </a>
-      </li>
-      <li class=""  (click)="showTab(4)">
-        <a data-toggle="tab" aria-expanded="true">
-          <span class="icon-wrapper"><i class=" fa fa-file-text-o"></i></span>
-          <span class="text-wrapper">历史</span>
+          <span class="text-wrapper">{{type.type_name}}</span>
         </a>
       </li>
 
-      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" nz-input placeholder="input search text" />
+
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="position: absolute;">
+        <input type="text" nz-input placeholder="input search text" [(ngModel)]="filmName"/>
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button nz-button nzType="primary" nzSearch><i nz-icon type="search"></i></button>
+        <button nz-button nzType="primary" nzSearch (click)="searchTitle()"><i nz-icon type="search"></i></button>
       </ng-template>
-
-      <!--<input [(ngModel)]="content" type="text" id="searchTitle002"-->
-             <!--(mouseleave)="hideInput()" style="margin-top: 8px;width: 220px; -->
-    <!--height: 34px;-->
-    <!--padding: 6px 12px;-->
-    <!--font-size: 14px;-->
-    <!--line-height: 1.42857143;-->
-    <!--color: #555;-->
-    <!--background-color: #fff;-->
-    <!--background-image: none;-->
-    <!--border: 1px solid #ccc;-->
-    <!--border-radius: 4px;-->
-    <!--box-shadow: inset 0 1px 1px rgba(0,0,0,.075);-->
-    <!--transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;" >-->
-      <!--<a  class="input-icon " style="padding-top:0;"  (click)="searchTitle()"><i class="fa fa-search" style="color:#999;"></i></a>-->
     </ul>
 
     <div class="row" style="height: 750px; overflow-y: auto;margin-left: 4px;">
-      <div *ngFor="let product of products" class="col-md-4 col-sm-4 col-md-4 productStyle">
-        <div class="thumbnail">
-          <img class="imageStyle" [src]="imgUrl" style="margin-left: 4px;">
-          <div class="caption">
-            <h4 class="pull-right">{{product.price}}</h4>
-            <h4><a [routerLink]="['product', product.id]">{{product.title}}</a></h4>
-            <p>{{product.desc}}</p>
+      <div *ngFor="let film of films" class="col-md-4 col-sm-4 col-md-4 productStyle">
+        <div class="thumbnail" style="margin-top: 10px;">
+
+          <div class="col-md-6" style="margin-top: 6px;">
+            <img [routerLink]="['product', film.oid]" class="imageStyle" src="{{film.image_path}}"
+                 style="margin-left: 4px;">
+          </div>
+          <div class="col-md-6" style="margin-top: 6px;">
+            <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
+            <p style="margin-top: 4px;">{{film.film_name}}</p>
+            <p style="margin-top: 4px;">{{film.film_language}}</p>
+            <p style="margin-top: 4px;">{{film.show_time}}</p>
+            <p style="margin-top: 4px;">{{film.hour}}</p>
           </div>
           <div>
-            <!--<app-stars [rating]="product.rating"></app-stars>-->
           </div>
         </div>
       </div>
-
-      <!--<div *ngFor="let recentHot of recentHotArr" class="col-md-4 col-sm-4 col-md-4 productStyle">-->
-        <!--<div class="thumbnail row">-->
-          <!--<div class="col-md-6">-->
-            <!--<img [routerLink]="['product', recentHot.oid]" class="imageStyle" src="{{recentHot.image_path}}" style="margin-left: 4px;">-->
-          <!--</div>-->
-          <!--<div class="col-md-6">-->
-            <!--&lt;!&ndash;<nz-rate [ngModel]="recentHot.star" nzDisabled></nz-rate>&ndash;&gt;-->
-            <!--<p style="color: red; margin-top: 4px;">{{recentHot.star}}</p>-->
-            <!--<p style="margin-top: 4px;">{{recentHot.film_name}}</p>-->
-            <!--<p style="margin-top: 4px;">{{recentHot.film_language}}</p>-->
-            <!--<p style="margin-top: 4px;">{{recentHot.show_time}}</p>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-
     </div>
   </div>
   <div class="col-md-2" style="margin-top: 29px;width: 324px">
     <div class="smart-widget-header" style="color:#3b9cd6;border-bottom: none;border-radius:0;">
-      <a href="#" class="tooltips" style="color:#ff9a32;font-size: 18px;"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;口碑排行榜...</a>
+      <a class="tooltips" style="color:#ff9a32;font-size: 18px;"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;口碑排行榜...</a>
     </div>
     <div class="smart-widget-inner">
       <ul class="list-group to-do-list sortable-list no-border">

@@ -71,17 +71,25 @@ export class NavbarComponent implements OnInit {
       return;
     }
     type_name = this.typeForm.get('TYPENAME').value; // title
-    this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
-      if (res.code == 0) {
-        this.alertMessage.success('新建成功', {
+    this.filmtypeHomeService.queryFilmTypeByName(type_name).subscribe(str => {
+      if(str.code == 0){
+        this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
+          if (res.code == 0) {
+            this.typeCancel();
+            this.alertMessage.success('新建成功', {
+              nzDuration: 1500
+            });
+          } else {
+            this.typeCancel();
+            this.alertMessage.error('新建失败', {
+              nzDuration: 1500
+            });
+          }
+        });
+      } else{
+        this.alertMessage.warning('该数据存在', {
           nzDuration: 1500
         });
-        this.typeCancel();
-      } else {
-        this.alertMessage.error('新建失败', {
-          nzDuration: 1500
-        });
-        this.typeCancel();
       }
     });
   }

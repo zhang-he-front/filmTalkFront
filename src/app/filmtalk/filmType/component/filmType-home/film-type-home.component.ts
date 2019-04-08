@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from "../../../filmPages/service/product.service";
+import {FilmtypeHomeService} from "../../service/filmtype-home.service";
+
 declare var $: any;
 
 @Component({
@@ -9,45 +11,67 @@ declare var $: any;
 })
 export class FilmTypeHomeComponent implements OnInit {
   // 定义一个数组，接收从服务里面传来的参数
-  public  products: Product[];
-  public  imgUrl = 'http://placehold.it/320×150';
-  setInput: any = {'opacity': 0};     // 搜索框样式绑定
-  content: string = null;            // 根据动态标题/负责人查询
+  public products: Product[];
+  filmName: string = null;    //根据电影名模糊查询
+  fimType: any[] = []; //电影所有类型
+  films: any[] = []; //电影信息
+  oid: any; //电影类型oid
 
-  constructor(private productService: ProductService) { }
+  constructor(private filmtypeHomeService: FilmtypeHomeService) {
+  }
 
   ngOnInit() {
-    this.products = this.productService.getProduct();
+    this.getFilmType();
+    this.getFilmByFilmTypeOidOrFilmName();
   }
 
-  hideInput(): void {
-    if ($('#searchTitle002').val() === '') {
-      this.setInput = {
-        'opacity': 0
-      };
-    }
-  }
-
-  /**
-   * 通过任务标题/负责人搜索
-   */
-  searchTitle(): void {
-    if ($('#searchTitle002').css('opacity') === 0) {
-      this.setInput = {
-        'width': '150px',
-        'opacity': 1
-      };
-      $('#searchTitle002').focus();
-    } else {
-      if (this.content.replace(/^\s+|\s+$/g, '') === '') {
-        this.content = null;
+  //查询电影类型
+  getFilmType() {
+    this.filmtypeHomeService.queryFilmType().subscribe(str => {
+      if (str.code == 0) {
+        for (let i = 0; i < str.data.length; i++) {
+          this.fimType.push({
+            "oid": str.data[i].oid,
+            "type_name": str.data[i].type_name
+          });
+        }
       }
-      // this.getMessageData();
+    });
+  }
+
+  getFilmByFilmTypeOidOrFilmName(){
+    this.filmtypeHomeService.queryFilmByFilmTypeOidOrFilmName(this.oid, this.filmName).subscribe(res => {
+      this.films = [];
+      console.log(res);
+      for (let i = 0; i < res.data.length; i++) {
+        this.films.push({
+          "oid": res.data[i].oid,
+          "film_name": res.data[i].filmName,
+          "filmType": res.data[i].filmType,
+          "image_path": res.data[i].imagePath,
+          "film_language": res.data[i].language,
+          "location": res.data[i].location,
+          "show_time": res.data[i].showTime,
+          "hour": res.data[i].hour,
+          "star": res.data[i].star.split(".")[0] + "." + res.data[i].star.split(".")[1].substring(0, 1)
+        });
+      }
+    });
+  }
+
+  // 获取类型
+  showTab(oid: number) {
+    this.oid = oid;
+    this.getFilmByFilmTypeOidOrFilmName();
+  }
+
+  //获取电影名称
+  searchTitle(): void {
+    if(this.filmName != null){
+      if (this.filmName.replace(/^\s+|\s+$/g, '') === '') {
+        this.filmName = null;
+      }
     }
+    this.getFilmByFilmTypeOidOrFilmName();
   }
-
-  showTab(){
-
-  }
-
 }
