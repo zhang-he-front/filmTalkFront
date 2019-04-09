@@ -3,7 +3,7 @@
  */
 
 export class Film {
-  oid: string;
+  oid: number;
   film_name: string;             // 电影名称
   film_detail: string;             // 电影简介
   show_time: string;             // 上映时间
@@ -18,6 +18,7 @@ export class Film {
   isValid: number;          //删除表示，0-正常 1-删除
   create_time: Date; //创建时间
   update_time: Date; //修改时间
+  roles: any;
 
   filmType: string; //类型
   isShowOperate: boolean;     // 是否显示操作按钮

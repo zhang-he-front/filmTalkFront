@@ -4,6 +4,7 @@ import {Filmtype} from "../../model/filmtype";
 import {FilmtypeHomeService} from "../../../filmtalk/filmType/service/filmtype-home.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {CreateFilmComponent} from "../create-film/create-film.component";
+import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
 
 declare var $: any;
 
@@ -21,7 +22,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private filmtypeHomeService: FilmtypeHomeService,
-              private alertMessage: NzMessageService) {
+              private alertMessage: NzMessageService,
+              private filmpageHomeService: FilmpageHomeService) {
   }
 
   ngOnInit() {
@@ -31,15 +33,25 @@ export class NavbarComponent implements OnInit {
   //展示电影模态框
   showFilmModal() {
     this.isVisible = true;
-    // $('#myFilm').modal();
+    this.createFilm.createFilmForm();
   }
 
-  handleCancel(){
+  handleCancel() {
     this.isVisible = false;
   }
-  handleOk(){
+
+  handleOk() {
     this.isVisible = false;
-}
+  }
+
+  //关闭模态框,刷新页面
+  closeModel(str: any) {
+    if(str == "closeAndRefresh"){
+      this.filmpageHomeService.refreshPageHome.emit("refreshPageHome");
+    } else{
+      this.handleCancel();
+    }
+  }
 
   //关闭电影模态框
   hideFilmModal() {
@@ -81,7 +93,7 @@ export class NavbarComponent implements OnInit {
     }
     type_name = this.typeForm.get('TYPENAME').value; // title
     this.filmtypeHomeService.queryFilmTypeByName(type_name).subscribe(str => {
-      if(str.code == 0){
+      if (str.code == 0) {
         this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
           if (res.code == 0) {
             this.typeCancel();
@@ -95,7 +107,7 @@ export class NavbarComponent implements OnInit {
             });
           }
         });
-      } else{
+      } else {
         this.alertMessage.warning('该数据存在', {
           nzDuration: 1500
         });
