@@ -50,7 +50,7 @@
                 <!--</div>-->
                 <!--</div>-->
 
-                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;height: 192px;">
+                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;height: 178px;">
                   <div class="comment-text" id="commentText-{{film.oid}}" (mouseenter)="isShowOperate(film)"
                        (mouseleave)="isNotShowOperate(film)">
                     <!--<div class="topYui">-->
@@ -60,15 +60,14 @@
                       <div class="col-md-1">
                         <img src="{{film.image_path}}" alt="" style="height: 130px;padding-left: 15px;">
                       </div>
-                      <div class="col-md-7">
+                      <div class="col-md-10">
                         <h5 style="padding-left: 15px;">
 
-                          &nbsp;&nbsp;<span>{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                          <label class="text-muted">{{film.film_language}}&nbsp;</label>
+                          &nbsp;&nbsp;<span style="font-size: 22px;">{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
                           <br>
-                          <p class="cr-blue">迪士尼全新真人版《小飞象》改编自1941年推出的迪士尼同名经典动画，讲述了生来因一双大耳朵而遭人嘲笑的照吸
-                            引到一个充满心机的生意人文德维尔度，然而霍特·法瑞尔发现，游乐场光鲜亮丽的背后，充满种种见不得人的秘密。 </p>
-
+                          <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp;迪士尼全新真人版《小飞象》改编自1941年推出的迪士尼同名经典动画，讲述了生来因一双大耳朵而遭人嘲笑的照吸引到一个充满心机的生意人文德维尔度，然而霍特·法瑞尔发现，游乐场光鲜亮丽的背后，充满种种见不得人的秘密。 </p>
                           <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
                         </h5>
                       </div>

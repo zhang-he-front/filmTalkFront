@@ -86,13 +86,19 @@
     <div class="smart-widget-inner">
       <ul class="list-group to-do-list sortable-list no-border">
         <div *ngFor="let like of likeArr; let j = index">
-          <li class="list-group-item ad1" style="margin-bottom: -1px;">
+          <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j < 3">
+            <span style="color: #ed9c23">{{j + 1}}. </span>
+            <span class="ck1" style="color: #ed9c23">{{like.film_name}}<img src="images/item.png" alt=""
+                                                                            style="margin-left:15px;margin-top:-3px;"></span>
+            <span class="ck1" style="color: #ed9c23">{{like.star}}</span>
+          </li>
+          <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j >= 3">
             <span>{{j + 1}}. </span>
             <span class="ck1">{{like.film_name}}<img src="images/item.png" alt=""
                                                      style="margin-left:15px;margin-top:-3px;"></span>
-            <span class="ck1" style="color: red">{{like.star}}<img src="images/item.png" alt=""
-                                                                   style="margin-left:15px;margin-top:-3px;"></span>
+            <span class="ck1" >{{like.star}}</span>
           </li>
+
         </div>
       </ul>
     </div>

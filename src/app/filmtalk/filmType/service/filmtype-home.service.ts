@@ -65,4 +65,16 @@ export class FilmtypeHomeService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 获取电影评论热度
+   * add by zyx 2019-4-9
+   * @returns {Observable<any>}
+   */
+  queryFilmCommentCountInfo(): Observable<any> {
+    const url = '/filmType/queryFilmCommentCountInfo';
+    const body = {};
+    return this.http.post(url, body);
+  }
+
 }

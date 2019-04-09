@@ -32,6 +32,7 @@ export class FilmCommentHomeComponent implements OnInit {
     // 正在上映，最近热门
     this.filmsData = [];
     for (let i = 0; i < res.recentHotArr.length; i++) {
+      let a = new Date(res.recentHotArr[i].showTime);
       let f = new Film();
       f.oid = res.recentHotArr[i].oid;
       f.film_name = res.recentHotArr[i].filmName;
@@ -39,9 +40,9 @@ export class FilmCommentHomeComponent implements OnInit {
       f.image_path = res.recentHotArr[i].imagePath;
       f.film_language = res.recentHotArr[i].language;
       f.location = res.recentHotArr[i].location;
-      f.show_time = res.recentHotArr[i].showTime;
+      f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
       f.hour_length = res.recentHotArr[i].hour;
-      f.isShowOperate = false;
+      f.isShowOperate = true;
       f.isCollect = false;
       f.isPraise = false;
       f.isPraiseNumb = true;

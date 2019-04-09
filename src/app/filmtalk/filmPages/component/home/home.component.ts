@@ -43,10 +43,11 @@ export class HomeComponent implements OnInit {
     let arr = [];
     //即将上映
     for (let i = 0; i < res.futureArr.length; i++) {
+      let a1 = new Date(res.futureArr[i].showTime);
       if (i < 7) {
         this.futureArr.push({
           "film_name": res.futureArr[i].filmName,
-          "show_time": res.futureArr[i].showTime
+          "show_time": a1.getFullYear() + "-" + (a1.getMonth() + 1) + "-" + a1.getDate()
         });
       }
     }
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit {
 
     // 正在上映，最近热门
     for (let i = 0; i < res.recentHotArr.length; i++) {
+      let a2 = new Date(res.recentHotArr[i].showTime);
       if (i < 4) {
         let path = "";
         let str = res.recentHotArr[i].imagePath.split("/");
@@ -75,7 +77,7 @@ export class HomeComponent implements OnInit {
           "image_path": path,  // assets/img/film/film1.webp
           "film_language": res.recentHotArr[i].language,
           "location": res.recentHotArr[i].location,
-          "show_time": res.recentHotArr[i].showTime,
+          "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
           "hour": res.recentHotArr[i].hour,
           "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
         });
@@ -87,7 +89,7 @@ export class HomeComponent implements OnInit {
           "image_path": res.recentHotArr[i].imagePath,
           "film_language": res.recentHotArr[i].language,
           "location": res.recentHotArr[i].location,
-          "show_time": res.recentHotArr[i].showTime,
+          "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
           "hour": res.recentHotArr[i].hour,
           "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
         });
