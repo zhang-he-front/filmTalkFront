@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getPageData();
+
+    this.filmpageHomeService.refreshPageHome.subscribe(val => {
+      this.getPageData();
+    });
   }
 
   //获取首页数据

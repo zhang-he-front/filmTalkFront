@@ -65,9 +65,9 @@
         <div *ngFor="let future of futureArr; let i = index">
           <li class="list-group-item ad1" style="margin-bottom: -1px;">
             <span>{{i + 1}}. </span>
-            <span class="ck1">{{future.film_name}}<img src="images/item.png" alt=""
+            <span class="ck1">{{future.film_name}}<img alt=""
                                                        style="margin-left:15px;margin-top:-3px;"></span>
-            <span class="ck1">{{future.show_time}}<img src="images/item.png" alt=""
+            <span class="ck1">{{future.show_time}}<img alt=""
                                                        style="margin-left:15px;margin-top:-3px;"></span>
           </li>
         </div>
@@ -88,13 +88,13 @@
         <div *ngFor="let like of likeArr; let j = index">
           <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j < 3">
             <span style="color: #ed9c23">{{j + 1}}. </span>
-            <span class="ck1" style="color: #ed9c23">{{like.film_name}}<img src="images/item.png" alt=""
+            <span class="ck1" style="color: #ed9c23">{{like.film_name}}<img alt=""
                                                                             style="margin-left:15px;margin-top:-3px;"></span>
             <span class="ck1" style="color: #ed9c23">{{like.star}}</span>
           </li>
           <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j >= 3">
             <span>{{j + 1}}. </span>
-            <span class="ck1">{{like.film_name}}<img src="images/item.png" alt=""
+            <span class="ck1">{{like.film_name}}<img alt=""
                                                      style="margin-left:15px;margin-top:-3px;"></span>
             <span class="ck1" >{{like.star}}</span>
           </li>
