@@ -18,10 +18,9 @@ export class FilmtypeHomeService {
    */
   createFilmType(type_name: any): Observable<any> {
     const url = '/filmType/insert';
-    const body = {
-      type_name
-    };
-    return this.http.post(url, body);
+    // const body = {
+    // };
+    return this.http.post(url, type_name);
   }
 
 
@@ -32,10 +31,10 @@ export class FilmtypeHomeService {
    */
   queryFilmTypeByName(type_name: any): Observable<any> {
     const url = '/filmType/queryFilmTypeByName';
-    const body = {
-      type_name
-    };
-    return this.http.post(url, body);
+    // const body = {
+    //   type_name
+    // };
+    return this.http.post(url, type_name);
   }
 
 
