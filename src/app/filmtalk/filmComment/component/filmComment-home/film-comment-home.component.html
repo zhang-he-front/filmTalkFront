@@ -50,7 +50,7 @@
                 <!--</div>-->
                 <!--</div>-->
 
-                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;height: 178px;">
+                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;">
                   <div class="comment-text" id="commentText-{{film.oid}}" (mouseenter)="isShowOperate(film)"
                        (mouseleave)="isNotShowOperate(film)">
                     <!--<div class="topYui">-->
@@ -67,7 +67,7 @@
                           <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
                           <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
                           <br>
-                          <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp;迪士尼全新真人版《小飞象》改编自1941年推出的迪士尼同名经典动画，讲述了生来因一双大耳朵而遭人嘲笑的照吸引到一个充满心机的生意人文德维尔度，然而霍特·法瑞尔发现，游乐场光鲜亮丽的背后，充满种种见不得人的秘密。 </p>
+                          <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
                           <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
                         </h5>
                       </div>
@@ -80,12 +80,12 @@
                     <!--<label class="text-muted">{{message.TITLE}}&nbsp;<span [ngStyle]="{'color':message.event_type == '例行事件' ? '#aaa' : '#ff2e2e' }">{{message.event_type}}</span></label>-->
                     <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
                     <!--</h5>-->
-                    <ng-container *ngIf="film.film_staus == '0'">
-                      <span *ngIf="film.film_staus == '0'" class="badge badge-danger pull-right"
+                    <!--<ng-container *ngIf="film.film_staus == '0'">-->
+                      <span *ngIf="film.film_staus == 0" class="badge badge-danger pull-right"
                             style="margin-top:-115px;">正在热映</span>
-                      <span *ngIf="film.film_staus == '1'" class="badge badge-warning pull-right"
+                      <span *ngIf="film.film_staus == 1" class="badge badge-warning pull-right"
                             style="margin-top:-115px;">即将上映</span>
-                    </ng-container>
+                    <!--</ng-container>-->
 
 
                     <!--<p class="cr-blue">{{film.film_detail}}</p>-->
@@ -125,174 +125,328 @@
                 </div>
 
 
-                <div class="panel-footer jkl" style="border-top:none;display:none;height: 102px;">
+                <div class="panel-footer jkl" style="border-top:none;display:none;height: 102px;" id="isShowReply-{{film.oid}}">
                   <div class="media">
-                    <ul class="media-list">
-                      <div class="panel-body" style="padding:0;">
-                        <textarea placeholder="让大家一起分享快乐的你···" class="form-control" id="tex1"
-                                  style="resize:none"></textarea>
+                    <!--动态评论输入框 start-->
+                    <div class="row" style="margin:0;" id="isShowCommentFrame-{{film.oid}}">
+                      <div class="col-xs-1 commentImage">
+                        <img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">
                       </div>
-                      <div class="panel-footer"
-                           style="border-right: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221); border-left: 1px solid rgb(221, 221, 221); border-image: initial; border-top: none; padding: 15px 15px 30px; display: none;"
-                           id="tex2">
-                        <div class=" pull-left">
-                          <a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i
-                            class="fa fa-paperclip"></i></a>&nbsp;&nbsp;
+                      <ul id="comment-{{film.oid}}" class="media-list col-xs-11 commentTxta" style="margin-bottom:20px; border-radius: 3px;" [hidden]="film.isShowCommentFrame">
+                        <div class="panel-body" style="padding:0;">
+                      <textarea id="i1-{{film.oid}}" placeholder="最多可输入255字"  maxlength="255"
+                                onchange="this.value=this.value.substring(0, 255)"
+                                onkeyup="this.value=this.value.substring(0, 255)" onkeydown="this.value=this.value.substring(0, 255)"
+                                class="form-control"  style="resize:none;outline:none;box-shadow:none;border:none;" (focus)="isShowSend(film.oid)" (blur)="isNotShowSend(film.oid)"></textarea>
                         </div>
-                        <div class=" pull-right" style="margin-right: -1%;">
-                          <button class="btn btn-info btn-xs pull-right">回复</button>
-                        </div>
-                      </div>
-                    </ul>
-
-                    <ul class="media-list" style="padding-bottom:15px;">
-                      <li class="media">
-                        <div class="media-body">
-                          <p><span style="font-weight:bold;">王x：</span> 已完成总进度的80%，这个礼拜五之前可以交付。</p>
-                          <div class="date-dz">
-                            <span class=" pull-left comment-time">11月12日 9:32</span>
-                            <div class=" pull-right comment-pl-block">
-                              <a href="#" class="removeBlock1" style="display: none;"><i class="fa fa-trash-o"></i></a>
-
-                              <a href="#" style="margin-left:10px;" class="reply1"><i
-                                class="fa fa-commenting-o"></i></a>
-
-                              <span style="margin-left:10px;margin-right:10px;">|</span>
-                              <a href="#"><i class="fa fa-thumbs-up"></i>&nbsp;(<i class="z-num">12</i>)</a>
-                            </div>
+                        <div id="s1-{{film.oid}}" class="panel-footer operateFrame" style="border:1px solid #f0f0f0;" >
+                          <div class=" pull-right" style="margin-right: -1%;">
+                            <button class="btn btn-info btn-xs pull-right" (click)= "addParentMessageReply(film)">回复</button>
                           </div>
                         </div>
-                        <div class="media-foot1">
-                          <ul class="media-list" style="margin-bottom:20px;">
-                            <div class="panel-body" style="padding:0;">
-                              <textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"
-                                        style="resize:none;"></textarea>
-                            </div>
-                            <div class="panel-footer"
-                                 style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">
-                              <div class=" pull-left">
-                                <a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i
-                                  class="fa fa-paperclip"></i></a>&nbsp;&nbsp;
-                              </div>
-                              <div class=" pull-right" style="margin-right: -1%;">
-                                <button class="btn btn-info btn-xs pull-right">回复</button>
-                              </div>
-                            </div>
-                          </ul>
-                        </div>
-                      </li>
-                    </ul>
+                      </ul>
+                    </div>
+                    <!--动态评论输入框 end-->
 
-                    <ul class="media-list" style="border-top:1px solid #ddd;padding-top:10px;">
-                      <li class="media" style="margin-bottom:10px;">
-                        <div class="media-body">
-                          <p><span style="font-weight:bold;">王x：</span>任务已完成</p>
-                          <div class="date-dz">
-                            <span class=" pull-left comment-time">11月15日 15:00</span>
-                            <div class=" pull-right comment-pl-block">
-                              <a href="#" style="margin-left:10px;" class="replyA"><i
-                                class="fa fa-commenting-o"></i></a>
-                              <span style="margin-left:10px;margin-right:10px;">|</span>
-                              <a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">20</i>)</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="media-foot2">
-                          <ul class="media-list" style="margin-bottom:20px;">
-                            <div class="panel-body" style="padding:0;">
-                              <textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"
-                                        style="resize:none;"></textarea>
-                            </div>
-                            <div class="panel-footer"
-                                 style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">
-                              <div class=" pull-left">
-                                <a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i
-                                  class="fa fa-paperclip"></i></a>&nbsp;&nbsp;
-                              </div>
-                              <div class=" pull-right" style="margin-right: -1%;">
-                                <button class="btn btn-info btn-xs pull-right">回复</button>
-                              </div>
-                            </div>
-                          </ul>
-                        </div>
-                      </li>
 
-                      <li style="margin-left:50px;background:#f7fafa;padding-bottom:15px;padding-left:10px;">
-                        <div class="media-body">
-                          <p><span style="font-weight:bold;"> 李x：</span> 请邮件详细说明</p>
-                          <div class="date-dz">
-                            <span class=" pull-left comment-time">11月20日 11:30</span>
-                            <div class=" pull-right comment-pl-block">
+                    <!--<ng-container  [ngSwitch]="message.isMore">-->
+                      <!--<ng-container *ngSwitchCase="0">-->
+                        <ul class="media-list" *ngFor = "let mreply of replyDataSet" >
+                          <li class="media" *ngIf="mreply.filmOid == film.oid" style="padding-top:25px;border-top:1px solid #ddd;">
+                            <div class="media-body">
+                              <div class="row" style="margin:0;">
+                                <div class="col-xs-1 commentImage" >
+                                  <img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">
+                                </div>
+                                <!--评论展示 start-->
+                                <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                  <p>
+                            <span style="font-weight:bold;">
+                              {{mreply.commentatorName}}：
+                            </span>
+                                    {{mreply.commentDetail}}
+                                  </p>
+                                  <div class="date-dz">
+                                    <span class=" pull-left comment-time">{{mreply.commentCreateTime}}</span>
+                                    <div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(mreply)" (mouseleave)="isNotShowDelete(mreply)">
+                                      <a [hidden]="mreply.isShowDelete" class="operate-icon" (click)="deleteReply(film,mreply)"><i class="fa fa-trash-o"></i></a>
 
-                              <a href="#" style="margin-left:10px;" class="reply3"><i
-                                class="fa fa-commenting-o"></i></a>
-                              <span style="margin-left:10px;margin-right:10px;">|</span>
-                              <a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">24</i>)</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="media-foot3">
-                          <ul class="media-list" style="margin-bottom:20px;">
-                            <div class="panel-body" style="padding:0;">
-                              <textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"
-                                        style="resize:none;"></textarea>
-                            </div>
-                            <div class="panel-footer"
-                                 style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">
-                              <div class=" pull-left">
-                                <a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i
-                                  class="fa fa-paperclip"></i></a>&nbsp;&nbsp;
+                                      <a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>
+
+                                      <span style="margin-left:10px;margin-right:10px;">|</span>
+                                      <!--<a  class="operate-icon"  (click)="replyPraise(mreply)" >-->
+                                        <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
+                                        <!--<i class="fa fa-thumbs-up" style="color:#666" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                        <!--<i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>-->
+                                      <!--</a>-->
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                              <div class=" pull-right" style="margin-right: -1%;">
-                                <button class="btn btn-info btn-xs pull-right">回复</button>
-                              </div>
-                            </div>
-                          </ul>
-                        </div>
-                      </li>
+                              <!--评论展示 end-->
 
-                      <li
-                        style="margin-left:50px;background:#f7fafa;padding-bottom:15px;padding-top:15px;padding-left:10px;">
-                        <div class="media-body">
-                          <p><span style="font-weight:bold;">谢x：</span> 也请抄送一份发给我，谢谢</p>
-                          <div class="date-dz">
-                            <span class=" pull-left comment-time">11月22日 15:30</span>
-                            <div class=" pull-right comment-pl-block">
+                              <!--回复输入框 start-->
+                              <!--<div class="row" style="margin:0;"  [hidden]="mreply.isShowReplyFrame">-->
+                                <!--<div class="col-xs-1 replyImage">-->
+                                  <!--<img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">-->
+                                <!--</div>-->
+                                <!--<div class="col-xs-11 commentShow" style="padding-left:0;">-->
+                                  <!--<ul id="reply1-{{mreply.OID}}" class="media-list replys"  [hidden]="mreply.isShowReplyFrame">-->
+                                    <!--<div class="panel-body" style="padding:0;">-->
+                                <!--<textarea id="{{mreply.OID}}" placeholder="最多可输入255字"  maxlength="255"-->
+                                          <!--onchange="this.value=this.value.substring(0, 255)"-->
+                                          <!--onkeyup="this.value=this.value.substring(0, 255)" onkeydown="this.value=this.value.substring(0, 255)"-->
+                                          <!--class="form-control" style="resize:none;outline:none;box-shadow:none;border:none;" (focus)="isShowBorder(mreply.OID)" (blur)="isNotShowBorder(mreply.OID)"></textarea>-->
+                                    <!--</div>-->
+                                    <!--<div  class="panel-footer operateReplyFrame"style="border:1px solid #f0f0f0;" >-->
+                                      <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                        <!--<button class="btn btn-info btn-xs pull-right" (click)= "addChildrenMessageReply(mreply,0,message)">回复</button>-->
+                                      <!--</div>-->
+                                    <!--</div>-->
+                                  <!--</ul>-->
+                                <!--</div>-->
+                              <!--</div>-->
+                              <!--回复输入框 end-->
 
-                              <a href="#" style="margin-left:10px;" class="reply4"><i
-                                class="fa fa-commenting-o"></i></a>
+                              <br>
 
-                              <span style="margin-left:10px;margin-right:10px;">|</span>
-                              <a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">12</i>)</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="media-foot4">
-                          <ul class="media-list" style="margin-bottom:20px;">
-                            <div class="panel-body" style="padding:0;">
-                              <textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"
-                                        style="resize:none;"></textarea>
-                            </div>
-                            <div class="panel-footer"
-                                 style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">
-                              <div class=" pull-left">
-                                <a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i
-                                  class="fa fa-paperclip"></i></a>&nbsp;&nbsp;
-                              </div>
-                              <div class=" pull-right" style="margin-right: -1%;">
-                                <button class="btn btn-info btn-xs pull-right">回复</button>
-                              </div>
-                            </div>
-                          </ul>
-                        </div>
-                      </li>
-                    </ul>
+                              <!--回复内容展示 start-->
+                              <!--<ul class="media-list">-->
+                                <!--<ng-container *ngFor = "let replyc of replyChildrenDataSet">-->
+                                  <!--<li *ngIf="replyc.REPLYMESSAGEOID == mreply.OID" style="margin-left:50px;padding-bottom:15px;padding-left:10px;padding-top: 10px;">-->
+                                    <!--<div class="media-body">-->
+                                      <!--<div class="row" style="margin:0;">-->
+                                        <!--<div class="col-xs-1 commentImage" >-->
+                                          <!--<img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">-->
+                                        <!--</div>-->
+                                        <!--<div class="col-xs-11 commentShow" style="padding-left:0;">-->
+                                          <!--<p>-->
+                                            <!--<span style="font-weight:bold;">{{replyc.REPLYPERSONNAME}}</span> &nbsp;回复&nbsp; <span style="font-weight:bold;">{{replyc.REPLIESOIDNAME}}</span>：-->
+                                            <!--{{replyc.CONTENT}}-->
+                                          <!--</p>-->
+                                          <!--<div class="date-dz">-->
+                                            <!--<span class=" pull-left comment-time">{{replyc.REPLYTIME}}</span>-->
+                                            <!--<div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(replyc)" (mouseleave)="isNotShowDelete(replyc)">-->
+                                              <!--<a [hidden]="replyc.isShowDelete" class="operate-icon"   *ngIf ="replyc.REPLYPERSONID == userId" (click)="deleteReplyChild(replyc.OID)"><i class="fa fa-trash-o"></i></a>-->
 
-                    <ul class="media-list pull-right" style="margin-top:20px;">
-                      <p style="font-weight:bold;">
-                        <a href="#" style="color:#3b9cd6;">查看全部28条</a>
-                      </p>
-                    </ul>
+                                              <!--<a class="operate-icon"  style="margin-left:10px;" (click)="secondReplyMessageIsShow(replyc,message)"><i class="fa fa-commenting-o"></i></a>-->
+
+                                              <!--<span style="margin-left:10px;margin-right:10px;">|</span>-->
+                                              <!--<a  class="operate-icon"  (click)="replyPraise(replyc)" >-->
+                                                <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="replyc.PRAISENUMflag"></i>-->
+                                                <!--<i class="fa fa-thumbs-up" style="color:#666" [hidden]="!replyc.PRAISENUMflag"></i>-->
+                                                <!--<i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>-->
+                                              <!--</a>-->
+                                            <!--</div>-->
+                                          <!--</div>-->
+                                        <!--</div>-->
+                                      <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--&lt;!&ndash;二级回复输入框 start&ndash;&gt;-->
+                                    <!--<div class="row" style="margin:0;" [hidden]="replyc.isShowReplyFrame">-->
+                                      <!--<div class="col-xs-1 replyImage">-->
+                                        <!--<img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">-->
+                                      <!--</div>-->
+                                      <!--<ul id="reply2-{{replyc.OID}}" class="media-list col-xs-11 commentTxta" style="margin-top:20px;border-radius: 3px;" [hidden]="replyc.isShowReplyFrame">-->
+                                        <!--<div class="panel-body" style="padding:0;">-->
+                                      <!--<textarea  id="{{replyc.OID}}"  placeholder="最多可输入255字"  maxlength="255"-->
+                                                 <!--onchange="this.value=this.value.substring(0, 255)"-->
+                                                 <!--onkeyup="this.value=this.value.substring(0, 255)" onkeydown="this.value=this.value.substring(0, 255)"-->
+                                                 <!--class="form-control tex1" style="resize:none;;outline:none;box-shadow:none;border:none;" (focus)="isShowSecondBorder(replyc.OID)" (blur)="isNotShowSecondBorder(replyc.OID)"></textarea>-->
+                                        <!--</div>-->
+                                        <!--<div class="panel-footer operateReplyFrame" style="border: 1px solid #f0f0f0;">-->
+                                          <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                            <!--<button class="btn btn-info btn-xs pull-right" (click)="addChildrenMessageReply(replyc,1,message)">回复</button>-->
+                                          <!--</div>-->
+                                        <!--</div>-->
+                                      <!--</ul>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;二级回复输入框 end&ndash;&gt;-->
+                                  <!--</li>-->
+                                <!--</ng-container>-->
+                              <!--</ul>-->
+                              <!--回复内容展示 end-->
+                            </div>
+                          </li>
+                        </ul>
+                        <!--<ul class="media-list pull-right" style="margin-top:20px;" [hidden]="message.numberReply<4">-->
+                          <!--<p style="font-weight:bold;">-->
+                            <!--<a  style="color:#3c92dc;" (click)="changeIsMore(message)">查看全部{{message.numberReply}}条</a>-->
+                          <!--</p>-->
+                        <!--</ul>-->
+                      <!--</ng-container>-->
+
+                    <!--</ng-container>-->
+
+
+
+                    <!--<ul class="media-list">-->
+                      <!--<div class="panel-body" style="padding:0;">-->
+                        <!--<textarea placeholder="让大家一起分享快乐的你···" class="form-control" id="tex1"-->
+                                  <!--style="resize:none"></textarea>-->
+                      <!--</div>-->
+                      <!--<div class="panel-footer"-->
+                           <!--style="border-right: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221); border-left: 1px solid rgb(221, 221, 221); border-image: initial; border-top: none; padding: 15px 15px 30px; display: none;"-->
+                           <!--id="tex2">-->
+                        <!--<div class=" pull-left">-->
+                          <!--<a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i-->
+                            <!--class="fa fa-paperclip"></i></a>&nbsp;&nbsp;-->
+                        <!--</div>-->
+                        <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                          <!--<button class="btn btn-info btn-xs pull-right">回复</button>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</ul>-->
+
+                    <!--<ul class="media-list" style="padding-bottom:15px;">-->
+                      <!--<li class="media">-->
+                        <!--<div class="media-body">-->
+                          <!--<p><span style="font-weight:bold;">王x：</span> 已完成总进度的80%，这个礼拜五之前可以交付。</p>-->
+                          <!--<div class="date-dz">-->
+                            <!--<span class=" pull-left comment-time">11月12日 9:32</span>-->
+                            <!--<div class=" pull-right comment-pl-block">-->
+                              <!--<a href="#" class="removeBlock1" style="display: none;"><i class="fa fa-trash-o"></i></a>-->
+
+                              <!--<a href="#" style="margin-left:10px;" class="reply1"><i-->
+                                <!--class="fa fa-commenting-o"></i></a>-->
+
+                              <!--<span style="margin-left:10px;margin-right:10px;">|</span>-->
+                              <!--<a href="#"><i class="fa fa-thumbs-up"></i>&nbsp;(<i class="z-num">12</i>)</a>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="media-foot1">-->
+                          <!--<ul class="media-list" style="margin-bottom:20px;">-->
+                            <!--<div class="panel-body" style="padding:0;">-->
+                              <!--<textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"-->
+                                        <!--style="resize:none;"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="panel-footer"-->
+                                 <!--style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">-->
+                              <!--<div class=" pull-left">-->
+                                <!--<a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i-->
+                                  <!--class="fa fa-paperclip"></i></a>&nbsp;&nbsp;-->
+                              <!--</div>-->
+                              <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                <!--<button class="btn btn-info btn-xs pull-right">回复</button>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</ul>-->
+                        <!--</div>-->
+                      <!--</li>-->
+                    <!--</ul>-->
+
+                    <!--<ul class="media-list" style="border-top:1px solid #ddd;padding-top:10px;">-->
+                      <!--<li class="media" style="margin-bottom:10px;">-->
+                        <!--<div class="media-body">-->
+                          <!--<p><span style="font-weight:bold;">王x：</span>任务已完成</p>-->
+                          <!--<div class="date-dz">-->
+                            <!--<span class=" pull-left comment-time">11月15日 15:00</span>-->
+                            <!--<div class=" pull-right comment-pl-block">-->
+                              <!--<a href="#" style="margin-left:10px;" class="replyA"><i-->
+                                <!--class="fa fa-commenting-o"></i></a>-->
+                              <!--<span style="margin-left:10px;margin-right:10px;">|</span>-->
+                              <!--<a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">20</i>)</a>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="media-foot2">-->
+                          <!--<ul class="media-list" style="margin-bottom:20px;">-->
+                            <!--<div class="panel-body" style="padding:0;">-->
+                              <!--<textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"-->
+                                        <!--style="resize:none;"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="panel-footer"-->
+                                 <!--style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">-->
+                              <!--<div class=" pull-left">-->
+                                <!--<a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i-->
+                                  <!--class="fa fa-paperclip"></i></a>&nbsp;&nbsp;-->
+                              <!--</div>-->
+                              <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                <!--<button class="btn btn-info btn-xs pull-right">回复</button>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</ul>-->
+                        <!--</div>-->
+                      <!--</li>-->
+
+                      <!--<li style="margin-left:50px;background:#f7fafa;padding-bottom:15px;padding-left:10px;">-->
+                        <!--<div class="media-body">-->
+                          <!--<p><span style="font-weight:bold;"> 李x：</span> 请邮件详细说明</p>-->
+                          <!--<div class="date-dz">-->
+                            <!--<span class=" pull-left comment-time">11月20日 11:30</span>-->
+                            <!--<div class=" pull-right comment-pl-block">-->
+
+                              <!--<a href="#" style="margin-left:10px;" class="reply3"><i-->
+                                <!--class="fa fa-commenting-o"></i></a>-->
+                              <!--<span style="margin-left:10px;margin-right:10px;">|</span>-->
+                              <!--<a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">24</i>)</a>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="media-foot3">-->
+                          <!--<ul class="media-list" style="margin-bottom:20px;">-->
+                            <!--<div class="panel-body" style="padding:0;">-->
+                              <!--<textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"-->
+                                        <!--style="resize:none;"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="panel-footer"-->
+                                 <!--style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">-->
+                              <!--<div class=" pull-left">-->
+                                <!--<a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i-->
+                                  <!--class="fa fa-paperclip"></i></a>&nbsp;&nbsp;-->
+                              <!--</div>-->
+                              <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                <!--<button class="btn btn-info btn-xs pull-right">回复</button>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</ul>-->
+                        <!--</div>-->
+                      <!--</li>-->
+
+                      <!--<li-->
+                        <!--style="margin-left:50px;background:#f7fafa;padding-bottom:15px;padding-top:15px;padding-left:10px;">-->
+                        <!--<div class="media-body">-->
+                          <!--<p><span style="font-weight:bold;">谢x：</span> 也请抄送一份发给我，谢谢</p>-->
+                          <!--<div class="date-dz">-->
+                            <!--<span class=" pull-left comment-time">11月22日 15:30</span>-->
+                            <!--<div class=" pull-right comment-pl-block">-->
+
+                              <!--<a href="#" style="margin-left:10px;" class="reply4"><i-->
+                                <!--class="fa fa-commenting-o"></i></a>-->
+
+                              <!--<span style="margin-left:10px;margin-right:10px;">|</span>-->
+                              <!--<a href="#"><i class="fa fa-thumbs-up"></i>&nbsp; (<i class="z-num">12</i>)</a>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="media-foot4">-->
+                          <!--<ul class="media-list" style="margin-bottom:20px;">-->
+                            <!--<div class="panel-body" style="padding:0;">-->
+                              <!--<textarea placeholder="让大家一起分享快乐的你···" class="form-control tex1"-->
+                                        <!--style="resize:none;"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="panel-footer"-->
+                                 <!--style="border: 1px solid #dddddd; border-top:none;padding: 15px 15px 30px 15px;">-->
+                              <!--<div class=" pull-left">-->
+                                <!--<a href="" class="tooltips" data-toggle="tooltip" title="" data-original-title="添加附件"><i-->
+                                  <!--class="fa fa-paperclip"></i></a>&nbsp;&nbsp;-->
+                              <!--</div>-->
+                              <!--<div class=" pull-right" style="margin-right: -1%;">-->
+                                <!--<button class="btn btn-info btn-xs pull-right">回复</button>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</ul>-->
+                        <!--</div>-->
+                      <!--</li>-->
+                    <!--</ul>-->
+
+                    <!--<ul class="media-list pull-right" style="margin-top:20px;">-->
+                      <!--<p style="font-weight:bold;">-->
+                        <!--<a href="#" style="color:#3b9cd6;">查看全部28条</a>-->
+                      <!--</p>-->
+                    <!--</ul>-->
                   </div>
                 </div>
 

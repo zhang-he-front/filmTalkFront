@@ -27,4 +27,6 @@ export class Film {
   isPraiseNumb: boolean = false;      // 是否显示点赞数（0不显示）
   praiseNumb: number;                 // 点赞数
   numberReply: number;                // 总评论数
+  isShowCommentFrame: boolean;
+  isShowReply: boolean;
 }
