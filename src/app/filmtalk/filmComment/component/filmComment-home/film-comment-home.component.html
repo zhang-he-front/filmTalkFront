@@ -125,10 +125,10 @@
                 </div>
 
 
-                <div class="panel-footer jkl" style="border-top:none;display:none;height: 102px;" id="isShowReply-{{film.oid}}">
+                <div class="panel-footer jkl" style="border-top:none;height: 102px;" id="isShowReply-{{film.oid}}" [hidden]="film.isShowReply">
                   <div class="media">
                     <!--动态评论输入框 start-->
-                    <div class="row" style="margin:0;" id="isShowCommentFrame-{{film.oid}}">
+                    <div class="row" style="margin:0;" id="isShowCommentFrame-{{film.oid}}" [hidden]="film.isShowCommentFrame">
                       <div class="col-xs-1 commentImage">
                         <img src="assets/img/teamwork/images/message/touxiang_32.png" alt="">
                       </div>
@@ -151,7 +151,7 @@
 
                     <!--<ng-container  [ngSwitch]="message.isMore">-->
                       <!--<ng-container *ngSwitchCase="0">-->
-                        <ul class="media-list" *ngFor = "let mreply of replyDataSet" >
+                        <ul class="media-list" *ngFor = "let mreply of film.replyDataSet" >
                           <li class="media" *ngIf="mreply.filmOid == film.oid" style="padding-top:25px;border-top:1px solid #ddd;">
                             <div class="media-body">
                               <div class="row" style="margin:0;">
@@ -174,11 +174,14 @@
                                       <a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>
 
                                       <span style="margin-left:10px;margin-right:10px;">|</span>
-                                      <!--<a  class="operate-icon"  (click)="replyPraise(mreply)" >-->
+                                      <a  class="operate-icon"  (click)="replyPraise(mreply)" >
+                                        <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                        <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>
+                                        <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                         <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
                                         <!--<i class="fa fa-thumbs-up" style="color:#666" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                         <!--<i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>-->
-                                      <!--</a>-->
+                                      </a>
                                     </div>
                                   </div>
                                 </div>

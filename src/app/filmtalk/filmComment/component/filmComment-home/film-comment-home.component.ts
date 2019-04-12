@@ -37,38 +37,87 @@ export class FilmCommentHomeComponent implements OnInit {
   //处理数据
   dealWithData(res: any) {
     this.filmsData = [];
-    for (let i = 0; i < res.length; i++) {
-      let a = new Date(res[i].showTime);
-      let f = new Film();
-      f.oid = res[i].oid;
-      f.film_name = res[i].filmName;
-      f.filmType = res[i].filmType;
-      f.image_path = res[i].imagePath;
-      f.film_language = res[i].filmLanguage;
-      f.location = res[i].location;
-      f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
-      f.hour_length = res[i].hour;
-      f.film_detail = res[i].filmDetail;
-      f.producer = res[i].producer;
-      f.director = res[i].director;
-      f.film_staus = res[i].filmStatus;
-      f.numberReply = res[i].commentTotal;
-      f.isShowCommentFrame = true;
-      f.isShowReply = true;
-      f.isShowOperate = true;
-      f.isCollect = false;
-      f.isPraise = false;
-      f.isPraiseNumb = true;
-      f.praiseNumb = 10;
-
-      if (res[i].star != "0") {
-        f.star = res[i].star.split(".")[0] + "." + res[i].star.split(".")[1].substring(0, 1)
-      } else {
-        f.star = "0";
+      for (let i = 0; i < res.length; i++) {
+        this.filmcommentService.getCommentDataByFlmOid(res[i].oid).subscribe(str => {
+          this.replyDataSet = [];
+          this.replyChildrenDataSet = [];
+          let a = new Date(res[i].showTime);
+          let f = new Film();
+          f.oid = res[i].oid;
+          f.film_name = res[i].filmName;
+          f.filmType = res[i].filmType;
+          f.image_path = res[i].imagePath;
+          f.film_language = res[i].filmLanguage;
+          f.location = res[i].location;
+          f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
+          f.hour_length = res[i].hour;
+          f.film_detail = res[i].filmDetail;
+          f.producer = res[i].producer;
+          f.director = res[i].director;
+          f.film_staus = res[i].filmStatus;
+          f.numberReply = res[i].commentTotal;
+          f.isShowCommentFrame = true;
+          f.isShowReply = true;
+          f.isShowOperate = true;
+          f.isCollect = false;
+          f.isPraise = false;
+          f.isPraiseNumb = true;
+          // f.praiseNumb = 10;
+          if (res[i].star != "0") {
+            f.star = res[i].star.split(".")[0] + "." + res[i].star.split(".")[1].substring(0, 1)
+          } else {
+            f.star = "0";
+          }
+          // console.log(str.data);
+          if (f.numberReply > 0 && str.data == null) {
+            f.numberReply = 0;
+          }
+          if (f.numberReply > 0 && str.data != null) {
+            for (let x = 0; x < str.data.commentParentVOList.length; x++) {
+              let child = str.data.commentParentVOList[x].childCommentVOList;
+              if (child.length > 0) {
+                for (let j = 0; j < child.length; j++) {
+                  this.replyChildrenDataSet.push({
+                    commentDetail: child[j].commentDetail,
+                    commentatorName: child[j].commentatorName,
+                    nodeParentId: child[j].nodeParentId,
+                    oid: child[j].oid,
+                    parentId: child[j].parentId,
+                    replyCreateTime: child[j].replyCreateTime,
+                    replyPersonName: child[j].replyPersonName,
+                    isShowDelete: true,
+                  });
+                }
+              } else {
+                this.replyChildrenDataSet = [];
+              }
+              this.replyDataSet.push({
+                childCommentVOList: this.replyChildrenDataSet,
+                commentCreateTime: str.data.commentParentVOList[x].commentCreateTime,
+                commentDetail: str.data.commentParentVOList[x].commentDetail,
+                commentatorId: str.data.commentParentVOList[x].commentatorId,
+                commentatorName: str.data.commentParentVOList[x].commentatorName,
+                num: str.data.commentParentVOList[x].num,
+                oid: str.data.commentParentVOList[x].oid,
+                filmOid: f.oid,
+                isShowDelete: true,
+                PRAISENUMflag: true
+              });
+            }
+          } else {
+            this.replyChildrenDataSet = [];
+            this.replyDataSet = [];
+          }
+          f.replyDataSet = this.replyDataSet;
+          this.filmsData.push(f);
+        });
       }
-      this.filmsData.push(f);
-    }
-    this.films = this.filmsData;
+      this.films = this.filmsData;
+
+  }
+
+  replyPraise(mreply): void {
+
   }
 
   messageSpecial(film: Film): void {
@@ -86,63 +135,18 @@ export class FilmCommentHomeComponent implements OnInit {
    * 是否显示评论区
    */
   isShowReply(film: Film): void {
-    // this.before = film;
-    console.log(film);
-    this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(res => {
-      this.dealWithComment(res.data, film);
-      console.log(this.replyDataSet);
-    });
-  }
-
-  //解析评论信息
-  dealWithComment(str, film) {
-    this.replyDataSet = [];
-    this.replyChildrenDataSet = [];
-    for (let i = 0; i < str.commentParentVOList.length; i++) {
-      let child = str.commentParentVOList[i].childCommentVOList;
-      if (child.length > 0) {
-        for (let j = 0; j < child.length; j++) {
-          this.replyChildrenDataSet.push({
-            commentDetail: child[j].commentDetail,
-            commentatorName: child[j].commentatorName,
-            nodeParentId: child[j].nodeParentId,
-            oid: child[j].oid,
-            parentId: child[j].parentId,
-            replyCreateTime: child[j].replyCreateTime,
-            replyPersonName: child[j].replyPersonName,
-            isShowDelete: true,
-          });
-        }
-      } else {
-        this.replyChildrenDataSet = [];
-      }
-      this.replyDataSet.push({
-        childCommentVOList: this.replyChildrenDataSet,
-        commentCreateTime: str.commentParentVOList[i].commentCreateTime,
-        commentDetail: str.commentParentVOList[i].commentDetail,
-        commentatorId: str.commentParentVOList[i].commentatorId,
-        commentatorName: str.commentParentVOList[i].commentatorName,
-        num: str.commentParentVOList[i].num,
-        oid: str.commentParentVOList[i].oid,
-        filmOid: film.oid,
-        isShowDelete: true,
-      });
-    }
-    if (film.isShowReply) {
+    this.isShowReplyFrames();  // 关闭所有回复输入框
+    if (film.isShowReply) {  // 关闭状态需要打开
       film.isShowReply = false;
       film.isShowCommentFrame = false;
-      $('#isShowReply-' + film.oid).show();
-      $('#isShowCommentFrame-' + film.oid).show();
-      // $(".jkl").show();
-    } else {
+      // if (this.currentMessage.OID !== '' && this.currentMessage.OID !== message.OID) {      // 关闭上一个评论区打开新的评论区
+      //   this.currentMessage.isShowReply = true;
+      // }
+    } else {                     // 打开状态关闭
       film.isShowReply = true;
       film.isShowCommentFrame = true;
-      $('#isShowReply-' + film.oid).hide();
-      $('#isShowCommentFrame-' + film.oid).hide();
     }
-    console.log("1111111");
-    console.log(this.replyDataSet);
-    console.log("1111111");
+    // this.currentMessage = message;
   }
 
   /**
@@ -166,56 +170,6 @@ export class FilmCommentHomeComponent implements OnInit {
   addParentMessageReply(film: Film): void {
     const oid = film.oid;
     if ($(`#i1-${oid}`).val().replace(/^\s+|\s+$/g, '') !== '') {
-
-      //   this.filmcommentService.addMessageReply(this.messageReply).subscribe(res => {
-      //     if (res.success === true) {
-      //       $(`#i1-${oid}`).val('');
-      //       $(`#s1-${oid}`).hide();
-      //       message.numberReply += 1;
-      //       message.isshowNumbReply = false;
-      //       this.messagesHomeService.getMessageReplyByOID(oid, this.userId).subscribe(res1 => {
-      //         if (res1.data.t_messagereply.length > 0) {
-      //           this.replyDataSet = this.replyDataSet.filter((r) => !(r.MESSAGEOID === oid) && r.REPLYMESSAGEOID !== '');
-      //           let newReply = [];
-      //           newReply = res1.data.t_messagereply;
-      //           newReply = newReply.filter((r) => (r.REPLYMESSAGEOID === ''));
-      //           for (let i = 0; i < newReply.length; i++) {
-      //             if (newReply[i].REPLYMESSAGEOID === '') {
-      //
-      //               // 时间格式化
-      //               newReply[i].REPLYTIME = this.timeFormat(newReply[i].REPLYTIME);
-      //
-      //               // 点赞数初始化
-      //               if (newReply[i].PRAISENUM > 0) {   // 点赞数大于0
-      //                 newReply[i].isShowPraise = true;
-      //               } else {                       // 没有点赞
-      //                 newReply[i].isShowPraise = false;
-      //               }
-      //
-      //               this.replyDataSet.push({
-      //                 OID: newReply[i].OID,
-      //                 MESSAGEOID: newReply[i].MESSAGEOID,
-      //                 CONTENT: newReply[i].CONTENT,
-      //                 REPLYPERSON: newReply[i].REPLYPERSON,
-      //                 REPLYPERSONID: newReply[i].REPLYPERSON.split('_')[0],
-      //                 REPLYPERSONNAME: newReply[i].REPLYPERSON.split('_')[1],
-      //                 REPLYTIME: newReply[i].REPLYTIME,
-      //                 REPLYMESSAGEOID: '',
-      //                 isShowDelete: true, isShowReplyFrame: true,
-      //                 PRAISENUM: newReply[i].PRAISENUM,
-      //                 PRAISENUMflag: newReply[i].PRAISENUMflag,
-      //                 isShowPraise: newReply[i].isShowPraise
-      //               });
-      //             }
-      //           }
-      //           this.getThreeReply(message, newReply);
-      //         }
-      //       });
-      //     } else {
-      //       alert('创建失败');
-      //     }
-      //   });
-      // }
     }
   }
 
@@ -225,43 +179,6 @@ export class FilmCommentHomeComponent implements OnInit {
    *
    */
   deleteReply(film: Film, mreply): void {
-    // const oid = mreply.OID;
-    // this.messagesHomeService.delMessageReply(oid).subscribe(response => {
-    //   if (response.success === true) {
-    //     this.resMessage.success('删除成功', {
-    //       dwDuration: 1500
-    //     });
-    //     message.numberReply = message.numberReply - 1;
-    //     if (message.numberReply < 1) {
-    //       message.isshowNumbReply = true;  // 不显示评论数
-    //     }
-    //     this.messagesHomeService.getMessageReplyByOID(message.OID, this.userId).subscribe(res => {
-    //       let newReply = [];
-    //       if (!isUndefined(res.data.t_messagereply)) {
-    //         newReply = res.data.t_messagereply;
-    //         newReply = newReply.filter((r) => (r.REPLYMESSAGEOID === ''));
-    //         if (message.isMore === 1 && newReply.length < 4) {
-    //           message.isMore = 0;
-    //         }
-    //       }
-    //       this.getThreeReply(message, newReply);
-    //     });
-    //     this.replyDataSet = this.replyDataSet.filter((r) => !(r.OID === oid));
-    //     this.replyChildrenDataSet = this.replyChildrenDataSet.filter((r) => !(r.REPLYMESSAGEOID === oid));
-    //     this.messagesHomeService.delMessagereplyByOid(oid).subscribe(res => {
-    //       if (res.success === true) {
-    //       } else {
-    //         this.resMessage.error('子回复删除失败', {
-    //           dwDuration: 1500
-    //         });
-    //       }
-    //     });
-    //   } else {
-    //     this.resMessage.error('子回复删除失败', {
-    //       dwDuration: 1500
-    //     });
-    //   }
-    // });
   }
 
   /**
@@ -270,27 +187,6 @@ export class FilmCommentHomeComponent implements OnInit {
    */
   replyMessageIsShow(mreply, film: Film): void {
     film.isShowCommentFrame = true;            // 关闭评论框
-    // this.replyChildrenDataSet.forEach(      // 所有回复的回复框（二级）
-    //   (x) => x.isShowReplyFrame = true
-    // );
-    // const threereply = message.threeReply;
-    // for (let i = 0; i < threereply.length; i++) {
-    //   if (mreply.OID !== threereply[i].OID) {
-    //     threereply[i].isShowReplyFrame = true;
-    //   }
-    // }
-    // const data = this.replyDataSet;
-    // for (let i = 0; i < data.length; i++) {
-    //   if (mreply.OID !== data[i].OID) {
-    //     data[i].isShowReplyFrame = true;
-    //   }
-    // }
-    // if (mreply.isShowReplyFrame) {  // 关闭状态需要打开
-    //   mreply.isShowReplyFrame = false;
-    // } else {                     // 打开状态关闭
-    //   mreply.isShowReplyFrame = true;
-    //   message.isShowCommentFrame = false;   // 评论框打开
-    // }
   }
 
 

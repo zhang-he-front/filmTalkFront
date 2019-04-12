@@ -29,4 +29,5 @@ export class Film {
   numberReply: number;                // 总评论数
   isShowCommentFrame: boolean;
   isShowReply: boolean;
+  replyDataSet:any;
 }
