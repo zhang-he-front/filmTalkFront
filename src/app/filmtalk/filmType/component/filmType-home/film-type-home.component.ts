@@ -25,10 +25,15 @@ export class FilmTypeHomeComponent implements OnInit {
     this.getFilmType();
     this.getFilmCommentCountInfo();
     this.getFilmByFilmTypeOidOrFilmName();
+    //刷新电影类型
+    this.filmtypeHomeService.refreshTypeHome.subscribe(val => {
+      this.getFilmType();
+    });
   }
 
   //查询电影类型
   getFilmType() {
+    this.fimType = [];
     this.filmtypeHomeService.queryFilmType().subscribe(str => {
       if (str.code == 0) {
         for (let i = 0; i < str.data.length; i++) {

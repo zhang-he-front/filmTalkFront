@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Observable} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
 
@@ -6,6 +6,8 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class FilmtypeHomeService {
+
+  refreshTypeHome: EventEmitter<string> = new EventEmitter();  // 刷新类型页
 
   constructor(private http: HttpClient) {
   }

@@ -44,6 +44,31 @@ p,span{
   font-size: 16px;
 }
 
-.anticon, .ant-select-arrow-icon, .ng-tns-c8-3, .anticon-down, .ng-star-inserted{
-  font-size: 12px;
+
+.ng-star-inserted>svg{
+  font-size: 20px;
 }
+
+.ant-select-selection__choice__content{
+  font-size: 13px;
+}
+
+.ng-tns-c9-2{
+  font-size: 16px;
+}
+
+.ant-select-arrow-icon>svg{
+  font-size: 16px;
+}
+
+/*时间选择框*/
+.ant-calendar-date-input-wrap >.ant-calendar-input{
+  font-size: 17px;
+}
+
+.ant-calendar-year-select, .ant-calendar-month-select,
+.ant-calendar-date, .ant-calendar-footer-btn .ant-calendar-column-header,
+.ng-star-inserted>.ant-calendar-today-btn{
+  font-size: 18px;
+}
+

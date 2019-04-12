@@ -14,7 +14,7 @@
                    class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
           </nz-input-group>
           <nz-form-explain *ngIf="filmForm.get('filmName')?.dirty && filmForm.get('filmName')?.errors"
-                           style="margin-top: 3px;color: red;">
+                           style="margin-top: 3px;color: red;font-size:16px;">
             类型名不能为空
           </nz-form-explain>
         <!--</nz-form-control>-->
@@ -31,7 +31,7 @@
                    class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
           </nz-input-group>
           <nz-form-explain *ngIf="filmForm.get('hour')?.dirty && filmForm.get('hour')?.errors"
-                           style="margin-top: 3px;color: red;">
+                           style="margin-top: 3px;color: red;font-size:16px;">
             时长不能为空
           </nz-form-explain>
       </nz-form-item>

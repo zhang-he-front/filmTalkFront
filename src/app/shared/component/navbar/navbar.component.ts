@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   typeForm: FormGroup;
   filmType: Filmtype = new Filmtype();
   isVisible: boolean = false;
+  isTypeVisible: boolean = false;
 
 
   constructor(private fb: FormBuilder,
@@ -46,9 +47,9 @@ export class NavbarComponent implements OnInit {
 
   //关闭模态框,刷新页面
   closeModel(str: any) {
-    if(str == "closeAndRefresh"){
+    if (str == "closeAndRefresh") {
       this.filmpageHomeService.refreshPageHome.emit("refreshPageHome");
-    } else{
+    } else {
       this.handleCancel();
     }
   }
@@ -58,15 +59,21 @@ export class NavbarComponent implements OnInit {
     $('#myFilm').modal('hide');
   }
 
-  //展示电影分类模态框
-  showFilmTypeModal() {
-    $('#myFilmType').modal();
-    this.createTypeForm();
+
+  //关闭电影分类模态框
+  handleTypeCancel() {
+    this.isTypeVisible = false;
   }
 
   //关闭电影分类模态框
-  hideFilmTypeModal(str: any) {
-    $('#myFilmType').modal('hide');
+  handleTypeOk() {
+    this.isTypeVisible = false;
+  }
+
+  //展示电影分类模态框
+  showFilmTypeModal() {
+    this.isTypeVisible = true;
+    this.createTypeForm();
   }
 
   createTypeForm(): void {
@@ -97,6 +104,7 @@ export class NavbarComponent implements OnInit {
         this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
           if (res.code == 0) {
             this.typeCancel();
+            this.filmtypeHomeService.refreshTypeHome.emit("refreshTypeHome");
             this.alertMessage.success('新建成功', {
               nzDuration: 1500
             });
@@ -117,7 +125,7 @@ export class NavbarComponent implements OnInit {
 
   //取消
   typeCancel(): void {
-    $('#myFilmType').modal('hide');
+    this.isTypeVisible = false;
   }
 
   /**
