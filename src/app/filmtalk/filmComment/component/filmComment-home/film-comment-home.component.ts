@@ -68,13 +68,33 @@ export class FilmCommentHomeComponent implements OnInit {
           } else {
             f.star = "0";
           }
+          // 点赞数初始化
+          // if (replyData[j].PRAISENUM > 0) {   // 点赞数大于0
+          //   replyData[j].isShowPraise = true;
+          // } else {                       // 没有点赞
+          //   replyData[j].isShowPraise = false;
+          // }
+
           // console.log(str.data);
           if (f.numberReply > 0 && str.data == null) {
             f.numberReply = 0;
           }
           if (f.numberReply > 0 && str.data != null) {
             for (let x = 0; x < str.data.commentParentVOList.length; x++) {
-              let child = str.data.commentParentVOList[x].childCommentVOList;
+              let replyData = str.data.commentParentVOList[x];  //一级评论
+              this.replyDataSet.push({
+                commentCreateTime: replyData.commentCreateTime,
+                commentDetail: replyData.commentDetail,
+                commentatorId: replyData.commentatorId,
+                commentatorName: replyData.commentatorName,
+                num: replyData.num,
+                oid: replyData.oid,
+                filmOid: f.oid,
+                isShowDelete: true,
+                isShowReplyFrame: true,
+                PRAISENUMflag: true
+              });
+              let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
               if (child.length > 0) {
                 for (let j = 0; j < child.length; j++) {
                   this.replyChildrenDataSet.push({
@@ -83,37 +103,28 @@ export class FilmCommentHomeComponent implements OnInit {
                     nodeParentId: child[j].nodeParentId,
                     oid: child[j].oid,
                     parentId: child[j].parentId,
+                    filmOid: f.oid,
                     replyCreateTime: child[j].replyCreateTime,
                     replyPersonName: child[j].replyPersonName,
+                    isShowReplyFrame: true,
                     isShowDelete: true,
+                    PRAISENUMflag: true
                   });
                 }
-              } else {
-                this.replyChildrenDataSet = [];
               }
-              this.replyDataSet.push({
-                childCommentVOList: this.replyChildrenDataSet,
-                commentCreateTime: str.data.commentParentVOList[x].commentCreateTime,
-                commentDetail: str.data.commentParentVOList[x].commentDetail,
-                commentatorId: str.data.commentParentVOList[x].commentatorId,
-                commentatorName: str.data.commentParentVOList[x].commentatorName,
-                num: str.data.commentParentVOList[x].num,
-                oid: str.data.commentParentVOList[x].oid,
-                filmOid: f.oid,
-                isShowDelete: true,
-                PRAISENUMflag: true
-              });
             }
-          } else {
-            this.replyChildrenDataSet = [];
-            this.replyDataSet = [];
           }
+          f.numberReply = this.replyDataSet.length + this.replyChildrenDataSet.length;
+          let threeReply = this.getThreeReply(res[i], this.replyDataSet);
+          f.threeReply = threeReply;
           f.replyDataSet = this.replyDataSet;
+          f.replyChildrenDataSet = this.replyChildrenDataSet;
           this.filmsData.push(f);
         });
       }
       this.films = this.filmsData;
-
+      console.log('-----------');
+      console.log(this.films);
   }
 
   replyPraise(mreply): void {
@@ -174,6 +185,13 @@ export class FilmCommentHomeComponent implements OnInit {
   }
 
   /**
+   * 新增二级评论
+   */
+  addChildrenMessageReply(mreply: any, num: any, film: Film): void {
+
+  }
+
+  /**
    * add by GaoYa 2018.10.26
    * 动态评论删除(并将子回复一起删除)
    *
@@ -181,12 +199,105 @@ export class FilmCommentHomeComponent implements OnInit {
   deleteReply(film: Film, mreply): void {
   }
 
+
   /**
-   * add by GaoYa 2018.12.07
+   * 动态评论的回复删除
+   */
+  deleteReplyChild(oid: string): void {
+
+  }
+
+
+  /**
+   * 获取三条评论的值
+   */
+  getThreeReply(film: Film, replyData: any): any {
+    film.threeReply = [];
+    if (replyData.length > 0) {
+      let replynumb = 0;
+      if (replyData.length > 3) {
+        film.isMoreBtn = true;
+        replynumb = 3;
+      } else {
+        film.isMoreBtn = false;
+        replynumb = replyData.length;
+      }
+      for (let i = 0; i < replynumb; i++) {
+        let isShowPraise = true;
+        // if (replyData[i].PRAISENUM < 1) {
+        //   isShowPraise = false;
+        // }
+        film.threeReply.push({
+          commentCreateTime: replyData[i].commentCreateTime,
+          commentDetail: replyData[i].commentDetail,
+          commentatorId: replyData[i].commentatorId,
+          commentatorName: replyData[i].commentatorName,
+          num: replyData[i].num,
+          oid: replyData[i].oid,
+          filmOid: replyData[i].filmOid,
+          isShowDelete: true,
+          isShowReplyFrame: true,
+          PRAISENUMflag: true
+        });
+      }
+    }
+    return film.threeReply;
+  }
+
+
+  /**
    * 动态一级回复框显示和隐藏
    */
   replyMessageIsShow(mreply, film: Film): void {
     film.isShowCommentFrame = true;            // 关闭评论框
+    film.replyChildrenDataSet.forEach(      // 所有回复的回复框（二级）
+      (x) => x.isShowReplyFrame = true
+    );
+    const threereply = film.threeReply;
+    for (let i = 0; i < threereply.length; i++) {
+      if (mreply.oid !== threereply[i].oid) {
+        threereply[i].isShowReplyFrame = true;
+      }
+    }
+    const data = film.replyDataSet;
+    for (let i = 0; i < data.length; i++) {
+      if (mreply.oid !== data[i].oid) {
+        data[i].isShowReplyFrame = true;
+      }
+    }
+    if (mreply.isShowReplyFrame) {  // 关闭状态需要打开
+      mreply.isShowReplyFrame = false;
+    } else {                     // 打开状态关闭
+      mreply.isShowReplyFrame = true;
+      film.isShowCommentFrame = false;   // 评论框打开
+    }
+  }
+
+
+  /**
+   * add by GengLulu 2018.10.29
+   * 动态二级回复框显示和隐藏
+   */
+  secondReplyMessageIsShow(replyc: any, film: Film): void {
+    film.isShowCommentFrame = true;            // 关闭评论框
+    film.threeReply.forEach(                  // 关闭一级回复框
+      (x) => x.isShowReplyFrame = true
+    );
+    film.replyDataSet.forEach(                  // 关闭一级回复框
+      (x) => x.isShowReplyFrame = true
+    );
+    const data = film.replyChildrenDataSet;
+    for (let i = 0; i < data.length; i++) {
+      if (replyc.oid !== data[i].oid) {
+        data[i].isShowReplyFrame = true;
+      }
+    }
+    if (replyc.isShowReplyFrame) {  // 关闭状态需要打开
+      replyc.isShowReplyFrame = false;
+    } else {                     // 打开状态关闭
+      replyc.isShowReplyFrame = true;
+      film.isShowCommentFrame = false;            // 打开评论框
+    }
   }
 
 
@@ -241,4 +352,33 @@ export class FilmCommentHomeComponent implements OnInit {
   isNotShowDelete(mreply: any): void {
     mreply.isShowDelete = true;
   }
+
+  /**
+   * css效果：当焦点在回复框中边框变蓝
+   */
+  isShowBorder(oid: any): void {
+    $('#reply1-' + oid)[0].style.border = '1px solid #3c92dc';
+  }
+
+  /**
+   * css效果：当焦点移出回复框隐藏评论发送按钮
+   */
+  isNotShowBorder(oid: any): void {
+    $('#reply1-' + oid)[0].style.border = '1px solid #e4e4e4';
+  }
+
+  /**
+   * css效果：当焦点在二级回复框中边框变蓝
+   */
+  isShowSecondBorder(oid: any): void {
+    $('#reply2-' + oid)[0].style.border = '1px solid #3c92dc';
+  }
+
+  /**
+   * css效果：当焦点移出二级回复框隐藏评论发送按钮
+   */
+  isNotShowSecondBorder(oid: any): void {
+    $('#reply2-' + oid)[0].style.border = '1px solid #e4e4e4';
+  }
+
 }

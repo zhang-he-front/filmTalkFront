@@ -30,4 +30,7 @@ export class Film {
   isShowCommentFrame: boolean;
   isShowReply: boolean;
   replyDataSet:any;
+  replyChildrenDataSet:any;
+  threeReply: any;                    // 显示三条回复
+  isMoreBtn: boolean = false;           // 显示评论是否展开按钮
 }
