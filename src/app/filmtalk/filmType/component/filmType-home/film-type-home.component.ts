@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from "../../../filmPages/service/product.service";
 import {FilmtypeHomeService} from "../../service/filmtype-home.service";
+import {isUndefined} from "util";
 
 declare var $: any;
 
@@ -10,13 +11,12 @@ declare var $: any;
   styleUrls: ['./film-type-home.component.css']
 })
 export class FilmTypeHomeComponent implements OnInit {
-  // 定义一个数组，接收从服务里面传来的参数
-  public products: Product[];
   filmName: string = null;    //根据电影名模糊查询
   fimType: any[] = []; //电影所有类型
   films: any[] = []; //电影信息
   filmHots: any[] = []; //电影信息热度
   oid: any; //电影类型oid
+  isExistFilm: boolean = false;    // 是否存在电影
 
   constructor(private filmtypeHomeService: FilmtypeHomeService) {
   }
@@ -69,20 +69,28 @@ export class FilmTypeHomeComponent implements OnInit {
   getFilmByFilmTypeOidOrFilmName() {
     this.filmtypeHomeService.queryFilmByFilmTypeOidOrFilmName(this.oid, this.filmName).subscribe(res => {
       this.films = [];
-      console.log(res);
-      for (let i = 0; i < res.data.length; i++) {
-        let a = new Date(res.data[i].showTime);
-        this.films.push({
-          "oid": res.data[i].oid,
-          "film_name": res.data[i].filmName,
-          "filmType": res.data[i].filmType,
-          "image_path": res.data[i].imagePath,
-          "film_language": res.data[i].language,
-          "location": res.data[i].location,
-          "show_time": a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate(),
-          "hour": res.data[i].hour,
-          "star": res.data[i].star.split(".")[0] + "." + res.data[i].star.split(".")[1].substring(0, 1)
-        });
+      if(!isUndefined(res)){
+        if(res.data.length < 1){
+          this.isExistFilm = true;
+        } else{
+          this.isExistFilm = false;
+          for (let i = 0; i < res.data.length; i++) {
+            let a = new Date(res.data[i].showTime);
+            this.films.push({
+              "oid": res.data[i].oid,
+              "film_name": res.data[i].filmName,
+              "filmType": res.data[i].filmType,
+              "image_path": res.data[i].imagePath,
+              "film_language": res.data[i].language,
+              "location": res.data[i].location,
+              "show_time": a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate(),
+              "hour": res.data[i].hour,
+              "star": res.data[i].star.split(".")[0] + "." + res.data[i].star.split(".")[1].substring(0, 1)
+            });
+          }
+        }
+      } else {
+        this.isExistFilm = true;
       }
     });
   }

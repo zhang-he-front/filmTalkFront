@@ -71,6 +71,18 @@
                                                        style="margin-left:15px;margin-top:-3px;"></span>
           </li>
         </div>
+
+        <!-- 无数据展示 start-->
+        <div *ngIf="isExistFutureArr" class="padding-md" style="padding-left:0;padding-bottom:0;">
+          <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
+            <div style="margin:auto;">
+              <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
+              <span class="text-muted">暂无数据</span>
+            </div>
+          </div>
+        </div>
+        <!-- 无数据展示 end-->
+
       </ul>
     </div>
 
@@ -98,8 +110,19 @@
                                                      style="margin-left:15px;margin-top:-3px;"></span>
             <span class="ck1" >{{like.star}}</span>
           </li>
-
         </div>
+
+        <!-- 无数据展示 start-->
+        <div *ngIf="isExistLikeArr" class="padding-md" style="padding-left:0;padding-bottom:0;">
+          <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
+            <div style="margin:auto;">
+              <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
+              <span class="text-muted">暂无数据</span>
+            </div>
+          </div>
+        </div>
+        <!-- 无数据展示 end-->
+
       </ul>
     </div>
     <!--</div>-->

@@ -33,4 +33,5 @@ export class Film {
   replyChildrenDataSet:any;
   threeReply: any;                    // 显示三条回复
   isMoreBtn: boolean = false;           // 显示评论是否展开按钮
+  isMore: number;         // 显示模板展示（0默认三条模板，1默认大于三条模板)
 }

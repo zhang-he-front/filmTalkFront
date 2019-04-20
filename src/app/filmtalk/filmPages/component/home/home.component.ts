@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
   likeArr: any[] = []; //猜你喜欢
   nowArr: any[] = []; //正在热播
   recentHotArr: any[] = []; //最近热门
+  isExistFutureArr: boolean = false;    // 即将上映是否存在电影
+  isExistLikeArr: boolean = false;    // 猜你喜欢是否存在电影
 
   constructor(private http: HttpClient,
               private filmpageHomeService: FilmpageHomeService) {
@@ -44,24 +46,36 @@ export class HomeComponent implements OnInit {
     this.likeArr = [];
     this.recentHotArr = [];
     this.nowArr = [];
-    let arr = [];
+
     //即将上映
-    for (let i = 0; i < res.futureArr.length; i++) {
-      let a1 = new Date(res.futureArr[i].showTime);
-      if (i < 7) {
-        this.futureArr.push({
-          "film_name": res.futureArr[i].filmName,
-          "show_time": a1.getFullYear() + "-" + (a1.getMonth() + 1) + "-" + a1.getDate()
-        });
+    if (res.futureArr.length < 1) {
+      this.isExistFutureArr = true;
+    } else {
+      this.isExistFutureArr = false;
+      for (let i = 0; i < res.futureArr.length; i++) {
+        let a1 = new Date(res.futureArr[i].showTime);
+        if (i < 7) {
+          this.futureArr.push({
+            "film_name": res.futureArr[i].filmName,
+            "show_time": a1.getFullYear() + "-" + (a1.getMonth() + 1) + "-" + a1.getDate()
+          });
+        }
       }
     }
+
+
     //猜你喜欢
-    for (let i = 0; i < res.likeArr.length; i++) {
-      if (i < 7) {
-        this.likeArr.push({
-          "film_name": res.likeArr[i].filmName,
-          "star": res.likeArr[i].star.split(".")[0] + "." + res.likeArr[i].star.split(".")[1].substring(0, 1)
-        });
+    if (res.likeArr.length < 1) {
+      this.isExistLikeArr = true;
+    } else {
+      this.isExistLikeArr = false;
+      for (let i = 0; i < res.likeArr.length; i++) {
+        if (i < 7) {
+          this.likeArr.push({
+            "film_name": res.likeArr[i].filmName,
+            "star": res.likeArr[i].star.split(".")[0] + "." + res.likeArr[i].star.split(".")[1].substring(0, 1)
+          });
+        }
       }
     }
 
