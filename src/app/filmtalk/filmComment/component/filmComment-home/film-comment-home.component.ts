@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FilmpageHomeService} from "../../../filmPages/service/filmpage-home.service";
 import {Film} from "../../../../shared/model/film";
-import {FilmcommentServiceService} from "../../service/filmcomment-service.service";
+import {FilmcommentServiceService} from "../../service/filmcomment.service";
 import {isUndefined} from "util";
+import {FilmReply} from "../../../../shared/model/filmreply";
 
 declare var $: any;
 
@@ -103,12 +104,13 @@ export class FilmCommentHomeComponent implements OnInit {
                   PRAISENUMflag: true
                 });
                 let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
-                if (child.length > 0) {
+                if (child != null && child.length > 0) {
                   for (let j = 0; j < child.length; j++) {
                     this.replyChildrenDataSet.push({
                       commentDetail: child[j].commentDetail,
                       commentatorName: child[j].commentatorName,
                       nodeParentId: child[j].nodeParentId,
+                      commentatorId: child[j].commentatorId,
                       oid: child[j].oid,
                       parentId: child[j].parentId,
                       filmOid: f.oid,
@@ -191,8 +193,71 @@ export class FilmCommentHomeComponent implements OnInit {
    * 新增一级评论
    */
   addParentMessageReply(film: Film): void {
+    let filmReply = new FilmReply();
     const oid = film.oid;
     if ($(`#i1-${oid}`).val().replace(/^\s+|\s+$/g, '') !== '') {
+      filmReply.film_oid = oid;
+      filmReply.commentator_oid = 1;
+      filmReply.commentator_name = 'admin';
+      filmReply.commentator_detail = $(`#i1-${oid}`).val();
+      filmReply.node_parent_oid = null;
+      filmReply.parent_oid = null;
+      filmReply.replyperson_oid = null;
+      filmReply.replyperson_name =null;
+      this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
+        if(res.msg == '成功'){
+          $(`#i1-${oid}`).val('');
+          $(`#s1-${oid}`).hide();
+          film.numberReply += 1;
+          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+            if (str.data != null) {
+              let data = str.data.commentParentVOList;
+              this.replyDataSet = [];
+              this.replyChildrenDataSet = [];
+              for (let x = 0; x < str.data.commentParentVOList.length; x++) {
+                let replyData = str.data.commentParentVOList[x];  //一级评论
+                this.replyDataSet.push({
+                  commentCreateTime: this.timeFormat(replyData.commentCreateTime),
+                  commentDetail: replyData.commentDetail,
+                  commentatorId: replyData.commentatorId,
+                  commentatorName: replyData.commentatorName,
+                  num: replyData.num,
+                  oid: replyData.oid,
+                  filmOid: film.oid,
+                  isShowDelete: true,
+                  isShowReplyFrame: true,
+                  PRAISENUMflag: true
+                });
+                let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
+                if (child != null && child.length > 0) {
+                  for (let j = 0; j < child.length; j++) {
+                    this.replyChildrenDataSet.push({
+                      commentDetail: child[j].commentDetail,
+                      commentatorName: child[j].commentatorName,
+                      nodeParentId: child[j].nodeParentId,
+                      oid: child[j].oid,
+                      parentId: child[j].parentId,
+                      filmOid: film.oid,
+                      replyCreateTime: this.timeFormat(child[j].replyCreateTime),
+                      replyPersonName: child[j].replyPersonName,
+                      isShowReplyFrame: true,
+                      isShowDelete: true,
+                      PRAISENUMflag: true
+                    });
+                  }
+                }
+              }
+              film.replyDataSet = this.replyDataSet;
+              film.replyChildrenDataSet = this.replyChildrenDataSet;
+              this.getThreeReply(film, this.replyDataSet);
+            } else{
+              alert('评论失败');
+            }
+          });
+        }
+      });
+    } else{
+      alert('评论不能为空');
     }
   }
 
@@ -200,6 +265,78 @@ export class FilmCommentHomeComponent implements OnInit {
    * 新增二级评论
    */
   addChildrenMessageReply(mreply: any, num: any, film: Film): void {
+    let filmReply = new FilmReply();
+    const oid = mreply.oid; // 回复（电影的回复）的OID
+    if ( $(`#${oid}`).val().replace(/^\s+|\s+$/g, '') !== '') {
+      if (num === 0) {
+        filmReply.parent_oid = mreply.oid;   // 回复（动态的回复）的OID
+        filmReply.node_parent_oid = mreply.oid;   // 回复（动态的回复）的OID
+      } else {
+        filmReply.parent_oid = mreply.oid;   // 回复（动态的回复）的OID
+        filmReply.node_parent_oid = mreply.parentId;   // 回复（动态的回复）的OID
+      }
+      filmReply.film_oid = film.oid;
+      filmReply.commentator_oid = 1;
+      filmReply.commentator_name = 'admin';
+      filmReply.commentator_detail = $(`#${oid}`).val();
+      filmReply.replyperson_oid = mreply.commentatorId;
+      filmReply.replyperson_name = mreply.commentatorName;
+
+      this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
+        console.log(res);
+        if (res.msg == '成功') {
+          $(`#${oid}`).val('');
+          mreply.isShowReplyFrame = true;  // 隐藏回复框
+          film.isShowCommentFrame = false;   // 显示评论框
+          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+            if (str.data != null) {
+              this.replyDataSet = [];
+              this.replyChildrenDataSet = [];
+              for (let x = 0; x < str.data.commentParentVOList.length; x++) {
+                let replyData = str.data.commentParentVOList[x];  //一级评论
+                this.replyDataSet.push({
+                  commentCreateTime: this.timeFormat(replyData.commentCreateTime),
+                  commentDetail: replyData.commentDetail,
+                  commentatorId: replyData.commentatorId,
+                  commentatorName: replyData.commentatorName,
+                  num: replyData.num,
+                  oid: replyData.oid,
+                  filmOid: film.oid,
+                  isShowDelete: true,
+                  isShowReplyFrame: true,
+                  PRAISENUMflag: true
+                });
+                let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
+                if (child != null && child.length > 0) {
+                  for (let j = 0; j < child.length; j++) {
+                    this.replyChildrenDataSet.push({
+                      commentDetail: child[j].commentDetail,
+                      commentatorName: child[j].commentatorName,
+                      nodeParentId: child[j].nodeParentId,
+                      oid: child[j].oid,
+                      parentId: child[j].parentId,
+                      filmOid: film.oid,
+                      replyCreateTime: this.timeFormat(child[j].replyCreateTime),
+                      replyPersonName: child[j].replyPersonName,
+                      isShowReplyFrame: true,
+                      isShowDelete: true,
+                      PRAISENUMflag: true
+                    });
+                  }
+                }
+              }
+              film.replyDataSet = this.replyDataSet;
+              film.replyChildrenDataSet = this.replyChildrenDataSet;
+              this.getThreeReply(film, this.replyDataSet);
+            }
+          });
+        } else {
+          alert('创建失败');
+        }
+      });
+    } else {
+      alert('回复不能为空');
+    }
 
   }
 

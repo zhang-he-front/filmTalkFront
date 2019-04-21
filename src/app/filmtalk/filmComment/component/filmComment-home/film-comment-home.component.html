@@ -185,7 +185,7 @@
                                 <!--回复内容展示 start-->
                                 <ul class="media-list">
                                   <ng-container *ngFor="let replyc of film.replyChildrenDataSet">
-                                    <li *ngIf="replyc.parentId == mreply.oid"
+                                    <li *ngIf="replyc.nodeParentId == mreply.oid"
                                         style="margin-left:50px;padding-bottom:15px;padding-left:10px;padding-top: 10px;">
                                       <div class="media-body">
                                         <div class="row" style="margin:0;">
@@ -358,7 +358,7 @@
                                 <!--回复内容展示 start-->
                                 <ul class="media-list">
                                   <ng-container *ngFor="let replyc of film.replyChildrenDataSet">
-                                    <li *ngIf="replyc.parentId == mreply.oid"
+                                    <li *ngIf="replyc.nodeParentId == mreply.oid"
                                         style="margin-left:50px;padding-bottom:15px;padding-left:10px;padding-top: 10px;">
                                       <div class="media-body">
                                         <div class="row" style="margin:0;">

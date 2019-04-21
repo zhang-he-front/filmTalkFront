@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
+import {FilmReply} from "../../../shared/model/filmreply";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,28 @@ export class FilmcommentServiceService {
     const url = '/comment/query';
     const body = {
       filmId
+    };
+    return this.http.post(url, body);
+  }
+
+
+  /**
+   * 新增一级评论
+   * add by zyx 2019-4-21
+   * @returns {Observable<any>}
+   */
+  addParentMessageReply(filmReply: FilmReply): Observable<any> {
+    const url = '/comment/insert';
+    const body = {
+      'nodeParentId': filmReply.node_parent_oid,
+      'parentId': filmReply.parent_oid,
+      'filmId': filmReply.film_oid,
+      'commentatorId': filmReply.commentator_oid,
+      'commentatorName': filmReply.commentator_name,
+      'commentDetail': filmReply.commentator_detail,
+      // 'commentCreateTime': filmReply.comment_create_time,
+      'replyPersonId': filmReply.replyperson_oid,
+      'replyPersonName': filmReply.replyperson_name,
     };
     return this.http.post(url, body);
   }
