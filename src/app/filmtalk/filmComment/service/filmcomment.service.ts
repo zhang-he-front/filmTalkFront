@@ -69,4 +69,17 @@ export class FilmcommentServiceService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 删除评论信息
+   * add by zyx 2019-4-24
+   * @returns {Observable<any>}
+   */
+  deleteReply(parentId: any): Observable<any> {
+    const url = '/comment/delete';
+    const body = {
+      parentId
+    };
+    return this.http.post(url, body);
+  }
 }

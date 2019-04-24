@@ -341,20 +341,98 @@ export class FilmCommentHomeComponent implements OnInit {
   }
 
   /**
-   * add by GaoYa 2018.10.26
-   * 动态评论删除(并将子回复一起删除)
-   *
+   * 删除（不显示）
    */
-  deleteReply(film: Film, mreply): void {
+  notShowMessage(film: Film): void {
+
   }
 
+  /**
+   * 动态评论删除(并将子回复一起删除)
+   */
+  deleteReply(film: Film, mreply: any): void {
+    const oid = mreply.oid;
+    this.filmcommentService.deleteReply(oid).subscribe(res => {
+      console.log(res);
+      if(res.msg == '成功'){
+        console.log('删除成功');
+        film.numberReply = film.numberReply - 1;
+        this.getReplyByOid(film);
+      } else{
+        alert('删除失败');
+      }
+    });
+  }
 
   /**
    * 动态评论的回复删除
    */
-  deleteReplyChild(oid: string): void {
-
+  deleteReplyChild(film: Film, oid: string): void {
+    this.filmcommentService.deleteReply(oid).subscribe(res => {
+      console.log(res);
+      if(res.msg == '成功'){
+        console.log('删除成功');
+        this.getReplyByOid(film);
+      } else{
+        alert('删除失败');
+      }
+    });
   }
+
+  /**
+   * 根据电影oid查询评论信息
+   * @param {Film} film
+   */
+  getReplyByOid(film: Film){
+    this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+      if (str.data != null) {
+        this.replyDataSet = [];
+        this.replyChildrenDataSet = [];
+        let data = str.data.commentParentVOList;
+        for (let x = 0; x < str.data.commentParentVOList.length; x++) {
+          let replyData = str.data.commentParentVOList[x];  //一级评论
+          this.replyDataSet.push({
+            commentCreateTime: this.timeFormat(replyData.commentCreateTime),
+            commentDetail: replyData.commentDetail,
+            commentatorId: replyData.commentatorId,
+            commentatorName: replyData.commentatorName,
+            num: replyData.num,
+            oid: replyData.oid,
+            filmOid: film.oid,
+            isShowDelete: true,
+            isShowReplyFrame: true,
+            PRAISENUMflag: true
+          });
+          let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
+          if (child != null && child.length > 0) {
+            for (let j = 0; j < child.length; j++) {
+              this.replyChildrenDataSet.push({
+                commentDetail: child[j].commentDetail,
+                commentatorName: child[j].commentatorName,
+                nodeParentId: child[j].nodeParentId,
+                oid: child[j].oid,
+                parentId: child[j].parentId,
+                filmOid: film.oid,
+                replyCreateTime: this.timeFormat(child[j].replyCreateTime),
+                replyPersonName: child[j].replyPersonName,
+                isShowReplyFrame: true,
+                isShowDelete: true,
+                PRAISENUMflag: true
+              });
+            }
+          }
+        }
+        film.replyDataSet = this.replyDataSet;
+        film.replyChildrenDataSet = this.replyChildrenDataSet;
+        this.getThreeReply(film, this.replyDataSet);
+      } else{
+        film.replyDataSet = [];
+        film.replyChildrenDataSet = [];
+        film.threeReply = [];
+      }
+    });
+  }
+
 
 
   /**
@@ -424,7 +502,6 @@ export class FilmCommentHomeComponent implements OnInit {
 
 
   /**
-   * add by GengLulu 2018.10.29
    * 动态二级回复框显示和隐藏
    */
   secondReplyMessageIsShow(replyc: any, film: Film): void {

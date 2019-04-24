@@ -2,9 +2,11 @@
   <div>
     <div class="smart-widget">
       <div class="smart-widget-inner">
-        <div class="smart-widget-body" id="boxscroll"
+        <div class="smart-widget-body long-div" id="boxscroll" #divTarget
              style="height: 750px; overflow: hidden; position: relative; outline: none; background: white; overflow-y: auto"
              tabindex="1">
+          <!--添加回到顶部图标-->
+          <nz-back-top [nzTarget]="divTarget"></nz-back-top>
           <div class="tab-content" id="boxscrollContent"
                style="transition: transform 0ms ease-out; transform: translate3d(0px, 0px, 0px);">
             <div class="tab-pane fade active in" id="profileTab1" style="padding-bottom:20px;">
@@ -210,7 +212,7 @@
                                                 <i nz-icon [type]="'delete'" style="font-size: 14px;"
                                                    [hidden]="replyc.isShowDelete"
                                                    *ngIf="replyc.commentatorName == replyc.commentatorName"
-                                                   (click)="deleteReplyChild(replyc.oid)"></i>
+                                                   (click)="deleteReplyChild(film, replyc.oid)"></i>
 
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
@@ -383,7 +385,7 @@
                                                 <i nz-icon [type]="'delete'" style="font-size: 14px;"
                                                    [hidden]="replyc.isShowDelete"
                                                    *ngIf="replyc.commentatorName == replyc.commentatorName"
-                                                   (click)="deleteReplyChild(replyc.oid)"></i>
+                                                   (click)="deleteReplyChild(film,replyc.oid)"></i>
 
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->

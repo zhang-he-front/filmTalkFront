@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+// import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { HomeComponent } from './filmtalk/filmPages/component/home/home.component';
@@ -14,6 +15,7 @@ import { NavbarComponent } from './shared/component/navbar/navbar.component';
 import { FilmTypeHomeComponent } from './filmtalk/filmType/component/filmType-home/film-type-home.component';
 import {FilmCommentHomeComponent} from "./filmtalk/filmComment/component/filmComment-home/film-comment-home.component";
 import { CreateFilmComponent } from './shared/component/create-film/create-film.component';
+import { CommentDetailComponent } from './shared/component/comment-detail/comment-detail.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -23,7 +25,8 @@ registerLocaleData(zh);
     NavbarComponent,
     FilmTypeHomeComponent,
     FilmCommentHomeComponent,
-    CreateFilmComponent
+    CreateFilmComponent,
+    CommentDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ registerLocaleData(zh);
     BrowserAnimationsModule
   ],
   providers: [
-    { provide: NZ_I18N, useValue: zh_CN }
+    // { provide: NZ_I18N, useValue: zh_CN }
   ],
   bootstrap: [AppComponent]
 })
