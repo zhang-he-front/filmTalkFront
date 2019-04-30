@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Product, ProductService} from "../../../filmPages/service/product.service";
 import {FilmtypeHomeService} from "../../service/filmtype-home.service";
 import {isUndefined} from "util";
 

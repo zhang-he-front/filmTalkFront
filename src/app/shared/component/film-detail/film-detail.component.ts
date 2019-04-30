@@ -3,6 +3,7 @@ import {Film} from "../../model/film";
 import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
 import {FilmcommentServiceService} from "../../../filmtalk/filmComment/service/filmcomment.service";
 import {isUndefined} from "util";
+import {ActivatedRoute} from "@angular/router";
 declare var $: any;
 
 @Component({
@@ -17,18 +18,21 @@ export class FilmDetailComponent implements OnInit {
   replyDataSet = [];      // 全部评论合集
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
+  filmOid: any;
 
   constructor(private filmpageHomeService: FilmpageHomeService,
-              private filmcommentService: FilmcommentServiceService) { }
+              private filmcommentService: FilmcommentServiceService,
+              private routeInfo: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getFilmData();
+    this.filmOid = this.routeInfo.snapshot.params['filmOid'];
+    this.getFilmDataByFilmOid();
   }
 
   //获取数据
-  getFilmData() {
-    this.filmcommentService.getFilmData().subscribe(res => {
-      // console.log(res);
+  getFilmDataByFilmOid() {
+    this.filmcommentService.getFilmDataByFilmOid(this.filmOid).subscribe(res => {
+      console.log(res);
       this.dealWithData(res.data);
     });
   }
@@ -37,31 +41,31 @@ export class FilmDetailComponent implements OnInit {
   //处理数据
   dealWithData(res: any) {
     if(!isUndefined(res)){
-      if(res.length < 1){
-        this.isExistFilm = true;
-        this.filmsData = [];
-      } else{
-        this.isExistFilm = false;
-        this.filmsData = [];
-        for (let i = 0; i < res.length; i++) {
-          this.filmcommentService.getCommentDataByFlmOid(res[i].oid).subscribe(str => {
+      // if(res.length < 1){
+        // this.isExistFilm = true;
+        // this.filmsData = [];
+      // } else{
+        // this.isExistFilm = false;
+        // this.filmsData = [];
+        // for (let i = 0; i < res.length; i++) {
+          this.filmcommentService.getCommentDataByFlmOid(res.oid).subscribe(str => {
             this.replyDataSet = [];
             this.replyChildrenDataSet = [];
-            let a = new Date(res[i].showTime);
+            let a = new Date(res.showTime);
             let f = new Film();
-            f.oid = res[i].oid;
-            f.film_name = res[i].filmName;
-            f.filmType = res[i].filmType;
-            f.image_path = res[i].imagePath;
-            f.film_language = res[i].filmLanguage;
-            f.location = res[i].location;
+            f.oid = res.oid;
+            f.film_name = res.filmName;
+            f.filmType = res.filmType;
+            f.image_path = res.imagePath;
+            f.film_language = res.filmLanguage;
+            f.location = res.location;
             f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
-            f.hour_length = res[i].hour;
-            f.film_detail = res[i].filmDetail;
-            f.producer = res[i].producer;
-            f.director = res[i].director;
-            f.film_staus = res[i].filmStatus;
-            f.numberReply = res[i].commentTotal;
+            f.hour_length = res.hour;
+            f.film_detail = res.filmDetail;
+            f.producer = res.producer;
+            f.director = res.director;
+            f.film_staus = res.filmStatus;
+            f.numberReply = res.commentTotal;
             f.isShowCommentFrame = true;
             f.isShowReply = true;
             f.isShowOperate = true;
@@ -70,8 +74,8 @@ export class FilmDetailComponent implements OnInit {
             f.isPraiseNumb = true;
             f.isMore = 0;
             // f.praiseNumb = 10;
-            if (res[i].star != "0") {
-              f.star = res[i].star.split(".")[0] + "." + res[i].star.split(".")[1].substring(0, 1)
+            if (res.star != "0") {
+              f.star = res.star.split(".")[0] + "." + res.star.split(".")[1].substring(0, 1)
             } else {
               f.star = "0";
             }
@@ -124,15 +128,15 @@ export class FilmDetailComponent implements OnInit {
             }
             // f.numberReply = this.replyDataSet.length + this.replyChildrenDataSet.length;
             f.numberReply = this.replyDataSet.length;
-            let threeReply = this.getThreeReply(res[i], this.replyDataSet);
+            let threeReply = this.getThreeReply(res, this.replyDataSet);
             f.threeReply = threeReply;
             f.replyDataSet = this.replyDataSet;
             f.replyChildrenDataSet = this.replyChildrenDataSet;
             this.filmsData.push(f);
           });
-        }
+        // }
         this.films = this.filmsData;
-      }
+      // }
     } else{
       this.films = [];
       this.isExistFilm = true;

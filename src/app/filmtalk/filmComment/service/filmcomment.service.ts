@@ -35,19 +35,6 @@ export class FilmcommentServiceService {
     return this.http.post(url, body);
   }
 
-  /**
-   * 根据电影oid获取评论信息
-   * add by zyx 2019-4-12
-   * @returns {Observable<any>}
-   */
-  addFilmReply(filmId: any): Observable<any> {
-    const url = '/comment/query';
-    const body = {
-      filmId
-    };
-    return this.http.post(url, body);
-  }
-
 
   /**
    * 新增一级评论
@@ -79,6 +66,19 @@ export class FilmcommentServiceService {
     const url = '/comment/delete';
     const body = {
       parentId
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 根据Oid查询电影
+   * add by zyx 2019-4-30
+   * @returns {Observable<any>}
+   */
+  getFilmDataByFilmOid(filmOid: any): Observable<any> {
+    const url = '/film/queryFilmByOid';
+    const body = {
+      filmOid
     };
     return this.http.post(url, body);
   }

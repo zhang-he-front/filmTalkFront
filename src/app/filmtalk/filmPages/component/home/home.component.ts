@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Product, ProductService} from "../../service/product.service";
 import {FilmpageHomeService} from "../../service/filmpage-home.service";
-import {Film} from "../../../../shared/model/film";
 import {Router} from "@angular/router";
 
 declare var $: any;
