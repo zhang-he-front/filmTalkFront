@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Product, ProductService} from "../../service/product.service";
 import {FilmpageHomeService} from "../../service/filmpage-home.service";
 import {Film} from "../../../../shared/model/film";
+import {Router} from "@angular/router";
 
 declare var $: any;
 
@@ -20,9 +21,9 @@ export class HomeComponent implements OnInit {
   isExistLikeArr: boolean = false;    // 猜你喜欢是否存在电影
 
   constructor(private http: HttpClient,
-              private filmpageHomeService: FilmpageHomeService) {
+              private filmpageHomeService: FilmpageHomeService,
+              private router: Router) {
   }
-
 
   ngOnInit() {
     this.getPageData();
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
   //获取首页数据
   getPageData() {
     this.filmpageHomeService.getPageData().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.dealWithData(res.data);
     });
   }
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit {
         let a1 = new Date(res.futureArr[i].showTime);
         if (i < 7) {
           this.futureArr.push({
+            "oid": res.futureArr[i].oid,
             "film_name": res.futureArr[i].filmName,
             "show_time": a1.getFullYear() + "-" + (a1.getMonth() + 1) + "-" + a1.getDate()
           });
@@ -72,6 +74,7 @@ export class HomeComponent implements OnInit {
       for (let i = 0; i < res.likeArr.length; i++) {
         if (i < 7) {
           this.likeArr.push({
+            "oid": res.likeArr[i].oid,
             "film_name": res.likeArr[i].filmName,
             "star": res.likeArr[i].star.split(".")[0] + "." + res.likeArr[i].star.split(".")[1].substring(0, 1)
           });
@@ -114,6 +117,11 @@ export class HomeComponent implements OnInit {
       }
     }
   }
+
+  // 跳转到详情页
+  // hrefDetail(film: Film){
+  //   this.router.navigate(['/commentDetail',film.oid]);
+  // }
 
 
   //连接后端测试demo

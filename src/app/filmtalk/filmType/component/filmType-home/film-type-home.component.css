@@ -51,4 +51,10 @@
 
 a:focus, a:hover {
    text-decoration: none;
+  color: #337ab7;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }

@@ -31,15 +31,17 @@
         <div class="thumbnail" style="margin-top: 10px;">
 
           <div class="col-md-6" style="margin-top: 6px;">
-            <img [routerLink]="['product', film.oid]" class="imageStyle" src="{{film.image_path}}"
-                 style="margin-left: 4px;">
+            <a><img [routerLink]="['/commentDetail', film.oid]" class="imageStyle" src="{{film.image_path}}"
+                    style="margin-left: 4px;"></a>
           </div>
           <div class="col-md-6" style="margin-top: 6px;">
             <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
-            <p style="margin-top: 4px;">{{film.film_name}}</p>
-            <p style="margin-top: 4px;">{{film.film_language}}</p>
-            <p style="margin-top: 4px;">{{film.show_time}}</p>
-            <p style="margin-top: 4px;">{{film.hour}}</p>
+            <a [routerLink]="['/commentDetail', film.oid]">
+              <p style="margin-top: 4px;">{{film.film_name}}</p>
+              <p style="margin-top: 4px;">{{film.film_language}}</p>
+              <p style="margin-top: 4px;">{{film.show_time}}</p>
+              <p style="margin-top: 4px;">{{film.hour}}</p>
+            </a>
           </div>
           <div>
           </div>
@@ -67,17 +69,21 @@
       <ul class="list-group to-do-list sortable-list no-border">
         <div *ngFor="let filmHot of filmHots; let i = index">
           <div *ngIf="i < 3" style="height: 133px;margin-bottom: 2px;">
-            <li style="list-style:none">
-              <span style="color: rgb(255,110,0);">{{i + 1}}. </span>
-              <span class="ck1" style="color: rgb(255,110,0);">{{filmHot.film_name}}</span>
-            </li>
-            <img src="{{filmHot.image_path}}" alt="" style="margin-left:8px;margin-top:3px;height: 102px;width: 106px">
+            <a [routerLink]="['/commentDetail', filmHot.oid]">
+              <li style="list-style:none">
+                <span style="color: rgb(255,110,0);">{{i + 1}}. </span>
+                <span class="ck1" style="color: rgb(255,110,0);">{{filmHot.film_name}}</span>
+              </li>
+              <img src="{{filmHot.image_path}}" alt="" style="margin-left:8px;margin-top:3px;height: 102px;width: 106px">
+            </a>
           </div>
           <div *ngIf="i >= 3" style="height: 35px;margin-top: 2px;">
-            <li style="list-style:none;">
-              <span>{{i + 1}}. </span>
-              <span class="ck1">{{filmHot.film_name}}</span>
-            </li>
+            <a [routerLink]="['/commentDetail', filmHot.oid]">
+              <li style="list-style:none;">
+                <span>{{i + 1}}. </span>
+                <span class="ck1">{{filmHot.film_name}}</span>
+              </li>
+            </a>
           </div>
         </div>
       </ul>

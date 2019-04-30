@@ -39,3 +39,11 @@ p,span{
 h3 {
   color: #fff;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}
+a:focus, a:hover {
+  color: #337ab7;
+}
