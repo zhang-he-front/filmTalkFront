@@ -133,6 +133,7 @@ export class FilmDetailComponent implements OnInit {
             f.replyDataSet = this.replyDataSet;
             f.replyChildrenDataSet = this.replyChildrenDataSet;
             this.filmsData.push(f);
+            this.isShowReply(this.films[0]);
           });
         // }
         this.films = this.filmsData;
@@ -178,6 +179,41 @@ export class FilmDetailComponent implements OnInit {
     }
     return film.threeReply;
   }
+
+
+  /**
+   * 是否显示评论区
+   */
+  isShowReply(film: Film): void {
+    this.isShowReplyFrames();  // 关闭所有回复输入框
+    if (film.isShowReply) {  // 关闭状态需要打开
+      film.isShowReply = false;
+      film.isShowCommentFrame = false;
+      // if (this.currentMessage.OID !== '' && this.currentMessage.OID !== message.OID) {      // 关闭上一个评论区打开新的评论区
+      //   this.currentMessage.isShowReply = true;
+      // }
+    } else {                     // 打开状态关闭
+      film.isShowReply = true;
+      film.isShowCommentFrame = true;
+    }
+    // this.currentMessage = message;
+  }
+
+  /**
+   * 关闭所有一级回复框和二级回复框
+   */
+  isShowReplyFrames(): void {
+    // 所有评论的回复框（一级）
+    this.replyDataSet.forEach(
+      (x) => x.isShowReplyFrame = true
+    );
+
+    // 所有回复的回复框（二级）
+    this.replyChildrenDataSet.forEach(
+      (x) => x.isShowReplyFrame = true
+    );
+  }
+
 
   /**
    * 时间格式化（将日期 xxxx-xx-xx xx:xx:xx 格式化为 xxxx-xx-xx xx:xx）
@@ -271,7 +307,7 @@ export class FilmDetailComponent implements OnInit {
    */
   isNotShowOperate(film: Film): void {
     film.isShowOperate = true;
-    $('#commentText-' + film.oid).css('border-left', '2px solid #fff');
+    // $('#commentText-' + film.oid).css('border-left', '2px solid #fff');
   }
 
   /**
@@ -280,7 +316,7 @@ export class FilmDetailComponent implements OnInit {
   isShowOperate(film: Film): void {
     if (!this.messageTopChk) {
       film.isShowOperate = false;
-      $('#commentText-' + film.oid).css('border-left', '2px solid #329cc6');
+      // $('#commentText-' + film.oid).css('border-left', '2px solid #329cc6');
     }
   }
 

@@ -7,8 +7,8 @@
 }
 .cr-blue{
   color: #329cd6;
-  margin-left:21px;
-  margin-top:10px;
+  margin-left:26px;
+  margin-top:-20px;
 }
 .comment-footer>span{
   margin-left:35px;
@@ -225,7 +225,7 @@ h5 {
 }
 
 .d-flex {
-  cursor: pointer;
+  /*cursor: pointer;*/
   padding-bottom: 15px;
   margin-bottom: 10px;
   margin-top: 10px;
@@ -262,9 +262,9 @@ h5 {
   border-radius:3px ;
 }
 
-.comment-text:hover {
-  border-left: 2px solid #fff;
-}
+/*.comment-text:hover {*/
+  /*border-left: 2px solid #fff;*/
+/*}*/
 
 
 .attachIcon{

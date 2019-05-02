@@ -3,7 +3,7 @@
     <div class="smart-widget">
       <div class="smart-widget-inner">
         <div class="smart-widget-body long-div" id="boxscroll" #divTarget
-             style="height: 750px; overflow: hidden; position: relative; outline: none; background: white; overflow-y: auto"
+             style="height: 725px; overflow: hidden; position: relative; outline: none; background: white; overflow-y: auto"
              tabindex="1">
           <!--添加回到顶部图标-->
           <nz-back-top [nzTarget]="divTarget"></nz-back-top>
@@ -14,36 +14,41 @@
                 <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;">
                   <div class="comment-text" id="commentText-{{film.oid}}" (mouseenter)="isShowOperate(film)"
                        (mouseleave)="isNotShowOperate(film)">
-                    <!--<div class="topYui">-->
-                    <!--<label nz-checkbox [hidden]="message.isShowChecked" [(ngModel)]="message.isChecked" (click)="singleCheckbox()" style="margin-left: 0px;"></label>-->
-                    <!--</div>-->
                     <div class="row">
-                      <div class="col-md-1">
-                        <img src="{{film.image_path}}" alt="" style="height: 130px;padding-left: 15px;">
+                      <div class="col-md-2">
+                        <div style="margin-top: 3px; margin-left: 14px;margin-bottom: 13px;">
+                          <span style="font-size: 22px;">{{film.film_name}}</span>
+                        </div>
+                        <!--<br>-->
+                        <img src="{{film.image_path}}" alt="" style="height: 300px;padding-left: 15px;">
                       </div>
-                      <div class="col-md-10">
-                        <h5>
-
-                          &nbsp;&nbsp;<span style="font-size: 22px;">{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                          <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                          <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
-                          <br>
-                          <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
-                          <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
-                        </h5>
+                      <div class="col-md-9" style="margin-top:33px;">
+                        <div class="row">
+                          <div class="col-md-7">
+                          <span>导演：</span><span>{{film.director}}</span><br>
+                          <span>编剧：</span><span>{{film.producer}}</span><br>
+                          <span>语言：</span><label class="text-muted" style="font-size: 16px;margin-bottom:0;">{{film.film_language}}&nbsp;</label>&nbsp;<br>
+                          <span>类型：</span><span>{{film.filmType}}</span><br>
+                          <span>时长：</span><span>{{film.hour_length}}</span><br>
+                          <span>上映地点：</span><span>{{film.location}}</span><br>
+                          <span>上映时间：</span><span>{{film.show_time}}</span><br>
+                          <span>电影状态：</span>
+                                    <span *ngIf="film.film_staus == 0">正在热映</span>
+                                    <span *ngIf="film.film_staus == 1">即将上映</span><br>
+                          </div>
+                          <div class="col-md-4">
+                            <span>大众评分</span><br><br>
+                            <span style="font-size: 46px;">{{film.star}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>&nbsp;&nbsp;
+                            <span>{{film.numberReply}}人评价</span>
+                          </div>
+                        </div>
+                          <span>简介：</span><p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
                       </div>
                     </div>
 
-                    <span *ngIf="film.film_staus == 0" class="badge badge-danger pull-right"
-                          style="margin-top:-115px;">正在热映</span>
-                    <span *ngIf="film.film_staus == 1" class="badge badge-warning pull-right"
-                          style="margin-top:-115px;">即将上映</span>
-                    <!--</ng-container>-->
-
-
-                    <!--<p class="cr-blue">{{film.film_detail}}</p>-->
                     <div class="comment-footer ">
-                      <span class="text-muted pull-left">{{film.show_time}}</span>
+                      <!--<span class="text-muted pull-left">{{film.show_time}}</span>-->
                       <span class="pull-right">
                   <span class="action-icons" style="margin-right: 20px;" [hidden]="film.isShowOperate">
                     <!--<a class="tooltips" style="color:#666" nz-tooltip nzTitle="删除" (click)="showDeleteConfirm(message)">-->
@@ -67,17 +72,46 @@
                     </a>
                     <span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;
                  </span>
-                  <a class="text-z" style="font-weight:bold;" (click)="isShowReply(film)">评论
-                    <span>
-                      (<i class="z-num">{{film.numberReply}}</i>)
-                    </span>
-                  </a>
+                  <!--<a class="text-z" style="font-weight:bold;" (click)="isShowReply(film)">评论-->
+                    <!--<span>-->
+                      <!--(<i class="z-num">{{film.numberReply}}</i>)-->
+                    <!--</span>-->
+                  <!--</a>-->
                 </span>
                     </div>
                   </div>
                 </div>
 
-                <div class="panel-footer" style="border-top:none;" id="isShowReply-{{film.oid}}"
+                <div style="margin-top: 17px;">
+                  <span style="font-size: 22px;color: #446f86; margin-left: 14px;">{{film.film_name}}的图片...</span>
+                  <div class="row">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                  </div>
+                </div>
+
+                <div style="margin-top: 28px;">
+                  <span style="font-size: 22px;color: #446f86; margin-left: 14px;">喜欢这部电影的人也喜欢...</span>
+                  <div class="row">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img src="{{film.image_path}}" style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                  </div>
+                </div>
+
+
+                <div style="margin-top:28px;">
+                  <span style="font-size: 22px;color: #446f86; margin-left: 14px;">{{film.film_name}}的短评...</span>
+                  <div class="panel-footer" style="border-top:none;margin-top: 12px;" id="isShowReply-{{film.oid}}"
                      [hidden]="film.isShowReply">
                   <div class="media">
                     <!--动态评论输入框 start-->
@@ -469,7 +503,8 @@
 
                   </div>
                 </div>
-              </div>
+                </div>
+                </div>
             </div>
           </div>
         </div>
