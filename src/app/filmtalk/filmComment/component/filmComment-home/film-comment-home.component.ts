@@ -4,6 +4,7 @@ import {Film} from "../../../../shared/model/film";
 import {FilmcommentServiceService} from "../../service/filmcomment.service";
 import {isUndefined} from "util";
 import {FilmReply} from "../../../../shared/model/filmreply";
+import {Filmoperate} from "../../../../shared/model/filmoperate";
 
 declare var $: any;
 
@@ -19,6 +20,8 @@ export class FilmCommentHomeComponent implements OnInit {
   replyDataSet = [];      // 全部评论合集
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
+  userName: string = 'admin';
+  userOid: number = 2;
 
   constructor(private filmpageHomeService: FilmpageHomeService,
               private filmcommentService: FilmcommentServiceService) {
@@ -141,8 +144,100 @@ export class FilmCommentHomeComponent implements OnInit {
     }
   }
 
-  replyPraise(mreply): void {
+  // replyPraise(mreply): void {
+  //
+  // }
 
+  /**
+   * 判断评论区是否点赞更改图标
+   */
+  replyPraise(mreply: any): void {
+    const filmOperate = new Filmoperate();
+    // 点赞
+    if (mreply.PRAISENUMflag === false) {
+      mreply.PRAISENUMflag = true;
+      filmOperate.parise = 1;
+    } else {
+      // 否则修改为none进行隐藏
+      mreply.PRAISENUMflag = false;
+      filmOperate.parise = 0;
+    }
+    this.filmcommentService.queryFilmOperate(mreply.oid, 2).subscribe(res => {
+      if (res.data != null) {
+        const newOperate = res.data;
+        filmOperate.oid = newOperate.oid;
+        filmOperate.parise_user_oid = 3;
+        filmOperate.parise_user_oid = this.userOid;
+        filmOperate.film_oid = mreply.filmOid;
+        filmOperate.comment_oid = mreply.oid;
+        filmOperate.pariser_user = this.userName;
+
+        this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
+          if (str.msg === '成功') {
+            let flag = '';
+            if (filmOperate.parise === 1) {   // 点赞
+              flag = 'add';
+              mreply.PRAISENUM++;
+              mreply.isShowPraise = true;
+            } else {                          // 取消赞
+              flag = 'sub';
+              mreply.PRAISENUM--;
+              if (mreply.PRAISENUM <= 0) {
+                mreply.isShowPraise = false;
+              } else {
+                mreply.isShowPraise = true;
+              }
+            }
+            // this.messagesOperationService.updateMessageoperation(mreply.oid, flag).subscribe(response => {
+            //   if (response.success === false) {
+            //     alert('点赞数修改失败\n');
+            //   }
+            // });
+
+          }
+          // else {
+          //   alert('点赞失败\n');
+          // }
+        });
+      } else {
+        filmOperate.parise_user_oid = 3;
+        filmOperate.parise_user_oid = this.userOid;
+        filmOperate.film_oid = mreply.filmOid;
+        filmOperate.comment_oid = mreply.oid;
+        filmOperate.pariser_user = this.userName;
+        filmOperate.parise_time = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1) > 10 ? (new Date().getMonth() + 1) : ('0') + (new Date().getMonth() + 1))
+          + '-' + ((new Date().getDate() > 10) ? (new Date().getDate()) : ('0' + new Date().getDate()));
+        this.filmcommentService.addFilmOperate(filmOperate).subscribe(data => {
+          console.log('-----');
+          console.log(data);
+          if (data.msg == '成功') {
+            let flag = '';
+            if (filmOperate.parise === 1) {   // 点赞
+              flag = 'add';
+              mreply.PRAISENUM++;
+              mreply.isShowPraise = true;
+            } else {                          // 取消赞
+              flag = 'sub';
+              mreply.PRAISENUM--;
+              if (mreply.PRAISENUM <= 0) {
+                mreply.isShowPraise = false;
+              } else {
+                mreply.isShowPraise = true;
+              }
+            }
+            // this.messagesOperationService.updateMessageoperation(mreply.OID, flag).subscribe(response => {
+            //   if (response.success === false) {
+            //     alert('点赞数修改失败\n');
+            //   }
+            // });
+
+          } else {
+            alert('点赞失败\n');
+          }
+        });
+      }
+
+    });
   }
 
   messageSpecial(film: Film): void {

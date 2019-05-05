@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
 import {FilmReply} from "../../../shared/model/filmreply";
+import {Filmoperate} from "../../../shared/model/filmoperate";
 
 @Injectable({
   providedIn: 'root'
@@ -82,4 +83,56 @@ export class FilmcommentServiceService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 根据oid查询是否点赞了
+   * add by zyx 2019-4-30
+   * @returns {Observable<any>}
+   */
+  queryFilmOperate(commentOid: number, userid: number): Observable<any> {
+    const url = '/film/queryFilmOperate';
+    const body = {
+      'commentOid': commentOid,
+      'userId': userid
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 点赞
+   * add by zyx 2019-5-5
+   * @returns {Observable<any>}
+   */
+  addFilmOperate(filmOperate: Filmoperate): Observable<any> {
+    const url = '/film/addFilmOperate';
+    const body = {
+      'filmOid': filmOperate.film_oid,
+      'commentOid': filmOperate.comment_oid,
+      'parise': filmOperate.parise,
+      'pariseUserOid': filmOperate.parise_user_oid,
+      'pariserUser': filmOperate.pariser_user,
+      'pariseTime': filmOperate.parise_time,
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 更新点赞
+   * add by zyx 2019-5-5
+   * @returns {Observable<any>}
+   */
+  updateFilmOperate(filmOperate: Filmoperate): Observable<any> {
+    const url = '/film/updateFilmOperate';
+    const body = {
+      'oid': filmOperate.oid,
+      'filmOid': filmOperate.film_oid,
+      'commentOid': filmOperate.comment_oid,
+      'parise': filmOperate.parise,
+      'pariseUserOid': filmOperate.parise_user_oid,
+      'pariserUser': filmOperate.pariser_user,
+      'pariseTime': filmOperate.parise_time,
+    };
+    return this.http.post(url, body);
+  }
+
 }

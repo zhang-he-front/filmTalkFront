@@ -36,7 +36,7 @@
             <a><img [routerLink]="['commentDetail', recentHot.oid]" class="imageStyle" src="{{recentHot.image_path}}"
                  style="margin-left: 4px;"></a>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" style="height: 200px;">
             <a [routerLink]="['commentDetail', recentHot.oid]" >
             <!--<nz-rate [ngModel]="recentHot.star" nzDisabled></nz-rate>-->
               <p style="color: red; margin-top: 4px;">{{recentHot.star}}</p>
