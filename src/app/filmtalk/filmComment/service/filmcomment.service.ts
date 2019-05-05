@@ -89,9 +89,10 @@ export class FilmcommentServiceService {
    * add by zyx 2019-4-30
    * @returns {Observable<any>}
    */
-  queryFilmOperate(commentOid: number, userid: number): Observable<any> {
+  queryFilmOperate(filmOid: number, commentOid: number, userid: number): Observable<any> {
     const url = '/film/queryFilmOperate';
     const body = {
+      'filmOid': filmOid,
       'commentOid': commentOid,
       'userId': userid
     };

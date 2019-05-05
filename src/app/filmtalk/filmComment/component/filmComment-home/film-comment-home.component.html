@@ -138,10 +138,10 @@
                                         <a><i nz-icon [type]="'message'" style="font-size: 16px; "
                                            (click)="replyMessageIsShow(mreply,film)"></i></a>
                                         <span style="margin-left:10px;margin-right:10px;">|</span>
-                                        <a class="operate-icon" (click)="replyPraise(mreply)">
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
-                                             [hidden]="!mreply.PRAISENUMflag"></i></a>
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"  style="color: black"
+                                                [hidden]="!mreply.PRAISENUMflag"></i></a>
                                           <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
                                           <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="mreply.PRAISENUMflag"></i>
@@ -222,13 +222,13 @@
                                                    (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
                                                 <span style="margin-left:10px;margin-right:10px;">|</span>
-                                                <a class="operate-icon" (click)="replyPraise(replyc)">
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                 <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
                                                 <!--[hidden]="replyc.PRAISENUMflag"></i>-->
                                                 <!--<i class="fa fa-thumbs-up" style="color:#666"-->
                                                 <!--[hidden]="!replyc.PRAISENUMflag"></i>-->
                                                   <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
-                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
                                                         [hidden]="!replyc.PRAISENUMflag"></i></a>
                                                 <i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>
                                                 </a>
@@ -313,14 +313,14 @@
                                         <a><i nz-icon [type]="'message'" style="font-size: 16px;"
                                            (click)="replyMessageIsShow(mreply,film)"></i></a>
                                         <span style="margin-left:10px;margin-right:10px;">|</span>
-                                        <a class="operate-icon" (click)="replyPraise(mreply)">
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
                                              [hidden]="!mreply.PRAISENUMflag"></i></a>
 
                                           <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
-                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" [hidden]="mreply.PRAISENUMflag"></i>
+                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="mreply.PRAISENUMflag"></i>
                                           <i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>
                                         </a>
                                       </div>
@@ -398,9 +398,9 @@
                                                    (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
                                                 <span style="margin-left:10px;margin-right:10px;">|</span>
-                                                <a class="operate-icon" (click)="replyPraise(replyc)">
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                   <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
-                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
                                                         [hidden]="!replyc.PRAISENUMflag"></i></a>
                                                 <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
                                                 <!--[hidden]="replyc.PRAISENUMflag"></i>-->
