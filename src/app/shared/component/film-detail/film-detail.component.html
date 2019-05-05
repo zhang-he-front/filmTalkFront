@@ -164,21 +164,24 @@
                                       <div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(mreply)"
                                            (mouseleave)="isNotShowDelete(mreply)">
                                         <!--<a [hidden]="mreply.isShowDelete" class="operate-icon" (click)="deleteReply(film,mreply)"><i class="fa fa-trash-o"></i></a>-->
-                                        <i nz-icon [type]="'delete'" style="font-size: 20px;"
-                                           [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i>
+                                        <a><i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                           [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
 
                                         <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
-                                        <i nz-icon [type]="'message'" style="font-size: 16px; color: #08c;"
-                                           (click)="replyMessageIsShow(mreply,film)"></i>
+                                        <a><i nz-icon [type]="'message'" style="font-size: 16px;"
+                                           (click)="replyMessageIsShow(mreply,film)"></i></a>
                                         <span style="margin-left:10px;margin-right:10px;">|</span>
-                                        <a class="operate-icon" (click)="replyPraise(mreply)">
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
-                                             [hidden]="!mreply.PRAISENUMflag"></i>
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                             [hidden]="!mreply.PRAISENUMflag"></i></a>
                                           <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
-                                          <!--<i class="fa fa-thumbs-up" style="color:#666" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <!--<i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>-->
+                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159"
+                                             [hidden]="mreply.PRAISENUMflag"></i>
+
+                                          <!--<i class="fa fa-thumbs-up" style="color:black" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                          <i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>
                                         </a>
                                       </div>
                                     </div>
@@ -243,27 +246,30 @@
                                                 <!--<a [hidden]="replyc.isShowDelete" class="operate-icon"-->
                                                 <!--*ngIf="replyc.commentatorName == replyc.commentatorName"-->
                                                 <!--(click)="deleteReplyChild(replyc.oid)"><i class="fa fa-trash-o"></i></a>-->
-                                                <i nz-icon [type]="'delete'" style="font-size: 14px;"
+                                                <a><i nz-icon [type]="'delete'" style="font-size: 14px;"
                                                    [hidden]="replyc.isShowDelete"
                                                    *ngIf="replyc.commentatorName == replyc.commentatorName"
-                                                   (click)="deleteReplyChild(film, replyc.oid)"></i>
+                                                   (click)="deleteReplyChild(film, replyc.oid)"></i></a>
 
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
                                                 <!--class="fa fa-commenting-o"></i></a>-->
-                                                <i nz-icon [type]="'message'" style="font-size: 16px; color: #08c;"
-                                                   (click)="secondReplyMessageIsShow(replyc,film)"></i>
+                                                <a><i nz-icon [type]="'message'" style="font-size: 16px;"
+                                                   (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
                                                 <span style="margin-left:10px;margin-right:10px;">|</span>
-                                                <!--<a class="operate-icon" (click)="replyPraise(replyc)">-->
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                 <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
                                                 <!--[hidden]="replyc.PRAISENUMflag"></i>-->
                                                 <!--<i class="fa fa-thumbs-up" style="color:#666"-->
                                                 <!--[hidden]="!replyc.PRAISENUMflag"></i>-->
-                                                <!--&lt;!&ndash;<i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>&ndash;&gt;-->
-                                                <!--</a>-->
-                                                <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
-                                                   [hidden]="!replyc.PRAISENUMflag"></i>
+
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                                        [hidden]="!replyc.PRAISENUMflag"></i></a>
+                                                  <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159"
+                                                     [hidden]="replyc.PRAISENUMflag"></i>
+                                                <i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>
+                                                </a>
                                               </div>
                                             </div>
                                           </div>
@@ -337,21 +343,23 @@
                                       <div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(mreply)"
                                            (mouseleave)="isNotShowDelete(mreply)">
                                         <!--<a [hidden]="mreply.isShowDelete" class="operate-icon" (click)="deleteReply(film,mreply)"><i class="fa fa-trash-o"></i></a>-->
-                                        <i nz-icon [type]="'delete'" style="font-size: 20px;"
-                                           [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i>
+                                        <a><i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                           [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
 
                                         <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
-                                        <i nz-icon [type]="'message'" style="font-size: 16px; color: #08c;"
-                                           (click)="replyMessageIsShow(mreply,film)"></i>
+                                        <a><i nz-icon [type]="'message'" style="font-size: 16px;"
+                                           (click)="replyMessageIsShow(mreply,film)"></i></a>
                                         <span style="margin-left:10px;margin-right:10px;">|</span>
-                                        <a class="operate-icon" (click)="replyPraise(mreply)">
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
-                                             [hidden]="!mreply.PRAISENUMflag"></i>
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                             [hidden]="!mreply.PRAISENUMflag"></i></a>
                                           <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
                                           <!--<i class="fa fa-thumbs-up" style="color:#666" [hidden]="!mreply.PRAISENUMflag"></i>-->
-                                          <!--<i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>-->
+                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159"
+                                             [hidden]="mreply.PRAISENUMflag"></i>
+                                          <i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>
                                         </a>
                                       </div>
                                     </div>
@@ -416,27 +424,28 @@
                                                 <!--<a [hidden]="replyc.isShowDelete" class="operate-icon"-->
                                                 <!--*ngIf="replyc.commentatorName == replyc.commentatorName"-->
                                                 <!--(click)="deleteReplyChild(replyc.oid)"><i class="fa fa-trash-o"></i></a>-->
-                                                <i nz-icon [type]="'delete'" style="font-size: 14px;"
+                                                <a><i nz-icon [type]="'delete'" style="font-size: 14px;"
                                                    [hidden]="replyc.isShowDelete"
                                                    *ngIf="replyc.commentatorName == replyc.commentatorName"
-                                                   (click)="deleteReplyChild(film,replyc.oid)"></i>
+                                                   (click)="deleteReplyChild(film,replyc.oid)"></i></a>
 
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
                                                 <!--class="fa fa-commenting-o"></i></a>-->
-                                                <i nz-icon [type]="'message'" style="font-size: 16px; color: #08c;"
-                                                   (click)="secondReplyMessageIsShow(replyc,film)"></i>
+                                                <a><i nz-icon [type]="'message'" style="font-size: 16px;;"
+                                                   (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
                                                 <span style="margin-left:10px;margin-right:10px;">|</span>
-                                                <!--<a class="operate-icon" (click)="replyPraise(replyc)">-->
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                 <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
                                                 <!--[hidden]="replyc.PRAISENUMflag"></i>-->
                                                 <!--<i class="fa fa-thumbs-up" style="color:#666"-->
                                                 <!--[hidden]="!replyc.PRAISENUMflag"></i>-->
-                                                <!--&lt;!&ndash;<i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>&ndash;&gt;-->
-                                                <!--</a>-->
-                                                <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"
-                                                   [hidden]="!replyc.PRAISENUMflag"></i>
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black" [hidden]="!replyc.PRAISENUMflag"></i></a>
+                                                  <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
+                                                  <i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>
+                                                </a>
+
                                               </div>
                                             </div>
                                           </div>
