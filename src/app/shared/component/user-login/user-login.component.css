@@ -1,0 +1,46 @@
+/*[nz-form] {*/
+  /*max-width: 600px;*/
+/*}*/
+
+/*button {*/
+  /*margin-left: 8px;*/
+/*}*/
+
+
+#db-nav-sns {
+  position: relative;
+  zoom: 1;
+  background: #edf4ed;
+}
+#db-nav-sns .nav-primary {
+  width: 1040px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 22px 0 20px;
+  zoom: 1;
+}
+.account-wrap {
+  width: 1040px;
+  margin: 20px auto 0;
+  overflow: hidden;
+}
+.account-main {
+  float: left;
+  width: 590px;
+}
+.account-side {
+  float: right;
+  width: 310px;
+  color: #666;
+}
+
+.login-right {
+  display: inline-block;
+  border: 1px solid #d8d8d8;
+  width: 342px;
+  position: relative;
+  left: 50%;
+  margin-top: 25px;
+  margin-left: -46px;
+  vertical-align: top;
+}

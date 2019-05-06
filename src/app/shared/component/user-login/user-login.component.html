@@ -1,0 +1,90 @@
+<div [hidden]="!isHidden">
+<head>
+  <link type="text/css" rel="stylesheet"
+        href="https://img3.doubanio.com/f/accounts/437102bac4600b61b1743b399aebbe46ecdb4361/passport/build/login/index.css"/>
+</head>
+
+<div id="account">
+
+  <div id="db-nav-sns" class="nav">
+    <div class="nav-wrap">
+      <div class="nav-primary">
+        <a href="https://www.douban.com">
+          <img
+            src="https://img3.doubanio.com/f/accounts/4fd84763a74089b20eb02ba0225d6e7739d2c432/passport/pics/douban_logo@2x.png"
+            width="142" alt="豆瓣">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-wrap">
+    <div class="login-left">
+      <div class="login-left-box">
+        <div class="login-slide"
+             style="background-image: url(https://img3.doubanio.com/f/accounts/a3e64b64414c154a0861f6823410dc3063b60623/passport/pics/pic0.png)"></div>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <link type="text/css" rel="stylesheet"
+            href="https://img3.doubanio.com/f/accounts/a97c247f727a804a1fac4a93ae2d98f56d2b0bf8/passport/build/login/base.css"/>
+      <div class="account-body login-wrap login-start ">
+        <div class="account-body-tabs">
+          <ul class="tab-start">
+            <span class="account-tab-account">密码登录</span>
+          </ul>
+        </div>
+
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback>
+              <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood"/>
+              <nz-form-explain style="font-size: 11px;"
+                *ngIf="(validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors)
+                ||validateForm.get('userName')?.pending">
+                <ng-container *ngIf="validateForm.get('userName')?.hasError('required')">
+                  Please input your username!
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('userName')?.hasError('duplicated')">
+                  The username is redundant!
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('userName')?.pending">
+                  Validating...
+                </ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>密&nbsp;&nbsp;&nbsp;&nbsp;码</nz-form-label>
+            <div>
+              <nz-form-control [nzSpan]="12" nzHasFeedback>
+                <input nz-input type="password" formControlName="password"/>
+                <nz-form-explain style="font-size: 11px;"
+                  *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.hasError('required')">
+                  Please input your password!
+                </nz-form-explain>
+              </nz-form-control>
+            </div>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzOffset]="7" [nzSpan]="12">
+              <button nz-button nzType="primary" [disabled]="!validateForm.valid">登陆</button>
+              <button nz-button (click)="resetForm($event)">注册</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div [hidden]="isHidden">
+  <app-navbar></app-navbar>
+</div>
+

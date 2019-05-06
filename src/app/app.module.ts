@@ -16,6 +16,8 @@ import { FilmTypeHomeComponent } from './filmtalk/filmType/component/filmType-ho
 import {FilmCommentHomeComponent} from "./filmtalk/filmComment/component/filmComment-home/film-comment-home.component";
 import { CreateFilmComponent } from './shared/component/create-film/create-film.component';
 import { FilmDetailComponent } from './shared/component/film-detail/film-detail.component';
+import { UserRegisterComponent } from './shared/component/user-register/user-register.component';
+import { UserLoginComponent } from './shared/component/user-login/user-login.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -26,7 +28,9 @@ registerLocaleData(zh);
     FilmTypeHomeComponent,
     FilmCommentHomeComponent,
     CreateFilmComponent,
-    FilmDetailComponent
+    FilmDetailComponent,
+    UserRegisterComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
