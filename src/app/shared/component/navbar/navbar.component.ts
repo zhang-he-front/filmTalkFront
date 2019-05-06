@@ -1,10 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {Filmtype} from "../../model/filmtype";
 import {FilmtypeHomeService} from "../../../filmtalk/filmType/service/filmtype-home.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {CreateFilmComponent} from "../create-film/create-film.component";
 import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
+import {Router} from "@angular/router";
+import {UserDetailComponent} from "../user-detail/user-detail.component";
+import {User} from "../../model/user";
 
 declare var $: any;
 
@@ -15,16 +18,22 @@ declare var $: any;
 })
 export class NavbarComponent implements OnInit {
   @ViewChild('createFilm') createFilm: CreateFilmComponent;  // 导航栏电影
+  @ViewChild('userDetail') userDetail: UserDetailComponent;  // 导航栏--个人信息
+  @Output()
+  layout: EventEmitter<string> = new EventEmitter(); //退出登陆
   typeForm: FormGroup;
   filmType: Filmtype = new Filmtype();
   isVisible: boolean = false;
+  userIsVisible: boolean = false;  //个人信息模态框展示
   isTypeVisible: boolean = false;
+  currentUser: User;
 
 
   constructor(private fb: FormBuilder,
               private filmtypeHomeService: FilmtypeHomeService,
               private alertMessage: NzMessageService,
-              private filmpageHomeService: FilmpageHomeService) {
+              private filmpageHomeService: FilmpageHomeService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -137,5 +146,36 @@ export class NavbarComponent implements OnInit {
       const isValid = !isWhitespace;
       return isValid ? null : {'whitespace': 'value is only whitespace'};
     };
+  }
+
+  //展示个人信息模态框
+  showUser(){
+    this.userDetail.user = this.currentUser;
+    this.userDetail.showUserInfo();
+    this.userIsVisible = true;
+  }
+
+  //取消按钮：关闭人员模态框
+  userCancel(){
+    this.userIsVisible = false;
+  }
+
+  //确定按钮：关闭人员模态框
+  userOk(){
+    this.userCancel();
+  }
+
+  //确定按钮：关闭人员模态框
+  closeUserModel($event: any){
+    this.userCancel();
+    if($event == 'okUserModel'){  //个人信息修改成功，需重新登陆后生效
+      this.logint();
+    }
+  }
+
+  //退出登陆
+  logint(){
+    // this.router.navigate(['']);
+    this.layout.emit('layout');
   }
 }

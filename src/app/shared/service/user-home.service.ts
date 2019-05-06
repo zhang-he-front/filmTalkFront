@@ -36,8 +36,24 @@ export class UserHomeService {
   register(user: User): Observable<any> {
     const url = '/user/register';
     const body = {
-      'userName': user.username,
+      'username': user.username,
       'password': user.password
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 更新用户信息
+   * add by zyx 2019-5-6
+   * @param {User} user
+   * @returns {Observable<any>}
+   */
+  updateUserByOid(user: User): Observable<any> {
+    const url = '/user/updateUserByOid';
+    const body = {
+      'oid': user.oid,
+      'username': user.username,
+      'email': user.email
     };
     return this.http.post(url, body);
   }

@@ -18,6 +18,7 @@ import { CreateFilmComponent } from './shared/component/create-film/create-film.
 import { FilmDetailComponent } from './shared/component/film-detail/film-detail.component';
 import { UserRegisterComponent } from './shared/component/user-register/user-register.component';
 import { UserLoginComponent } from './shared/component/user-login/user-login.component';
+import { UserDetailComponent } from './shared/component/user-detail/user-detail.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -30,7 +31,8 @@ registerLocaleData(zh);
     CreateFilmComponent,
     FilmDetailComponent,
     UserRegisterComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

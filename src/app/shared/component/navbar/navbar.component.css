@@ -7733,6 +7733,7 @@ button.close {
 
 .form-control {
   font-family: "Rubik", sans-serif;
+  box-shadow: none;
 }
 
 input::-webkit-input-placeholder { /* WebKit browsers */

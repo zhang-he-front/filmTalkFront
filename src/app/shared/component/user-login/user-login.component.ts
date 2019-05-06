@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Observable, Observer} from "rxjs/index";
 import {UserHomeService} from "../../service/user-home.service";
 import {User} from "../../model/user";
 import {NzMessageService} from "ng-zorro-antd";
 import {Router} from "@angular/router";
+import {NavbarComponent} from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-user-login',
@@ -13,6 +14,7 @@ import {Router} from "@angular/router";
 })
 export class UserLoginComponent implements OnInit {
 
+  @ViewChild('navbar') navbar: NavbarComponent;
   validateForm: FormGroup;
   user: User = new User();
   currentUser: User = new User;
@@ -39,18 +41,19 @@ export class UserLoginComponent implements OnInit {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
     this.user.password = value.password;
     this.user.username = value.userName;
     this.userHomeService.login(this.user).subscribe(str => {
       if(str.data != null){
         this.currentUser = str.data;
         this.isHidden = false;
+        this.navbar.currentUser = this.currentUser;
         this.router.navigate(['/home']);
       } else{
         this.alertMessage.error('用户名或密码错误', {
           nzDuration: 1500
         });
+        this.isHidden = true;
       }
     });
 
@@ -78,5 +81,11 @@ export class UserLoginComponent implements OnInit {
         observer.complete();
       }, 1000);
     });
+
+  //退出登陆
+  userLayout(){
+    this.isHidden = true;
+    this.currentUser = null;
+  }
 
 }

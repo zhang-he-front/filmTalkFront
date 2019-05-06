@@ -137,7 +137,7 @@
           </ul>
 
           <div class="user-block hidden-xs" style="margin-left:10px;">
-            <a id="userToggle" data-toggle="dropdown" (click)="showUser()">
+            <a id="userToggle" data-toggle="dropdown" >
               <img src="assets/img/navbar/touxiang-women.png" alt=""
                    class="img-circle inline-block user-profile-pic">
               <div class="user-detail inline-block" style="font-size: 18px">
@@ -150,12 +150,12 @@
                 <ul style="top:5px;">
                   <li>
                     <a>
-                      <i class="fa fa-user fa-lg"></i> &nbsp;<span class="m-left-xs">个人信息</span>
+                      <i class="fa fa-user fa-lg"></i> &nbsp;<span class="m-left-xs" (click)="showUser()">个人信息</span>
                     </a>
                   </li>
                   <li>
                     <a>
-                      <i class="fa fa-power-off fa-lg"></i> &nbsp;<span class="m-left-xs">退出</span>
+                      <i class="fa fa-power-off fa-lg"></i> &nbsp;<span class="m-left-xs" (click)="logint()">退出</span>
                     </a>
                   </li>
                 </ul>
@@ -217,4 +217,11 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="typeCancel()">取消</button>
     <button type="button" class="btn btn-primary" (click)="onSubmit()">确定</button>
   </div>
+</nz-modal>
+
+
+<!--个人信息模态框-->
+<nz-modal [(nzVisible)]="userIsVisible" (nzOnCancel)="userCancel()" (nzOnOk)="userOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-user-detail #userDetail (closeUserModel)="closeUserModel($event)"></app-user-detail>
 </nz-modal>

@@ -85,6 +85,6 @@
 </div>
 
 <div [hidden]="isHidden">
-  <app-navbar></app-navbar>
+  <app-navbar #navbar (layout)="userLayout($event)"></app-navbar>
 </div>
 
