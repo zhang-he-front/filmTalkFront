@@ -28,7 +28,8 @@
                             &nbsp;&nbsp;<span style="font-size: 22px;">{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                           <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
                             <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
+                            <nz-rate *ngIf="film.nzStar != 0" [ngModel]="film.nzStar" nzDisabled></nz-rate>
+                            <label *ngIf="film.nzStar == 0" class="text-muted" style="font-size: 20px;">{{film.star}}&nbsp;</label>
                             <br>
                             <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
                             <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->

@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit {
           this.likeArr.push({
             "oid": res.likeArr[i].oid,
             "film_name": res.likeArr[i].filmName,
-            "star": res.likeArr[i].star.split(".")[0] + "." + res.likeArr[i].star.split(".")[1].substring(0, 1)
+            "star": res.likeArr[i].star * 2
           });
         }
       }
@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit {
           "location": res.recentHotArr[i].location,
           "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
           "hour": res.recentHotArr[i].hour,
-          "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
+          "star": res.recentHotArr[i].star * 2
         });
       } else if (i >= 4 && i < 10) {
         this.recentHotArr.push({
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
           "location": res.recentHotArr[i].location,
           "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
           "hour": res.recentHotArr[i].hour,
-          "star": res.recentHotArr[i].star.split(".")[0] + "." + res.recentHotArr[i].star.split(".")[1].substring(0, 1)
+          "star": res.recentHotArr[i].star * 2
         });
       }
     }

@@ -35,7 +35,8 @@
                     style="margin-left: 4px;"></a>
           </div>
           <div class="col-md-6" style="margin-top: 6px;">
-            <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
+            <nz-rate *ngIf="film.star != '0'" [ngModel]="film.star" nzDisabled></nz-rate>
+            <label *ngIf="film.star == '0'" class="text-muted" style="font-size: 16px;">暂无评分&nbsp;</label>
             <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
               <p style="margin-top: 4px;">{{film.film_name}}</p>
               <p style="margin-top: 4px;">{{film.film_language}}</p>

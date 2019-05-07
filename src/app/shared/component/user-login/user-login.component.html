@@ -40,7 +40,7 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
             <nz-form-control [nzSpan]="12" nzHasFeedback>
-              <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood"/>
+              <input nz-input formControlName="userName"/>
               <nz-form-explain style="font-size: 11px;"
                 *ngIf="(validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors)
                 ||validateForm.get('userName')?.pending">

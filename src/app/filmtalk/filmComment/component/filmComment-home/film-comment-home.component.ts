@@ -93,10 +93,15 @@ export class FilmCommentHomeComponent implements OnInit {
             f.isPraiseNumb = true;
             f.isMore = 0;
             // f.praiseNumb = 10;
-            if (res[i].star != "0") {
-              f.star = res[i].star.split(".")[0] + "." + res[i].star.split(".")[1].substring(0, 1)
+            if (res[i].star != 0) {
+              f.star = res[i].star * 2;
+              f.nzStar = res[i].star;
+              if(res[i].star.split(".")[1] == "0"){
+                f.nzStar = parseInt(res[i].star.split(".")[0]);
+              }
             } else {
-              f.star = "0";
+              f.star = '暂无评分';
+              f.nzStar = 0;
             }
             // 点赞数初始化
             // if (replyData[j].PRAISENUM > 0) {   // 点赞数大于0

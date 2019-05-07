@@ -93,6 +93,15 @@ export class FilmTypeHomeComponent implements OnInit {
           this.isExistFilm = false;
           for (let i = 0; i < res.data.length; i++) {
             let a = new Date(res.data[i].showTime);
+            let star = res.data[i].star;
+            if (res.data[i].star != 0) {
+              if(res.data[i].star.split(".")[1] == "0"){
+                star = parseInt(res.data[i].star.split(".")[0]);
+              }
+            } else {
+              star = 0;
+            }
+
             this.films.push({
               "oid": res.data[i].oid,
               "film_name": res.data[i].filmName,
@@ -102,7 +111,7 @@ export class FilmTypeHomeComponent implements OnInit {
               "location": res.data[i].location,
               "show_time": a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate(),
               "hour": res.data[i].hour,
-              "star": res.data[i].star.split(".")[0] + "." + res.data[i].star.split(".")[1].substring(0, 1)
+              "star": star
             });
           }
         }

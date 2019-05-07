@@ -23,9 +23,6 @@ export class FilmDetailComponent implements OnInit {
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
   filmOid: any;
-  // userOid: number;
-  // userName: string = 'admin';
-  // userOid: number = 2;
   currentUser: User = new User(); //当前登陆者
 
   constructor(private filmcommentService: FilmcommentServiceService,
@@ -83,10 +80,15 @@ export class FilmDetailComponent implements OnInit {
         f.isPraiseNumb = true;
         f.isMore = 0;
         // f.praiseNumb = 10;
-        if (res.star != "0") {
-          f.star = res.star.split(".")[0] + "." + res.star.split(".")[1].substring(0, 1)
+        if (res.star != 0) {
+          f.star = res.star * 2;
+          f.nzStar = res.star;
+          if(res.star.split(".")[1] == "0"){
+            f.nzStar = parseInt(res.star.split(".")[0]);
+          }
         } else {
-          f.star = "0";
+          f.star = '暂无评分';
+          f.nzStar = 0;
         }
         //评论
         if (f.numberReply > 0 && str.data == null) {

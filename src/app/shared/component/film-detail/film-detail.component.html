@@ -36,10 +36,12 @@
                                     <span *ngIf="film.film_staus == 0">正在热映</span>
                                     <span *ngIf="film.film_staus == 1">即将上映</span><br>
                           </div>
-                          <div class="col-md-4">
+                          <div class="col-md-5">
                             <span>大众评分</span><br><br>
-                            <span style="font-size: 46px;">{{film.star}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>&nbsp;&nbsp;
+                            <!--<span *ngIf="film.star == 0" style="font-size: 32px;">{{film.star}}</span>-->
+                            <label *ngIf="film.nzStar == 0" class="text-muted" style="font-size: 32px;">{{film.star}}&nbsp;</label>
+                            <span *ngIf="film.nzStar != 0" style="font-size: 46px;">{{film.star}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <nz-rate *ngIf="film.nzStar != 0" [ngModel]="film.nzStar" nzDisabled></nz-rate>&nbsp;&nbsp;
                             <span>{{film.numberReply}}人评价</span>
                           </div>
                         </div>
