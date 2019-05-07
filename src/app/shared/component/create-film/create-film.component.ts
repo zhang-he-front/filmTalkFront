@@ -106,7 +106,9 @@ export class CreateFilmComponent implements OnInit {
     this.film.show_time = new Date(this.date).getFullYear() + "-" + (new Date(this.date).getMonth() + 1) + "-" + new Date(this.date).getDate();
     let arr = "";
     for(let j = 0; j < this.listOfSelectedValue.length; j++){
-      arr += this.listOfSelectedValue[j] + ",";
+      if(this.listOfSelectedValue[j] != '' && this.listOfSelectedValue[j] != null){
+        arr += this.listOfSelectedValue[j] + ",";
+      }
     }
     this.film.filmType = arr;
     this.film.roles = this.filmForm.get('roles').value; // location ;
@@ -118,7 +120,6 @@ export class CreateFilmComponent implements OnInit {
     if(this.fileList.length > 0){
       this.film.image_path = "assets/img/film/future/" + this.fileList[0].name;
     }
-    this.film.star = "0";
     this.film.film_staus = 1;
     this.film.isValid = 0;
     this.film.oid = 0;
@@ -140,6 +141,7 @@ export class CreateFilmComponent implements OnInit {
 
   //取消
   cancel(){
+    this.fileList = [];
     this.closeModel.emit("closeModel");
   }
 

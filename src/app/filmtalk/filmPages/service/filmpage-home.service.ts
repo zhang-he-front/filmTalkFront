@@ -35,37 +35,22 @@ export class FilmpageHomeService {
    */
   insertFilm(film: Film): Observable<any> {
     const url = '/film/insertFilm';
-    const oid = film.oid;
-    const film_name = film.film_name;
-    const hour_length = film.hour_length;
-    const show_time = film.show_time;
-    const filmType = film.filmType;
-    const roles = film.roles;
-    const director = film.director;
-    const producer = film.producer;
-    const film_language = film.film_language;
-    const location = film.location;
-    const film_detail = film.film_detail;
-    const image_path = film.image_path;
-    const star = film.star;
-    const film_staus = film.film_staus;
-    const isValid = film.isValid;
     const body = {
-      oid,
-      film_name,
-      hour_length,
-      show_time,
-      filmType,
-      roles,
-      director,
-      producer,
-      film_language,
-      location,
-      film_detail,
-      image_path,
-      star,
-      film_staus,
-      isValid
+      'oid': film.oid,
+      'film_name': film.film_name,
+      'hour_length': film.hour_length,
+      'show_time': film.show_time,
+      'filmType': film.filmType,
+      'roles': film.roles,
+      'director': film.director,
+      'producer': film.producer,
+      'film_language': film.film_language,
+      'location': film.location,
+      'film_detail': film.film_detail,
+      'image_path': film.image_path,
+      'star': 0,
+      'film_staus': film.film_staus,
+      'isValid': film.isValid
     };
     return this.http.post(url, body);
   }

@@ -58,9 +58,8 @@ export class NavbarComponent implements OnInit {
   closeModel(str: any) {
     if (str == "closeAndRefresh") {
       this.filmpageHomeService.refreshPageHome.emit("refreshPageHome");
-    } else {
-      this.handleCancel();
     }
+    this.handleCancel();
   }
 
   //关闭电影模态框
