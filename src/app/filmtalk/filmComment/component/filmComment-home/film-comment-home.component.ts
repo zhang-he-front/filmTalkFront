@@ -94,7 +94,7 @@ export class FilmCommentHomeComponent implements OnInit {
             f.isMore = 0;
             // f.praiseNumb = 10;
             if (res[i].star != 0) {
-              f.star = res[i].star * 2;
+              f.star = res[i].star * 2 + "";
               f.nzStar = res[i].star;
               if(res[i].star.split(".")[1] == "0"){
                 f.nzStar = parseInt(res[i].star.split(".")[0]);

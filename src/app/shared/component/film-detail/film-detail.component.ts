@@ -81,7 +81,7 @@ export class FilmDetailComponent implements OnInit {
         f.isMore = 0;
         // f.praiseNumb = 10;
         if (res.star != 0) {
-          f.star = res.star * 2;
+          f.star = res.star * 2 + "";
           f.nzStar = res.star;
           if(res.star.split(".")[1] == "0"){
             f.nzStar = parseInt(res.star.split(".")[0]);
