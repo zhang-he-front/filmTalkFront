@@ -54,15 +54,21 @@ export class FilmtypeHomeService {
   /**
    * 根据类型查询电影信息
    * add by zyx 2019-4-7
-   * @param {number} oid 电影类型oid
-   * @param filmName 电影名称
+   * @param {number} all_type
+   * @param {number} all_location
+   * @param {number} all_year
+   * @param {number} all_myself
+   * @param filmName
    * @returns {Observable<any>}
    */
-  queryFilmByFilmTypeOidOrFilmName(oid: number, filmName: any): Observable<any> {
+  queryFilmByFilmTypeOidOrFilmName(all_type: number,all_location: number,all_year: number,all_myself:number, filmName: any): Observable<any> {
     const url = '/film/queryFilmByFilmTypeOidOrFilmName';
     const body = {
-      oid,
-      filmName
+      'allType': all_type,
+      'allLocation': all_location,
+      'allYear': all_year,
+      'allMyself': all_myself,
+      'filmName': filmName
     };
     return this.http.post(url, body);
   }

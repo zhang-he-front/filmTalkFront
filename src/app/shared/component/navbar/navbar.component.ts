@@ -125,7 +125,7 @@ export class NavbarComponent implements OnInit {
           }
         });
       } else {
-        this.alertMessage.warning('该数据存在', {
+        this.alertMessage.warning('该类型已经存在', {
           nzDuration: 1500
         });
       }

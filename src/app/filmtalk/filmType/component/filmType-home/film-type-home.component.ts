@@ -4,6 +4,7 @@ import {isUndefined} from "util";
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../../../../shared/model/user";
 import {UserHomeService} from "../../../../shared/service/user-home.service";
+import {Filmtype} from "../../../../shared/model/filmtype";
 
 declare var $: any;
 
@@ -13,8 +14,17 @@ declare var $: any;
   styleUrls: ['./film-type-home.component.css']
 })
 export class FilmTypeHomeComponent implements OnInit {
+  //查询条件
   filmName: string = null;    //根据电影名模糊查询
-  fimType: any[] = []; //电影所有类型
+  all_type: number = 0;
+  all_location: number = 0;
+  all_year: number = 0;
+  all_myself: number = 0;
+
+  allType: Filmtype[] = []; //全部类型
+  allLocation: Filmtype[] = [];  //全部地区
+  allYears: Filmtype[] = []; //全部年代
+  allMyself: Filmtype[] = []; //全部特色
   films: any[] = []; //电影信息
   filmHots: any[] = []; //电影信息热度
   oid: any; //电影类型oid
@@ -36,13 +46,13 @@ export class FilmTypeHomeComponent implements OnInit {
     });
 
     let userOid = this.routeInfo.snapshot.params['userOid'];
-    if(userOid){
+    if (userOid) {
       this.getUserByOid(userOid);
     }
   }
 
   //根据oid获取人员信息
-  getUserByOid(userOid: number){
+  getUserByOid(userOid: number) {
     this.userHomeService.getUserByOid(userOid).subscribe(res => {
       this.currentUser = res.data;
     });
@@ -50,14 +60,34 @@ export class FilmTypeHomeComponent implements OnInit {
 
   //查询电影类型
   getFilmType() {
-    this.fimType = [];
+    this.allType = [];
+    this.allLocation = [];
+    this.allYears = [];
+    this.allMyself = [];
     this.filmtypeHomeService.queryFilmType().subscribe(str => {
       if (str.code == 0) {
         for (let i = 0; i < str.data.length; i++) {
-          this.fimType.push({
-            "oid": str.data[i].oid,
-            "type_name": str.data[i].type_name
-          });
+          let type = new Filmtype();
+          type.oid = str.data[i].oid;
+          type.type_name = str.data[i].type_name;
+          type.types = str.data[i].types;
+          if (str.data[i].types == 1) { //全部类型
+            type.typesFlag = 1;
+            type.typesFlagName = '全部类型';
+            this.allType.push(type);
+          } else if (str.data[i].types == 2) {  //全部地区
+            type.typesFlag = 2;
+            type.typesFlagName = '全部地区';
+            this.allLocation.push(type);
+          } else if (str.data[i].types == 3) {  //全部年代
+            type.typesFlag = 3;
+            type.typesFlagName = '全部年代';
+            this.allYears.push(type);
+          } else { //全部特色
+            type.typesFlag = 4;
+            type.typesFlagName = '全部特色';
+            this.allMyself.push(type);
+          }
         }
       }
     });
@@ -68,7 +98,7 @@ export class FilmTypeHomeComponent implements OnInit {
     this.filmtypeHomeService.queryFilmCommentCountInfo().subscribe(res => {
       this.filmHots = [];
       let length = res.data.length;
-      if(length > 10){
+      if (length > 10) {
         length = 10;
       }
       for (let i = 0; i < length; i++) {
@@ -83,19 +113,20 @@ export class FilmTypeHomeComponent implements OnInit {
     });
   }
 
+  //根据类型查询电影信息
   getFilmByFilmTypeOidOrFilmName() {
-    this.filmtypeHomeService.queryFilmByFilmTypeOidOrFilmName(this.oid, this.filmName).subscribe(res => {
+    this.filmtypeHomeService.queryFilmByFilmTypeOidOrFilmName(this.all_type,this.all_location, this.all_year, this.all_myself, this.filmName).subscribe(res => {
       this.films = [];
-      if(!isUndefined(res)){
-        if(res.data.length < 1){
+      if (!isUndefined(res)) {
+        if (res.data.length < 1) {
           this.isExistFilm = true;
-        } else{
+        } else {
           this.isExistFilm = false;
           for (let i = 0; i < res.data.length; i++) {
             let a = new Date(res.data[i].showTime);
             let star = res.data[i].star;
             if (res.data[i].star != 0) {
-              if(res.data[i].star.split(".")[1] == "0"){
+              if (res.data[i].star.split(".")[1] == "0") {
                 star = parseInt(res.data[i].star.split(".")[0]);
               }
             } else {
@@ -121,9 +152,24 @@ export class FilmTypeHomeComponent implements OnInit {
     });
   }
 
-  // 获取类型
-  showTab(oid: number) {
-    this.oid = oid;
+  //获取类型
+  showAllTab(types: number){
+    this.all_type = types;
+    this.getFilmByFilmTypeOidOrFilmName();
+  }
+
+  showLocationTab(types: number){
+    this.all_location = types;
+    this.getFilmByFilmTypeOidOrFilmName();
+  }
+
+  showYearTab(types: number){
+    this.all_year = types;
+    this.getFilmByFilmTypeOidOrFilmName();
+  }
+
+  showMySelfTab(types: number){
+    this.all_myself = types;
     this.getFilmByFilmTypeOidOrFilmName();
   }
 

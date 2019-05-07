@@ -1,29 +1,81 @@
 <div class="row" style="margin-top: 60px;">
   <div class="col-md-9">
-    <ul class="nav nav-tabs tab-style2 tab-right" id="tabTop"
+    <!--全部类型-->
+    <ul class="nav nav-tabs tab-style2 tab-right"
         style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
       <li class="dropdown" style="margin-top:7px;margin-left:5px;"></li>
-      <li class="active" (click)="showTab(0)">
+      <li class="active" (click)="showAllTab(0)">
         <a data-toggle="tab" aria-expanded="true">
           <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
-          <span class="text-wrapper">全部</span>
+          <span class="text-wrapper">全部类型</span>
         </a>
       </li>
-
-      <li class="" (click)="showTab(type.oid)" *ngFor="let type of fimType">
+      <li class="" (click)="showAllTab(type.oid)" *ngFor="let type of allType">
         <a data-toggle="tab" aria-expanded="true">
           <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
           <span class="text-wrapper">{{type.type_name}}</span>
         </a>
       </li>
-
-
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" style="position: absolute;">
         <input type="text" nz-input placeholder="input search text" [(ngModel)]="filmName"/>
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="searchTitle()"><i nz-icon type="search"></i></button>
       </ng-template>
+    </ul>
+
+    <!--全部地区-->
+    <ul class="nav nav-tabs tab-style2 tab-right"
+        style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
+      <li class="dropdown" style="margin-top:7px;margin-left:5px;"></li>
+      <li class="active" (click)="showLocationTab(0)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
+          <span class="text-wrapper">全部地区</span>
+        </a>
+      </li>
+      <li class="" (click)="showLocationTab(location.oid)" *ngFor="let location of allLocation">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
+          <span class="text-wrapper">{{location.type_name}}</span>
+        </a>
+      </li>
+    </ul>
+
+    <!--全部年代-->
+    <ul class="nav nav-tabs tab-style2 tab-right"
+        style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
+      <li class="dropdown" style="margin-top:7px;margin-left:5px;"></li>
+      <li class="active" (click)="showYearTab(0)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
+          <span class="text-wrapper">全部年代</span>
+        </a>
+      </li>
+      <li class="" (click)="showYearTab(year.oid)" *ngFor="let year of allYears">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
+          <span class="text-wrapper">{{year.type_name}}</span>
+        </a>
+      </li>
+    </ul>
+
+    <!--全部特色-->
+    <ul class="nav nav-tabs tab-style2 tab-right"
+        style="margin-bottom: 1px;border-bottom: 0 solid #ddd;font-size: 18px;">
+      <li class="dropdown" style="margin-top:7px;margin-left:5px;"></li>
+      <li class="active" (click)="showMySelfTab(0)">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class=" fa fa-clone"></i></span>
+          <span class="text-wrapper">全部特色</span>
+        </a>
+      </li>
+      <li class="" (click)="showMySelfTab(myself.oid)" *ngFor="let myself of allMyself">
+        <a data-toggle="tab" aria-expanded="true">
+          <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
+          <span class="text-wrapper">{{myself.type_name}}</span>
+        </a>
+      </li>
     </ul>
 
     <div class="row" style="height: 750px; overflow-y: auto;margin-left: 4px;padding-bottom: 60px">
