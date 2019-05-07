@@ -33,8 +33,14 @@
       <div *ngFor="let recentHot of recentHotArr" class="col-md-4 col-sm-4 col-md-4 productStyle">
         <div class="thumbnail row" style="margin-bottom: 5px;">
           <div class="col-md-6">
-            <a><img [routerLink]="['/commentDetail', recentHot.oid]" class="imageStyle" src="{{recentHot.image_path}}"
-                 style="margin-left: 4px;"></a>
+            <a *ngIf="currentUser.role == 'common'">
+              <img [routerLink]="['/commentDetail', recentHot.oid]" class="imageStyle" src="{{recentHot.image_path}}"
+                 style="margin-left: 4px;">
+            </a>
+            <a *ngIf="currentUser.role == 'admin'">
+              <img class="imageStyle" src="{{recentHot.image_path}}"
+                   style="margin-left: 4px;">
+            </a>
           </div>
           <div class="col-md-6" style="height: 200px;">
             <a [routerLink]="['/commentDetail', recentHot.oid]" >

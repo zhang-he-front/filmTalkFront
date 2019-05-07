@@ -116,7 +116,7 @@
                 </li>
               </ul>
             </li>
-            <li>
+            <li *ngIf="currentUser.role == 'admin'">
               <a data-toggle="dropdown"><img src="assets/img/navbar/add.png" alt=""
                                              style="height: 24px;width: 24px;"></a>
               <ul class="dropdown-menu notification  pull-right" style="border: none;margin-top: 5px;">
@@ -141,7 +141,7 @@
               <img src="assets/img/navbar/touxiang-women.png" alt=""
                    class="img-circle inline-block user-profile-pic">
               <div class="user-detail inline-block" style="font-size: 18px">
-                王凯
+                {{currentUser.username}}
                 <i class="fa fa-angle-down"></i>
               </div>
             </a>

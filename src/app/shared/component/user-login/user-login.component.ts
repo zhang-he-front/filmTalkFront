@@ -6,6 +6,8 @@ import {User} from "../../model/user";
 import {NzMessageService} from "ng-zorro-antd";
 import {Router} from "@angular/router";
 import {NavbarComponent} from "../navbar/navbar.component";
+import {HomeComponent} from "../../../filmtalk/filmPages/component/home/home.component";
+import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
 
 @Component({
   selector: 'app-user-login',
@@ -14,7 +16,7 @@ import {NavbarComponent} from "../navbar/navbar.component";
 })
 export class UserLoginComponent implements OnInit {
 
-  @ViewChild('navbar') navbar: NavbarComponent;
+  @ViewChild('navbar') navbar: NavbarComponent;  //导航栏
   validateForm: FormGroup;
   user: User = new User();
   currentUser: User = new User;
@@ -23,7 +25,8 @@ export class UserLoginComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private userHomeService: UserHomeService,
               private alertMessage: NzMessageService,
-              private router: Router) {
+              private router: Router,
+              private filmPageHomeService: FilmpageHomeService) {
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
       password: ['', [Validators.required]],
@@ -48,6 +51,7 @@ export class UserLoginComponent implements OnInit {
         this.currentUser = str.data;
         this.isHidden = false;
         this.navbar.currentUser = this.currentUser;
+        this.filmPageHomeService.userPageHome.emit(this.currentUser);
         this.router.navigate(['/home']);
       } else{
         this.alertMessage.error('用户名或密码错误', {

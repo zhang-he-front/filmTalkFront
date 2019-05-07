@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Film} from "../../../shared/model/film";
+import {User} from "../../../shared/model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import {Film} from "../../../shared/model/film";
 export class FilmpageHomeService {
 
   refreshPageHome: EventEmitter<string> = new EventEmitter();  // 刷新首页
+  userPageHome: EventEmitter<User> = new EventEmitter();  // 首页人员信息
 
   constructor(private http: HttpClient) {
   }

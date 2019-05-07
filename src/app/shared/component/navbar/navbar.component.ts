@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   isVisible: boolean = false;
   userIsVisible: boolean = false;  //个人信息模态框展示
   isTypeVisible: boolean = false;
-  currentUser: User;
+  currentUser: User = new User();
 
 
   constructor(private fb: FormBuilder,
