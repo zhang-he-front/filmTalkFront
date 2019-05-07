@@ -5,6 +5,8 @@ import {isUndefined} from "util";
 import {ActivatedRoute} from "@angular/router";
 import {Filmoperate} from "../../model/filmoperate";
 import {FilmReply} from "../../model/filmreply";
+import {UserHomeService} from "../../service/user-home.service";
+import {User} from "../../model/user";
 
 declare var $: any;
 
@@ -22,17 +24,23 @@ export class FilmDetailComponent implements OnInit {
   isExistFilm: boolean = false;    // 是否存在电影
   filmOid: any;
   // userOid: number;
-  userName: string = 'admin';
-  userOid: number = 2;
+  // userName: string = 'admin';
+  // userOid: number = 2;
+  currentUser: User = new User(); //当前登陆者
 
   constructor(private filmcommentService: FilmcommentServiceService,
-              private routeInfo: ActivatedRoute) {
+              private routeInfo: ActivatedRoute,
+              private userHomeService: UserHomeService) {
   }
 
   ngOnInit() {
     this.routeInfo.queryParams.subscribe(params => {
       this.filmOid = params['filmOid'];
       let userOid = params['userOid'];
+      //根据oid获取人员信息
+      this.userHomeService.getUserByOid(userOid).subscribe(res => {
+        this.currentUser = res.data;
+      });
     });
     this.getFilmDataByFilmOid();
   }
@@ -201,10 +209,10 @@ export class FilmDetailComponent implements OnInit {
         const newOperate = res.data;
         filmOperate.oid = newOperate.oid;
         filmOperate.parise_user_oid = 3;
-        filmOperate.parise_user_oid = this.userOid;
+        filmOperate.parise_user_oid = this.currentUser.oid;
         filmOperate.film_oid = mreply.filmOid;
         filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.userName;
+        filmOperate.pariser_user = this.currentUser.username;
 
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
           if (str.msg === '成功') {
@@ -213,10 +221,10 @@ export class FilmDetailComponent implements OnInit {
         });
       } else {
         filmOperate.parise_user_oid = 3;
-        filmOperate.parise_user_oid = this.userOid;
+        filmOperate.parise_user_oid = this.currentUser.oid;
         filmOperate.film_oid = mreply.filmOid;
         filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.userName;
+        filmOperate.pariser_user = this.currentUser.username;
         filmOperate.parise_time = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1) > 10 ? (new Date().getMonth() + 1) : ('0') + (new Date().getMonth() + 1))
           + '-' + ((new Date().getDate() > 10) ? (new Date().getDate()) : ('0' + new Date().getDate()));
         this.filmcommentService.addFilmOperate(filmOperate).subscribe(data => {
