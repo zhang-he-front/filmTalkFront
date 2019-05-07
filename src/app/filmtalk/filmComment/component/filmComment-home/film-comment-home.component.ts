@@ -5,6 +5,9 @@ import {FilmcommentServiceService} from "../../service/filmcomment.service";
 import {isUndefined} from "util";
 import {FilmReply} from "../../../../shared/model/filmreply";
 import {Filmoperate} from "../../../../shared/model/filmoperate";
+import {ActivatedRoute} from "@angular/router";
+import {UserHomeService} from "../../../../shared/service/user-home.service";
+import {User} from "../../../../shared/model/user";
 
 declare var $: any;
 
@@ -22,12 +25,27 @@ export class FilmCommentHomeComponent implements OnInit {
   isExistFilm: boolean = false;    // 是否存在电影
   userName: string = 'admin';
   userOid: number = 2;
+  currentUser: User = new User(); //当前登陆者
 
-  constructor(private filmcommentService: FilmcommentServiceService) {
+  constructor(private filmcommentService: FilmcommentServiceService,
+              private routeInfo: ActivatedRoute,
+              private userHomeService: UserHomeService) {
   }
 
   ngOnInit() {
     this.getFilmData();
+
+    let userOid = this.routeInfo.snapshot.params['userOid'];
+    if(userOid){
+      this.getUserByOid(userOid);
+    }
+  }
+
+  //根据oid获取人员信息
+  getUserByOid(userOid: number){
+    this.userHomeService.getUserByOid(userOid).subscribe(res => {
+      this.currentUser = res.data;
+    });
   }
 
   //获取数据

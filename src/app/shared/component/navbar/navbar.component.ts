@@ -175,7 +175,7 @@ export class NavbarComponent implements OnInit {
 
   //退出登陆
   logint(){
-    // this.router.navigate(['']);
+    this.router.navigate(['']);
     this.layout.emit('layout');
   }
 }

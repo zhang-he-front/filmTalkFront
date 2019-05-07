@@ -57,4 +57,18 @@ export class UserHomeService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 根据oid获取用户信息
+   * add by zyx 2019-5-7
+   * @param {User} user
+   * @returns {Observable<any>}
+   */
+  getUserByOid(userOid: number): Observable<any> {
+    const url = '/user/getUserByOid';
+    const body = {
+      'oid': userOid
+    };
+    return this.http.post(url, body);
+  }
 }

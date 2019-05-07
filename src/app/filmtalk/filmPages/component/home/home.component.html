@@ -13,7 +13,9 @@
     <div class="row carousel-container" style="height: 240px;margin-bottom: 20px;">
       <nz-carousel nzAutoPlay>
         <div nz-carousel-content *ngFor="let now of nowArr" style="height: 240px;">
-          <a [routerLink]="['/commentDetail', now.oid]"><img src="{{now.image_path}}" style="height: 240px;width: 1195px;"></a>
+          <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : now.oid , userOid: currentUser.oid }" >
+            <img src="{{now.image_path}}" style="height: 240px;width: 1195px;">
+          </a>
           <!--<h3>{{ index }}</h3>-->
         </div>
       </nz-carousel>
@@ -34,7 +36,7 @@
         <div class="thumbnail row" style="margin-bottom: 5px;">
           <div class="col-md-6">
             <a *ngIf="currentUser.role == 'common'">
-              <img [routerLink]="['/commentDetail', recentHot.oid]" class="imageStyle" src="{{recentHot.image_path}}"
+              <img [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }" class="imageStyle" src="{{recentHot.image_path}}"
                  style="margin-left: 4px;">
             </a>
             <a *ngIf="currentUser.role == 'admin'">
@@ -43,7 +45,7 @@
             </a>
           </div>
           <div class="col-md-6" style="height: 200px;">
-            <a [routerLink]="['/commentDetail', recentHot.oid]" >
+            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }" >
             <!--<nz-rate [ngModel]="recentHot.star" nzDisabled></nz-rate>-->
               <p style="color: red; margin-top: 4px;">{{recentHot.star}}</p>
               <p style="margin-top: 4px;">{{recentHot.film_name}}</p>
@@ -72,7 +74,7 @@
       <ul class="list-group to-do-list sortable-list no-border">
         <div *ngFor="let future of futureArr; let i = index">
           <li class="list-group-item ad1" style="margin-bottom: -1px;">
-            <a [routerLink]="['/commentDetail', future.oid]">
+            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : future.oid , userOid: currentUser.oid }">
               <span>{{i + 1}}. </span>
               <span class="ck1">{{future.film_name}}<img alt=""
                                                          style="margin-left:15px;margin-top:-3px;"></span>
@@ -109,7 +111,7 @@
       <ul class="list-group to-do-list sortable-list no-border">
         <div *ngFor="let like of likeArr; let j = index">
           <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j < 3">
-            <a [routerLink]="['/commentDetail', like.oid]">
+            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : like.oid , userOid: currentUser.oid }">
               <span style="color: #ed9c23">{{j + 1}}. </span>
               <span class="ck1" style="color: #ed9c23">{{like.film_name}}<img alt=""
                                                                               style="margin-left:15px;margin-top:-3px;"></span>
@@ -119,7 +121,7 @@
 
 
           <li class="list-group-item ad1" style="margin-bottom: -1px;" *ngIf="j >= 3">
-            <a [routerLink]="['/commentDetail', like.oid]">
+            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : like.oid , userOid: currentUser.oid }">
               <span>{{j + 1}}. </span>
               <span class="ck1">{{like.film_name}}<img alt=""
                                                        style="margin-left:15px;margin-top:-3px;"></span>

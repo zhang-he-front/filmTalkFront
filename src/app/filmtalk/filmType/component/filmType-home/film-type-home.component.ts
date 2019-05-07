@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FilmtypeHomeService} from "../../service/filmtype-home.service";
 import {isUndefined} from "util";
+import {ActivatedRoute} from "@angular/router";
+import {User} from "../../../../shared/model/user";
+import {UserHomeService} from "../../../../shared/service/user-home.service";
 
 declare var $: any;
 
@@ -16,8 +19,11 @@ export class FilmTypeHomeComponent implements OnInit {
   filmHots: any[] = []; //电影信息热度
   oid: any; //电影类型oid
   isExistFilm: boolean = false;    // 是否存在电影
+  currentUser: User = new User(); //当前登陆者
 
-  constructor(private filmtypeHomeService: FilmtypeHomeService) {
+  constructor(private filmtypeHomeService: FilmtypeHomeService,
+              private routeInfo: ActivatedRoute,
+              private userHomeService: UserHomeService) {
   }
 
   ngOnInit() {
@@ -27,6 +33,18 @@ export class FilmTypeHomeComponent implements OnInit {
     //刷新电影类型
     this.filmtypeHomeService.refreshTypeHome.subscribe(val => {
       this.getFilmType();
+    });
+
+    let userOid = this.routeInfo.snapshot.params['userOid'];
+    if(userOid){
+      this.getUserByOid(userOid);
+    }
+  }
+
+  //根据oid获取人员信息
+  getUserByOid(userOid: number){
+    this.userHomeService.getUserByOid(userOid).subscribe(res => {
+      this.currentUser = res.data;
     });
   }
 

@@ -21,6 +21,7 @@ export class FilmDetailComponent implements OnInit {
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
   filmOid: any;
+  // userOid: number;
   userName: string = 'admin';
   userOid: number = 2;
 
@@ -29,7 +30,10 @@ export class FilmDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filmOid = this.routeInfo.snapshot.params['filmOid'];
+    this.routeInfo.queryParams.subscribe(params => {
+      this.filmOid = params['filmOid'];
+      let userOid = params['userOid'];
+    });
     this.getFilmDataByFilmOid();
   }
 

@@ -1,11 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FilmpageHomeService} from "../../service/filmpage-home.service";
-import {Router} from "@angular/router";
-import {UserDetailComponent} from "../../../../shared/component/user-detail/user-detail.component";
+import {ActivatedRoute} from "@angular/router";
 import {User} from "../../../../shared/model/user";
-import {NavbarComponent} from "../../../../shared/component/navbar/navbar.component";
-import {UserLoginComponent} from "../../../../shared/component/user-login/user-login.component";
+import {UserHomeService} from "../../../../shared/service/user-home.service";
 
 declare var $: any;
 
@@ -15,18 +13,18 @@ declare var $: any;
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // @ViewChild('userLogin') navbar: NavbarComponent;  //导航栏
   futureArr: any[] = []; //即将上映
   likeArr: any[] = []; //猜你喜欢
   nowArr: any[] = []; //正在热播
   recentHotArr: any[] = []; //最近热门
   isExistFutureArr: boolean = false;    // 即将上映是否存在电影
   isExistLikeArr: boolean = false;    // 猜你喜欢是否存在电影
-  currentUser: User = new User();
+  currentUser: User = new User(); //当前登陆者
 
   constructor(private http: HttpClient,
               private filmpageHomeService: FilmpageHomeService,
-              private router: Router) {
+              private routeInfo: ActivatedRoute,
+              private userHomeService: UserHomeService) {
   }
 
   ngOnInit() {
@@ -36,8 +34,17 @@ export class HomeComponent implements OnInit {
       this.getPageData();
     });
 
-    this.filmpageHomeService.userPageHome.subscribe(data => {
-      this.currentUser = data;
+    let userOid = this.routeInfo.snapshot.params['userOid'];
+    if(userOid){
+      this.getUserByOid(userOid);
+    }
+
+  }
+
+  //根据oid获取人员信息
+  getUserByOid(userOid: number){
+    this.userHomeService.getUserByOid(userOid).subscribe(res => {
+      this.currentUser = res.data;
     });
   }
 

@@ -19,12 +19,14 @@
                     <!--</div>-->
                     <div class="row">
                       <div class="col-md-1">
-                        <a [routerLink]="['/commentDetail', film.oid]"><img src="{{film.image_path}}" style="height: 130px;padding-left: 15px;"></a>
+                        <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
+                          <img src="{{film.image_path}}" style="height: 130px;padding-left: 15px;">
+                        </a>
                       </div>
                       <div class="col-md-10">
                         <h5>
                             &nbsp;&nbsp;<span style="font-size: 22px;">{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                          <a [routerLink]="['/commentDetail', film.oid]">
+                          <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
                             <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
                             <nz-rate [ngModel]="film.star" nzDisabled></nz-rate>
                             <br>
