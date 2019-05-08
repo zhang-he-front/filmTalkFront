@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 28px;margin-top:-18px;" (click)="cancel()">×</button>
+  <h4 class="modal-title" style="font-size: 24px;margin-top: -24px;">电影转发</h4>
+</div>
+
+<form class="no-margin" [formGroup]="filmRePostForm" data-validate="parsley" novalidate="" style="margin-top: 13px;">
+  <div class="form-group row" style="padding:0 15px;">
+
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">转发理由</span>
+    <div class="col-xs-10">
+      <textarea
+        nz-input formControlName="rePostReason"
+        placeholder="请输入转发理由"
+        [(ngModel)]="rePostReasonValue"
+        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer" style="margin-top: 0;">
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">取消</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">确定</button>
+  </div>
+</form>

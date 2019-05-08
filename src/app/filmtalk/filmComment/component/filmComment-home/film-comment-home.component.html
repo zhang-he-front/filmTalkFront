@@ -55,7 +55,7 @@
                     <!--</a>&nbsp;&nbsp;-->
 
                     <a >
-                      <i nz-icon [nzType]="'select'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="transferFilm(film)"></i>
+                      <i nz-icon [nzType]="'select'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="rePostFilm(film)"></i>
                     </a>&nbsp;&nbsp;
 
                     <!--电影点赞-->
@@ -154,9 +154,14 @@
                                            [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
 
                                         <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
+                                        <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                              (click)="rePostFilmComment(mreply,film)"></i></a>
+
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+
                                         <a><i nz-icon [type]="'message'" style="font-size: 16px; "
                                            (click)="replyMessageIsShow(mreply,film)"></i></a>
-                                        <span style="margin-left:10px;margin-right:10px;">|</span>
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
                                         <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"  style="color: black"
@@ -239,10 +244,16 @@
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
                                                 <!--class="fa fa-commenting-o"></i></a>-->
+
+                                                <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                                      (click)="rePostFilmComment(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+
                                                 <a><i nz-icon [type]="'message'" style="font-size: 16px;"
                                                    (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
-                                                <span style="margin-left:10px;margin-right:10px;">|</span>
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
                                                 <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                 <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
                                                 <!--[hidden]="replyc.PRAISENUMflag"></i>-->
@@ -331,9 +342,15 @@
                                            [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
 
                                         <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
+
+                                        <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                              (click)="rePostFilmComment(mreply,film)"></i></a>
+
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+
                                         <a><i nz-icon [type]="'message'" style="font-size: 16px;"
                                            (click)="replyMessageIsShow(mreply,film)"></i></a>
-                                        <span style="margin-left:10px;margin-right:10px;">|</span>
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
                                         <a class="operate-icon" (click)="replyPraise(mreply, film)">
                                           <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
                                           <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
@@ -417,10 +434,16 @@
                                                 <!--<a class="operate-icon" style="margin-left:10px;"-->
                                                 <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
                                                 <!--class="fa fa-commenting-o"></i></a>-->
+
+                                                <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                                      (click)="rePostFilmComment(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+
                                                 <a><i nz-icon [type]="'message'" style="font-size: 16px; "
                                                    (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
 
-                                                <span style="margin-left:10px;margin-right:10px;">|</span>
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
                                                 <a class="operate-icon" (click)="replyPraise(replyc, film)">
                                                   <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
                                                   <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
@@ -504,3 +527,10 @@
     </div>
   </div>
 </div>
+
+
+<!--个人信息模态框-->
+<nz-modal [(nzVisible)]="filmRePostIsVisible" (nzOnCancel)="filmRePostCancel()" (nzOnOk)="filmRePostOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-film-repost #filmRePost (closeRePostModel)="closeRePostModel(event)" ></app-film-repost>
+</nz-modal>

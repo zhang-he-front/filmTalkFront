@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {FilmpageHomeService} from "../../../filmPages/service/filmpage-home.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Film} from "../../../../shared/model/film";
 import {FilmcommentServiceService} from "../../service/filmcomment.service";
 import {isUndefined} from "util";
@@ -8,6 +7,8 @@ import {Filmoperate} from "../../../../shared/model/filmoperate";
 import {ActivatedRoute} from "@angular/router";
 import {UserHomeService} from "../../../../shared/service/user-home.service";
 import {User} from "../../../../shared/model/user";
+import {FilmRepostComponent} from "../../../../shared/component/film-repost/film-repost.component";
+import {UserRePost} from "../../../../shared/model/userrepost";
 
 declare var $: any;
 
@@ -17,6 +18,7 @@ declare var $: any;
   styleUrls: ['./film-comment-home.component.css']
 })
 export class FilmCommentHomeComponent implements OnInit {
+  @ViewChild('filmRePost') filmRePost: FilmRepostComponent;  // 转发子组件
   films: Film[] = [];
   filmsData: Film[] = [];
   messageTopChk: boolean = false;    // 任务转动态checkbox是否选中
@@ -24,6 +26,7 @@ export class FilmCommentHomeComponent implements OnInit {
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
   currentUser: User = new User(); //当前登陆者
+  filmRePostIsVisible: boolean = false;  //个人信息模态框展示
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -32,7 +35,6 @@ export class FilmCommentHomeComponent implements OnInit {
 
   ngOnInit() {
     this.getFilmData();
-
     let userOid = this.routeInfo.snapshot.params['userOid'];
     if(userOid){
       this.getUserByOid(userOid);
@@ -266,8 +268,25 @@ export class FilmCommentHomeComponent implements OnInit {
 
 
   //转发电影
-  transferFilm(film: Film){
+  rePostFilm(film: Film){
+    this.filmRePostIsVisible = true;
+    this.filmRePost.createFilmForm();
+    this.filmRePost.rePostReasonValue = null;
+    let userRePost = new UserRePost();
+    userRePost.film_oid = film.oid;
+    userRePost.reply_oid = null;
+    this.filmRePost.userRePost = userRePost;
+  }
 
+  //评论处的转发按钮
+  rePostFilmComment(mreply: any, film: Film){
+    this.filmRePostIsVisible = true;
+    this.filmRePost.createFilmForm();
+    this.filmRePost.rePostReasonValue = null;
+    let userRePost = new UserRePost();
+    userRePost.film_oid = film.oid;
+    userRePost.reply_oid = mreply.oid;
+    this.filmRePost.userRePost = userRePost;
   }
 
   //点赞电影
@@ -804,6 +823,22 @@ export class FilmCommentHomeComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+
+  //取消按钮：关闭转发模态框
+  filmRePostCancel(){
+    this.filmRePostIsVisible = false;
+  }
+
+  //确定按钮：关闭转发模态框
+  filmRePostOk(){
+    this.filmRePostCancel();
+  }
+
+  //关闭转发模态框
+  closeRePostModel(event: any){
+    this.filmRePostCancel();
   }
 
 }

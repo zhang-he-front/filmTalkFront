@@ -3,6 +3,7 @@ import {Observable} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
 import {FilmReply} from "../../../shared/model/filmreply";
 import {Filmoperate} from "../../../shared/model/filmoperate";
+import {UserRePost} from "../../../shared/model/userrepost";
 
 @Injectable({
   providedIn: 'root'
@@ -135,6 +136,21 @@ export class FilmcommentServiceService {
       'pariseUserOid': filmOperate.parise_user_oid,
       'pariserUser': filmOperate.pariser_user,
       'pariseTime': filmOperate.parise_time,
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 电影转发
+   * add by zyx 2019-5-8
+   * @returns {Observable<any>}
+   */
+  rePostFilm(repost: UserRePost): Observable<any> {
+    const url = '/film/rePostFilm';
+    const body = {
+      'filmOid': repost.film_oid,
+      'replyOid': repost.reply_oid,
+      'reason': repost.reason
     };
     return this.http.post(url, body);
   }
