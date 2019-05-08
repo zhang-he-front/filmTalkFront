@@ -103,7 +103,9 @@ export class CreateFilmComponent implements OnInit {
     }
     this.film.film_name = this.filmForm.get('filmName').value; // title
     this.film.hour_length = this.filmForm.get('hour').value; // location
-    this.film.show_time = new Date(this.date).getFullYear() + "-" + (new Date(this.date).getMonth() + 1) + "-" + new Date(this.date).getDate();
+    this.film.show_time = new Date(this.date).getFullYear() + "-"
+      + ((new Date(this.date).getMonth() + 1) > 10 ? (new Date(this.date).getMonth() + 1) : ('0' + (new Date(this.date).getMonth() + 1))) + "-"
+      + (new Date(this.date).getDate() > 10 ? new Date(this.date).getDate() : ('0' + new Date(this.date).getDate()));
     let arr = "";
     for(let j = 0; j < this.listOfSelectedValue.length; j++){
       if(this.listOfSelectedValue[j] != '' && this.listOfSelectedValue[j] != null){

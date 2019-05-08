@@ -44,7 +44,7 @@ export class FilmDetailComponent implements OnInit {
 
   //获取数据
   getFilmDataByFilmOid() {
-    this.filmcommentService.getFilmDataByFilmOid(this.filmOid).subscribe(res => {
+    this.filmcommentService.getFilmDataByFilmOid(this.filmOid, this.currentUser.oid).subscribe(res => {
       console.log(res);
       this.dealWithData(res.data);
     });
@@ -54,7 +54,7 @@ export class FilmDetailComponent implements OnInit {
   //处理数据
   dealWithData(res: any) {
     if (!isUndefined(res)) {
-      this.filmcommentService.getCommentDataByFlmOid(res.oid).subscribe(str => {
+      this.filmcommentService.getCommentDataByFlmOid(res.oid, this.currentUser.oid).subscribe(str => {
         this.replyDataSet = [];
         this.replyChildrenDataSet = [];
         let a = new Date(res.showTime);
@@ -245,7 +245,7 @@ export class FilmDetailComponent implements OnInit {
    * @param {Film} film
    */
   getReplyByOid(film: Film) {
-    this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+    this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
       if (str.data != null) {
         this.replyDataSet = [];
         this.replyChildrenDataSet = [];
@@ -318,7 +318,7 @@ export class FilmDetailComponent implements OnInit {
           $(`#i1-${oid}`).val('');
           $(`#s1-${oid}`).hide();
           film.numberReply += 1;
-          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
             if (str.data != null) {
               let data = str.data.commentParentVOList;
               this.replyDataSet = [];
@@ -398,7 +398,7 @@ export class FilmDetailComponent implements OnInit {
           $(`#${oid}`).val('');
           mreply.isShowReplyFrame = true;  // 隐藏回复框
           film.isShowCommentFrame = false;   // 显示评论框
-          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
             if (str.data != null) {
               this.replyDataSet = [];
               this.replyChildrenDataSet = [];

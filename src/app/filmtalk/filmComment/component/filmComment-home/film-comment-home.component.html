@@ -53,23 +53,39 @@
                     <!--<a class="tooltips" style="color:#666" nz-tooltip nzTitle="删除" (click)="showDeleteConfirm(message)">-->
                     <!--<i class="fa fa-trash-o"></i>-->
                     <!--</a>&nbsp;&nbsp;-->
-                    <a class="tooltips praise" nz-tooltip nzTitle="关注" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messageSpecial(film)" [hidden]="film.isCollect">
-                      <i class="fa fa-star-o" style="color:#666"></i>
-                    </a>
-                    <a class="tooltips praise" nz-tooltip nzTitle="取消关注" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messageSpecial(film)" [hidden]="!film.isCollect">
-                      <i class="fa fa-star" style="color:#666"></i>
+
+                    <a >
+                      <i nz-icon [nzType]="'select'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="transferFilm(film)"></i>
                     </a>&nbsp;&nbsp;
-                    <a class="tooltips praise" nz-tooltip nzTitle="点赞" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messagePraise(film)" [hidden]="film.isPraise">
-                      <i class="fa fa-thumbs-o-up" style="color:#666"></i>
+
+                    <!--电影点赞-->
+                    <a [hidden]="film.filmSubCountFlag">
+                      <i nz-icon  [nzType]="'like'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="likeFilm(film)"></i>
                     </a>
-                    <a class="tooltips praise" nz-tooltip nzTitle="取消点赞" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messagePraise(film)" [hidden]="!film.isPraise">
-                       <i class="fa fa-thumbs-up" style="color:#666"></i>
-                    </a>
-                    <span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;
+                    <a [hidden]="!film.filmSubCountFlag">
+                      <i *ngIf="film.currentUserIsSub == false" nz-icon [nzType]="'like'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="likeFilm(film)"></i>
+                      <i *ngIf="film.currentUserIsSub == true" nz-icon [nzType]="'like'" [nzTheme]="'outline'" style="color: #e36159; font-size: 20px;" (click)="likeFilm(film)"></i>
+                      <i class="z-num" *ngIf="film.filmSubCount != 0">{{film.filmSubCount}}</i>
+                    </a>&nbsp;&nbsp;
+
+
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="关注" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                       <!--(click)="messageSpecial(film)" [hidden]="film.isCollect">-->
+                      <!--<i class="fa fa-star-o" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="取消关注" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                       <!--(click)="messageSpecial(film)" [hidden]="!film.isCollect">-->
+                      <!--<i class="fa fa-star" style="color:#666"></i>-->
+                    <!--</a>&nbsp;&nbsp;-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="点赞" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                       <!--(click)="messagePraise(film)" [hidden]="film.isPraise">-->
+                      <!--<i class="fa fa-thumbs-o-up" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="取消点赞" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                       <!--(click)="messagePraise(film)" [hidden]="!film.isPraise">-->
+                       <!--<i class="fa fa-thumbs-up" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;-->
                  </span>
                   <a class="text-z" style="font-weight:bold;" (click)="isShowReply(film)">评论
                     <span>

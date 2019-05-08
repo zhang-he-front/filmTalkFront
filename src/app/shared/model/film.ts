@@ -35,4 +35,7 @@ export class Film {
   isMoreBtn: boolean = false;           // 显示评论是否展开按钮
   isMore: number;         // 显示模板展示（0默认三条模板，1默认大于三条模板)
   nzStar: number;
+  filmSubCount: number;  //点赞数
+  filmSubCountFlag: Boolean; //电影点赞标志
+  currentUserIsSub: boolean; //当前登陆者是否点赞了该电影
 }

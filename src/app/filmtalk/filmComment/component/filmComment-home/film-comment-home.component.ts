@@ -23,8 +23,6 @@ export class FilmCommentHomeComponent implements OnInit {
   replyDataSet = [];      // 全部评论合集
   replyChildrenDataSet = [];      // 全部评论的回复合集
   isExistFilm: boolean = false;    // 是否存在电影
-  // userName: string = 'admin';
-  // userOid: number = 2;
   currentUser: User = new User(); //当前登陆者
 
   constructor(private filmcommentService: FilmcommentServiceService,
@@ -50,10 +48,9 @@ export class FilmCommentHomeComponent implements OnInit {
 
   //获取数据
   getFilmData() {
-    this.filmcommentService.getFilmData().subscribe(res => {
-      // console.log(res);
+    this.filmcommentService.getFilmData(this.currentUser.oid).subscribe(res => {
+      console.log(res);
       this.dealWithData(res.data);
-      console.log(this.films)
     });
   }
 
@@ -67,7 +64,7 @@ export class FilmCommentHomeComponent implements OnInit {
         this.isExistFilm = false;
         this.filmsData = [];
         for (let i = 0; i < res.length; i++) {
-          this.filmcommentService.getCommentDataByFlmOid(res[i].oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(res[i].oid, this.currentUser.oid).subscribe(str => {
             this.replyDataSet = [];
             this.replyChildrenDataSet = [];
             let a = new Date(res[i].showTime);
@@ -92,6 +89,14 @@ export class FilmCommentHomeComponent implements OnInit {
             f.isPraise = false;
             f.isPraiseNumb = true;
             f.isMore = 0;
+            //电影点赞
+            f.filmSubCount = res[i].filmSubCount;
+            if(f.filmSubCount == 0){
+              f.filmSubCountFlag = false;
+            } else{
+              f.filmSubCountFlag = true;
+            }
+            f.currentUserIsSub = res[i].currentUserIsSub;
             // f.praiseNumb = 10;
             if (res[i].star != 0) {
               f.star = res[i].star * 2 + "";
@@ -178,10 +183,6 @@ export class FilmCommentHomeComponent implements OnInit {
     }
   }
 
-  // replyPraise(mreply): void {
-  //
-  // }
-
   /**
    * 判断评论区是否点赞更改图标
    */
@@ -196,11 +197,10 @@ export class FilmCommentHomeComponent implements OnInit {
       mreply.PRAISENUMflag = false;
       filmOperate.parise = 1;
     }
-    this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, 2).subscribe(res => {
+    this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid).subscribe(res => {
       if (res.data != null) {
         const newOperate = res.data;
         filmOperate.oid = newOperate.oid;
-        filmOperate.parise_user_oid = 3;
         filmOperate.parise_user_oid = this.currentUser.oid;
         filmOperate.film_oid = mreply.filmOid;
         filmOperate.comment_oid = mreply.oid;
@@ -226,7 +226,6 @@ export class FilmCommentHomeComponent implements OnInit {
           }
         });
       } else {
-        filmOperate.parise_user_oid = 3;
         filmOperate.parise_user_oid = this.currentUser.oid;
         filmOperate.film_oid = mreply.filmOid;
         filmOperate.comment_oid = mreply.oid;
@@ -262,6 +261,50 @@ export class FilmCommentHomeComponent implements OnInit {
         });
       }
 
+    });
+  }
+
+
+  //转发电影
+  transferFilm(film: Film){
+
+  }
+
+  //点赞电影
+  likeFilm(film: Film){
+    const filmOperate = new Filmoperate();
+    if (film.currentUserIsSub === false) {  // 去点赞
+      film.currentUserIsSub = true;
+      filmOperate.parise = 1;
+    } else { // 已经点赞了，取消赞
+      film.currentUserIsSub = false;
+      filmOperate.parise = 0;
+    }
+    filmOperate.parise_user_oid = this.currentUser.oid;
+    filmOperate.film_oid = film.oid;
+    filmOperate.comment_oid = null;
+    filmOperate.pariser_user = this.currentUser.username;
+    this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid).subscribe(res => {
+      if (res.data != null) {
+        const newOperate = res.data;
+        filmOperate.oid = newOperate.oid;
+        this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
+          if (str.msg === '成功') {
+            this.getFilmData();
+          }
+        });
+      } else {
+        filmOperate.parise_time = new Date().getFullYear() + '-'
+          + ((new Date().getMonth() + 1) > 10 ? (new Date().getMonth() + 1) : ('0') + (new Date().getMonth() + 1)) + '-'
+          + ((new Date().getDate() > 10) ? (new Date().getDate()) : ('0' + new Date().getDate()));
+        this.filmcommentService.addFilmOperate(filmOperate).subscribe(data => {
+          if (data.msg == '成功') {
+            this.getFilmData();
+          } else {
+            alert('点赞失败\n');
+          }
+        });
+      }
     });
   }
 
@@ -329,7 +372,7 @@ export class FilmCommentHomeComponent implements OnInit {
           $(`#i1-${oid}`).val('');
           $(`#s1-${oid}`).hide();
           film.numberReply += 1;
-          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
             if (str.data != null) {
               let data = str.data.commentParentVOList;
               this.replyDataSet = [];
@@ -408,7 +451,7 @@ export class FilmCommentHomeComponent implements OnInit {
           $(`#${oid}`).val('');
           mreply.isShowReplyFrame = true;  // 隐藏回复框
           film.isShowCommentFrame = false;   // 显示评论框
-          this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
             if (str.data != null) {
               this.replyDataSet = [];
               this.replyChildrenDataSet = [];
@@ -504,7 +547,7 @@ export class FilmCommentHomeComponent implements OnInit {
    * @param {Film} film
    */
   getReplyByOid(film: Film){
-    this.filmcommentService.getCommentDataByFlmOid(film.oid).subscribe(str => {
+    this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
       if (str.data != null) {
         this.replyDataSet = [];
         this.replyChildrenDataSet = [];
