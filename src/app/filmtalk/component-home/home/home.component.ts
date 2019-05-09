@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {FilmpageHomeService} from "../../service/filmpage-home.service";
+import {FilmpageHomeService} from "../../service-home/filmpage-home.service";
 import {ActivatedRoute} from "@angular/router";
-import {User} from "../../../../shared/model/user";
-import {UserHomeService} from "../../../../shared/service/user-home.service";
+import {User} from "../../../shared/model/user";
+import {UserHomeService} from "../../../shared/service/user-home.service";
 
 declare var $: any;
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {UserRePost} from "../../model/userrepost";
-import {FilmcommentServiceService} from "../../../filmtalk/filmComment/service/filmcomment.service";
+import {FilmcommentServiceService} from "../../../filmtalk/service-home/filmcomment.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {FilmReply} from "../../model/filmreply";
 

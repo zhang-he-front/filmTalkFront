@@ -7,19 +7,20 @@ import { AppComponent } from './app.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import { HomeComponent } from './filmtalk/filmPages/component/home/home.component';
+import { HomeComponent } from './filmtalk/component-home/home/home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NavbarComponent } from './shared/component/navbar/navbar.component';
-import { FilmTypeHomeComponent } from './filmtalk/filmType/component/filmType-home/film-type-home.component';
-import {FilmCommentHomeComponent} from "./filmtalk/filmComment/component/filmComment-home/film-comment-home.component";
+import { FilmTypeHomeComponent } from './filmtalk/component-home/film-type-home/film-type-home.component';
+import {FilmCommentHomeComponent} from "./filmtalk/component-home/film-comment-home/film-comment-home.component";
 import { CreateFilmComponent } from './shared/component/create-film/create-film.component';
 import { FilmDetailComponent } from './shared/component/film-detail/film-detail.component';
 import { UserRegisterComponent } from './shared/component/user-register/user-register.component';
 import { UserLoginComponent } from './shared/component/user-login/user-login.component';
 import { UserDetailComponent } from './shared/component/user-detail/user-detail.component';
 import { FilmRepostComponent } from './shared/component/film-repost/film-repost.component';
+import { MyPartHomeComponent } from './filmtalk/component-home/my-part-home/my-part-home.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -34,7 +35,8 @@ registerLocaleData(zh);
     UserRegisterComponent,
     UserLoginComponent,
     UserDetailComponent,
-    FilmRepostComponent
+    FilmRepostComponent,
+    MyPartHomeComponent
   ],
   imports: [
     BrowserModule,

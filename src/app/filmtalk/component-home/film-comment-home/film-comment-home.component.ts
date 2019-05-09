@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Film} from "../../../../shared/model/film";
-import {FilmcommentServiceService} from "../../service/filmcomment.service";
+import {Film} from "../../../shared/model/film";
+import {FilmcommentServiceService} from "../../service-home/filmcomment.service";
 import {isUndefined} from "util";
-import {FilmReply} from "../../../../shared/model/filmreply";
-import {Filmoperate} from "../../../../shared/model/filmoperate";
+import {FilmReply} from "../../../shared/model/filmreply";
+import {Filmoperate} from "../../../shared/model/filmoperate";
 import {ActivatedRoute} from "@angular/router";
-import {UserHomeService} from "../../../../shared/service/user-home.service";
-import {User} from "../../../../shared/model/user";
-import {FilmRepostComponent} from "../../../../shared/component/film-repost/film-repost.component";
-import {UserRePost} from "../../../../shared/model/userrepost";
+import {UserHomeService} from "../../../shared/service/user-home.service";
+import {User} from "../../../shared/model/user";
+import {FilmRepostComponent} from "../../../shared/component/film-repost/film-repost.component";
+import {UserRePost} from "../../../shared/model/userrepost";
 
 declare var $: any;
 

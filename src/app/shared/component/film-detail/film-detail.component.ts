@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Film} from "../../model/film";
-import {FilmcommentServiceService} from "../../../filmtalk/filmComment/service/filmcomment.service";
+import {FilmcommentServiceService} from "../../../filmtalk/service-home/filmcomment.service";
 import {isUndefined} from "util";
 import {ActivatedRoute} from "@angular/router";
 import {Filmoperate} from "../../model/filmoperate";

@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {FilmtypeHomeService} from "../../../filmtalk/filmType/service/filmtype-home.service";
+import {FilmtypeHomeService} from "../../../filmtalk/service-home/filmtype-home.service";
 import {UploadFile} from "ng-zorro-antd/upload";
-import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
+import {FilmpageHomeService} from "../../../filmtalk/service-home/filmpage-home.service";
 import {Film} from "../../model/film";
 import {NzMessageService} from "ng-zorro-antd";
 

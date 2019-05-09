@@ -1,10 +1,10 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {Filmtype} from "../../model/filmtype";
-import {FilmtypeHomeService} from "../../../filmtalk/filmType/service/filmtype-home.service";
+import {FilmtypeHomeService} from "../../../filmtalk/service-home/filmtype-home.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {CreateFilmComponent} from "../create-film/create-film.component";
-import {FilmpageHomeService} from "../../../filmtalk/filmPages/service/filmpage-home.service";
+import {FilmpageHomeService} from "../../../filmtalk/service-home/filmpage-home.service";
 import {Router} from "@angular/router";
 import {UserDetailComponent} from "../user-detail/user-detail.component";
 import {User} from "../../model/user";

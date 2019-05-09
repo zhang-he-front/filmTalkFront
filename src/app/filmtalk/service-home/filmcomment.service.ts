@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
-import {FilmReply} from "../../../shared/model/filmreply";
-import {Filmoperate} from "../../../shared/model/filmoperate";
-import {UserRePost} from "../../../shared/model/userrepost";
+import {FilmReply} from "../../shared/model/filmreply";
+import {Filmoperate} from "../../shared/model/filmoperate";
+import {UserRePost} from "../../shared/model/userrepost";
 
 @Injectable({
   providedIn: 'root'

@@ -66,6 +66,12 @@
               <span class="font-bold" style="font-size:18px;">分类</span>
             </a>
           </li>
+          <li class="nav-item" style="margin-right: 1px;">
+            <a [routerLink]="['/myPart', currentUser.oid]">
+              <i class="fa fa-file-text-o" style="font-size:14px;margin-right:13px;"></i>
+              <span class="font-bold" style="font-size:18px;">我的</span>
+            </a>
+          </li>
         </ul>
         <div class="pull-right m-right-sm">
           <ul class="nav-notification">

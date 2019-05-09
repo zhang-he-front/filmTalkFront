@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FilmtypeHomeService} from "../../service/filmtype-home.service";
 import {isUndefined} from "util";
 import {ActivatedRoute} from "@angular/router";
-import {User} from "../../../../shared/model/user";
-import {UserHomeService} from "../../../../shared/service/user-home.service";
-import {Filmtype} from "../../../../shared/model/filmtype";
+import {Filmtype} from "../../../shared/model/filmtype";
+import {User} from "../../../shared/model/user";
+import {FilmtypeHomeService} from "../../service-home/filmtype-home.service";
+import {UserHomeService} from "../../../shared/service/user-home.service";
 
 declare var $: any;
 
