@@ -38,4 +38,9 @@ export class Film {
   filmSubCount: number;  //点赞数
   filmSubCountFlag: Boolean; //电影点赞标志
   currentUserIsSub: boolean; //当前登陆者是否点赞了该电影
+
+
+  //----------我的主页用到的数据-------
+  rePostTime: string;  //转发时间
+  reason: string; // 转发理由
 }

@@ -1,3 +1,536 @@
-<p>
-  my-part-home works!
-</p>
+<div class="padding-md" style="margin-top: 72px;margin-left: 0;padding-left:0;padding-bottom:0;margin-right: 145px;">
+  <div>
+    <div class="smart-widget">
+      <div class="smart-widget-inner">
+        <div class="smart-widget-body long-div" id="boxscroll" #divTarget
+             style="height: 725px; overflow: hidden; position: relative; outline: none; background: white; overflow-y: auto"
+             tabindex="1">
+          <!--添加回到顶部图标-->
+          <nz-back-top [nzTarget]="divTarget"></nz-back-top>
+          <div class="tab-content" id="boxscrollContent"
+               style="transition: transform 0ms ease-out; transform: translate3d(0px, 0px, 0px);">
+            <div class="tab-pane fade active in" id="profileTab1" style="padding-bottom:20px;">
+              <div class="tab-pane fade active in" id="messages-2" *ngFor="let film of films">
+                <div class="d-flex flex-row comment-row example-item" style="max-width: 98%;">
+                  <div class="comment-text" id="commentText-{{film.oid}}" (mouseenter)="isShowOperate(film)"
+                       (mouseleave)="isNotShowOperate(film)">
+                    <!--<div class="topYui">-->
+                    <!--<label nz-checkbox [hidden]="message.isShowChecked" [(ngModel)]="message.isChecked" (click)="singleCheckbox()" style="margin-left: 0px;"></label>-->
+                    <!--</div>-->
+                    <div class="row">
+                      <div class="col-md-1">
+                        <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
+                          <img src="{{film.image_path}}" style="height: 130px;padding-left: 15px;">
+                        </a>
+                      </div>
+                      <div class="col-md-10">
+                        <h5>
+                          &nbsp;&nbsp;<span style="font-size: 22px;">{{film.film_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
+                            <label class="text-muted">{{film.film_language}}&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <nz-rate *ngIf="film.nzStar != 0" [ngModel]="film.nzStar" nzDisabled></nz-rate>
+                            <label *ngIf="film.nzStar == 0" class="text-muted" style="font-size: 20px;">{{film.star}}&nbsp;</label>
+                            <br>
+                            <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
+                            <!--<span *ngIf="message.isTransformTask && message.SOURCE != '4'" style="color:#36c556;font-size: 13px;">(已转任务)</span>-->
+                          </a>
+                        </h5>
+                      </div>
+                    </div>
+
+                    <span *ngIf="film.film_staus == 0" class="badge badge-danger pull-right"
+                          style="margin-top:-115px;">正在热映</span>
+                    <span *ngIf="film.film_staus == 1" class="badge badge-warning pull-right"
+                          style="margin-top:-115px;">即将上映</span>
+                    <!--</ng-container>-->
+
+
+                    <!--<p class="cr-blue">{{film.film_detail}}</p>-->
+                    <div class="comment-footer ">
+                      <span class="text-muted pull-left">{{film.show_time}}</span>
+                      <span class="pull-right">
+                  <span class="action-icons" style="margin-right: 20px;" [hidden]="film.isShowOperate">
+                    <!--<a class="tooltips" style="color:#666" nz-tooltip nzTitle="删除" (click)="showDeleteConfirm(message)">-->
+                    <!--<i class="fa fa-trash-o"></i>-->
+                    <!--</a>&nbsp;&nbsp;-->
+
+                    <a >
+                      <i nz-icon [nzType]="'select'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="rePostFilm(film)"></i>
+                    </a>&nbsp;&nbsp;
+
+                    <!--电影点赞-->
+                    <a [hidden]="film.filmSubCountFlag">
+                      <i nz-icon  [nzType]="'like'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="likeFilm(film)"></i>
+                    </a>
+                    <a [hidden]="!film.filmSubCountFlag">
+                      <i *ngIf="film.currentUserIsSub == false" nz-icon [nzType]="'like'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="likeFilm(film)"></i>
+                      <i *ngIf="film.currentUserIsSub == true" nz-icon [nzType]="'like'" [nzTheme]="'outline'" style="color: #e36159; font-size: 20px;" (click)="likeFilm(film)"></i>
+                      <i class="z-num" *ngIf="film.filmSubCount != 0">{{film.filmSubCount}}</i>
+                    </a>&nbsp;&nbsp;
+
+
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="关注" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                    <!--(click)="messageSpecial(film)" [hidden]="film.isCollect">-->
+                    <!--<i class="fa fa-star-o" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="取消关注" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                    <!--(click)="messageSpecial(film)" [hidden]="!film.isCollect">-->
+                    <!--<i class="fa fa-star" style="color:#666"></i>-->
+                    <!--</a>&nbsp;&nbsp;-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="点赞" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                    <!--(click)="messagePraise(film)" [hidden]="film.isPraise">-->
+                    <!--<i class="fa fa-thumbs-o-up" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<a class="tooltips praise" nz-tooltip nzTitle="取消点赞" [nzOverlayStyle]="{'font-size':'12px'}"-->
+                    <!--(click)="messagePraise(film)" [hidden]="!film.isPraise">-->
+                    <!--<i class="fa fa-thumbs-up" style="color:#666"></i>-->
+                    <!--</a>-->
+                    <!--<span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;-->
+                 </span>
+                  <a class="text-z" style="font-weight:bold;" (click)="isShowReply(film)">评论
+                    <span>
+                      (<i class="z-num">{{film.numberReply}}</i>)
+                    </span>
+                  </a>
+                </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer" style="border-top:none;" id="isShowReply-{{film.oid}}"
+                     [hidden]="film.isShowReply">
+                  <div class="media">
+                    <!--动态评论输入框 start-->
+                    <div class="row col-xs-12" style="margin:0;" id="isShowCommentFrame-{{film.oid}}"
+                         [hidden]="film.isShowCommentFrame">
+                      <div class="col-xs-1 commentImage">
+                        <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                      </div>
+                      <ul id="comment-{{film.oid}}" class="media-list col-xs-11 commentTxta"
+                          style="margin-bottom:20px; border-radius: 3px;" [hidden]="film.isShowCommentFrame">
+                        <div class="panel-body" style="padding:0;">
+                      <textarea id="i1-{{film.oid}}" placeholder="最多可输入255字" maxlength="255"
+                                onchange="this.value=this.value.substring(0, 255)"
+                                onkeyup="this.value=this.value.substring(0, 255)"
+                                onkeydown="this.value=this.value.substring(0, 255)"
+                                class="form-control" style="resize:none;outline:none;box-shadow:none;border:none;"
+                                (focus)="isShowSend(film.oid)" (blur)="isNotShowSend(film.oid)"></textarea>
+                        </div>
+                        <div id="s1-{{film.oid}}" class="panel-footer operateFrame" style="border:1px solid #f0f0f0;">
+                          <div class=" pull-right" style="margin-right: -1%;">
+                            <button class="btn btn-info btn-xs pull-right" (click)="addParentMessageReply(film)">回复
+                            </button>
+                          </div>
+                        </div>
+                      </ul>
+                    </div>
+                    <!--动态评论输入框 end-->
+
+                    <ng-container [ngSwitch]="film.isMore">
+                      <ng-container *ngSwitchCase="0">
+                        <div class="row col-xs-12">
+                          <ul class="media-list" *ngFor="let mreply of film.threeReply">
+                            <li class="media" *ngIf="mreply.filmOid == film.oid"
+                                style="padding-top:25px;border-top:1px solid #ddd;">
+                              <div class="media-body">
+                                <div class="row" style="margin:0;">
+                                  <div class="col-xs-1 commentImage">
+                                    <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                  </div>
+                                  <!--评论展示 start-->
+                                  <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                    <p>
+                                <span style="font-weight:bold;">
+                                  {{mreply.commentatorName}}：
+                                </span>
+                                      {{mreply.commentDetail}}
+                                    </p>
+                                    <div class="date-dz">
+                                      <span class=" pull-left comment-time">{{mreply.commentCreateTime}}</span>
+                                      <div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(mreply)"
+                                           (mouseleave)="isNotShowDelete(mreply)">
+                                        <!--<a [hidden]="mreply.isShowDelete" class="operate-icon" (click)="deleteReply(film,mreply)"><i class="fa fa-trash-o"></i></a>-->
+                                        <a *ngIf="mreply.commentatorName == currentUser.username"><i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                                                                                     [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
+
+                                        <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
+                                        <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                              (click)="rePostFilmComment(mreply,film)"></i></a>
+
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+
+                                        <a><i nz-icon [type]="'message'" style="font-size: 16px; "
+                                              (click)="replyMessageIsShow(mreply,film)"></i></a>
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
+                                          <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'"  style="color: black"
+                                                [hidden]="!mreply.PRAISENUMflag"></i></a>
+                                          <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                          <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
+                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="mreply.PRAISENUMflag"></i>
+                                          <i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--评论展示 end-->
+
+                                <!--回复输入框 start-->
+                                <div class="row col-xs-12" style="margin:0;" [hidden]="mreply.isShowReplyFrame">
+                                  <div class="col-xs-1 replyImage">
+                                    <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                  </div>
+                                  <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                    <ul id="reply1-{{mreply.oid}}" class="media-list replys"
+                                        [hidden]="mreply.isShowReplyFrame">
+                                      <div class="panel-body" style="padding:0;">
+                                <textarea id="{{mreply.oid}}" placeholder="最多可输入255字" maxlength="255"
+                                          onchange="this.value=this.value.substring(0, 255)"
+                                          onkeyup="this.value=this.value.substring(0, 255)"
+                                          onkeydown="this.value=this.value.substring(0, 255)"
+                                          class="form-control"
+                                          style="resize:none;outline:none;box-shadow:none;border:none;"
+                                          (focus)="isShowBorder(mreply.oid)"
+                                          (blur)="isNotShowBorder(mreply.oid)"></textarea>
+                                      </div>
+                                      <div class="panel-footer operateReplyFrame" style="border:1px solid #f0f0f0;">
+                                        <div class=" pull-right" style="margin-right: -1%;">
+                                          <button class="btn btn-info btn-xs pull-right"
+                                                  (click)="addChildrenMessageReply(mreply,0,film)">回复
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <!--回复输入框 end-->
+
+                                <br>
+
+                                <!--回复内容展示 start-->
+                                <ul class="media-list">
+                                  <ng-container *ngFor="let replyc of film.replyChildrenDataSet">
+                                    <li *ngIf="replyc.nodeParentId == mreply.oid"
+                                        style="margin-left:50px;padding-bottom:15px;padding-left:10px;padding-top: 10px;">
+                                      <div class="media-body">
+                                        <div class="row" style="margin:0;">
+                                          <div class="col-xs-1 commentImage">
+                                            <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                          </div>
+                                          <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                            <p>
+                                              <span style="font-weight:bold;">{{replyc.commentatorName}}</span> &nbsp;回复&nbsp;
+                                              <span style="font-weight:bold;">{{replyc.replyPersonName}}</span>：
+                                              {{replyc.commentDetail}}
+                                            </p>
+                                            <div class="date-dz">
+                                              <span class=" pull-left comment-time">{{replyc.replyCreateTime}}</span>
+                                              <div class=" pull-right comment-pl-block "
+                                                   (mouseenter)="isShowDelete(replyc)"
+                                                   (mouseleave)="isNotShowDelete(replyc)">
+                                                <!--需与人员绑定-->
+                                                <!--<a [hidden]="replyc.isShowDelete" class="operate-icon"-->
+                                                <!--*ngIf="replyc.commentatorName == replyc.commentatorName"-->
+                                                <!--(click)="deleteReplyChild(replyc.oid)"><i class="fa fa-trash-o"></i></a>-->
+                                                <a *ngIf="replyc.commentatorName == currentUser.username">
+                                                  <i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                                     [hidden]="replyc.isShowDelete"
+                                                     (click)="deleteReplyChild(film, replyc.oid)">
+                                                  </i>
+                                                </a>
+
+                                                <!--<a class="operate-icon" style="margin-left:10px;"-->
+                                                <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
+                                                <!--class="fa fa-commenting-o"></i></a>-->
+
+                                                <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                                      (click)="rePostFilmComment(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+
+                                                <a><i nz-icon [type]="'message'" style="font-size: 16px;"
+                                                      (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
+                                                  <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
+                                                  <!--[hidden]="replyc.PRAISENUMflag"></i>-->
+                                                  <!--<i class="fa fa-thumbs-up" style="color:#666"-->
+                                                  <!--[hidden]="!replyc.PRAISENUMflag"></i>-->
+                                                  <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                                        [hidden]="!replyc.PRAISENUMflag"></i></a>
+                                                  <i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>
+                                                </a>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <!--二级回复输入框 start-->
+                                      <div class="row" style="margin:0;" [hidden]="replyc.isShowReplyFrame">
+                                        <div class="col-xs-1 replyImage">
+                                          <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                        </div>
+                                        <ul id="reply2-{{replyc.oid}}" class="media-list col-xs-11 commentTxta"
+                                            style="margin-top:20px;border-radius: 3px;"
+                                            [hidden]="replyc.isShowReplyFrame">
+                                          <div class="panel-body" style="padding:0;">
+                                <textarea id="{{replyc.oid}}" placeholder="最多可输入255字" maxlength="255"
+                                          onchange="this.value=this.value.substring(0, 255)"
+                                          onkeyup="this.value=this.value.substring(0, 255)"
+                                          onkeydown="this.value=this.value.substring(0, 255)"
+                                          class="form-control tex1"
+                                          style="resize:none;;outline:none;box-shadow:none;border:none;"
+                                          (focus)="isShowSecondBorder(replyc.oid)"
+                                          (blur)="isNotShowSecondBorder(replyc.oid)"></textarea>
+                                          </div>
+                                          <div class="panel-footer operateReplyFrame"
+                                               style="border: 1px solid #f0f0f0;">
+                                            <div class=" pull-right" style="margin-right: -1%;">
+                                              <button class="btn btn-info btn-xs pull-right"
+                                                      (click)="addChildrenMessageReply(replyc,1,film)">回复
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </ul>
+                                      </div>
+                                      <!--二级回复输入框 end-->
+                                    </li>
+                                  </ng-container>
+                                </ul>
+                                <!--回复内容展示 end-->
+                              </div>
+                            </li>
+                          </ul>
+                          <ul class="media-list pull-right" style="margin-top:20px;" [hidden]="film.numberReply<4">
+                            <p style="font-weight:bold;">
+                              <a style="color:#3c92dc;" (click)="changeIsMore(film)">查看全部{{film.numberReply}}条</a>
+                            </p>
+                          </ul>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngSwitchCase="1">
+                        <div class="row col-xs-12">
+                          <ul class="media-list" *ngFor="let mreply of film.replyDataSet">
+                            <li class="media" *ngIf="mreply.filmOid == film.oid"
+                                style="padding-top:25px;border-top:1px solid #ddd;">
+                              <div class="media-body">
+                                <div class="row" style="margin:0;">
+                                  <div class="col-xs-1 commentImage">
+                                    <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                  </div>
+                                  <!--评论展示 start-->
+                                  <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                    <p>
+                                <span style="font-weight:bold;">
+                                  {{mreply.commentatorName}}：
+                                </span>
+                                      {{mreply.commentDetail}}
+                                    </p>
+                                    <div class="date-dz">
+                                      <span class=" pull-left comment-time">{{mreply.commentCreateTime}}</span>
+                                      <div class=" pull-right comment-pl-block " (mouseenter)="isShowDelete(mreply)"
+                                           (mouseleave)="isNotShowDelete(mreply)">
+                                        <!--<a [hidden]="mreply.isShowDelete" class="operate-icon" (click)="deleteReply(film,mreply)"><i class="fa fa-trash-o"></i></a>-->
+                                        <a *ngIf="mreply.commentatorName == currentUser.username"><i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                                                                                     [hidden]="mreply.isShowDelete" (click)="deleteReply(film,mreply)"></i></a>
+
+                                        <!--<a class="operate-icon"  style="margin-left:10px;" (click)="replyMessageIsShow(mreply,message)"><i class="fa fa-commenting-o"></i></a>-->
+
+                                        <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                              (click)="rePostFilmComment(mreply,film)"></i></a>
+
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+
+                                        <a><i nz-icon [type]="'message'" style="font-size: 16px;"
+                                              (click)="replyMessageIsShow(mreply,film)"></i></a>
+                                        <span style="margin-left:5px;margin-right:5px;"></span>
+                                        <a class="operate-icon" (click)="replyPraise(mreply, film)">
+                                          <!--<i nz-icon [nzType]="'like'" [nzTheme]="'outline'" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                          <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                                [hidden]="!mreply.PRAISENUMflag"></i></a>
+
+                                          <!--<i nz-icon [nzType]="'heart'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'" [hidden]="!mreply.PRAISENUMflag"></i>-->
+                                          <!--<i class="fa fa-thumbs-o-up" style="color:#666" [hidden]="mreply.PRAISENUMflag"></i>-->
+                                          <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="mreply.PRAISENUMflag"></i>
+                                          <i class="z-num" *ngIf="mreply.isShowPraise">{{mreply.PRAISENUM}}</i>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--评论展示 end-->
+
+                                <!--回复输入框 start-->
+                                <div class="row col-xs-12" style="margin:0;" [hidden]="mreply.isShowReplyFrame">
+                                  <div class="col-xs-1 replyImage">
+                                    <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                  </div>
+                                  <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                    <ul id="reply1-{{mreply.oid}}" class="media-list replys"
+                                        [hidden]="mreply.isShowReplyFrame">
+                                      <div class="panel-body" style="padding:0;">
+                                <textarea id="{{mreply.oid}}" placeholder="最多可输入255字" maxlength="255"
+                                          onchange="this.value=this.value.substring(0, 255)"
+                                          onkeyup="this.value=this.value.substring(0, 255)"
+                                          onkeydown="this.value=this.value.substring(0, 255)"
+                                          class="form-control"
+                                          style="resize:none;outline:none;box-shadow:none;border:none;"
+                                          (focus)="isShowBorder(mreply.oid)"
+                                          (blur)="isNotShowBorder(mreply.oid)"></textarea>
+                                      </div>
+                                      <div class="panel-footer operateReplyFrame" style="border:1px solid #f0f0f0;">
+                                        <div class=" pull-right" style="margin-right: -1%;">
+                                          <button class="btn btn-info btn-xs pull-right"
+                                                  (click)="addChildrenMessageReply(mreply,0,film)">回复
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <!--回复输入框 end-->
+
+                                <br>
+
+                                <!--回复内容展示 start-->
+                                <ul class="media-list">
+                                  <ng-container *ngFor="let replyc of film.replyChildrenDataSet">
+                                    <li *ngIf="replyc.nodeParentId == mreply.oid"
+                                        style="margin-left:50px;padding-bottom:15px;padding-left:10px;padding-top: 10px;">
+                                      <div class="media-body">
+                                        <div class="row" style="margin:0;">
+                                          <div class="col-xs-1 commentImage">
+                                            <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                          </div>
+                                          <div class="col-xs-11 commentShow" style="padding-left:0;">
+                                            <p>
+                                              <span style="font-weight:bold;">{{replyc.commentatorName}}</span> &nbsp;回复&nbsp;
+                                              <span style="font-weight:bold;">{{replyc.replyPersonName}}</span>：
+                                              {{replyc.commentDetail}}
+                                            </p>
+                                            <div class="date-dz">
+                                              <span class=" pull-left comment-time">{{replyc.replyCreateTime}}</span>
+                                              <div class=" pull-right comment-pl-block "
+                                                   (mouseenter)="isShowDelete(replyc)"
+                                                   (mouseleave)="isNotShowDelete(replyc)">
+                                                <!--需与人员绑定-->
+                                                <!--<a [hidden]="replyc.isShowDelete" class="operate-icon"-->
+                                                <!--*ngIf="replyc.commentatorName == replyc.commentatorName"-->
+                                                <!--(click)="deleteReplyChild(replyc.oid)"><i class="fa fa-trash-o"></i></a>-->
+                                                <a *ngIf="replyc.commentatorName == currentUser.username">
+                                                  <i nz-icon [type]="'delete'" style="font-size: 20px;"
+                                                     [hidden]="replyc.isShowDelete"
+                                                     (click)="deleteReplyChild(film,replyc.oid)">
+                                                  </i>
+                                                </a>
+
+                                                <!--<a class="operate-icon" style="margin-left:10px;"-->
+                                                <!--(click)="secondReplyMessageIsShow(replyc,message)"><i-->
+                                                <!--class="fa fa-commenting-o"></i></a>-->
+
+                                                <a><i nz-icon [type]="'select'" style="font-size: 16px;"
+                                                      (click)="rePostFilmComment(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+
+                                                <a><i nz-icon [type]="'message'" style="font-size: 16px; "
+                                                      (click)="secondReplyMessageIsShow(replyc,film)"></i></a>
+
+                                                <span style="margin-left:5px;margin-right:5px;"></span>
+                                                <a class="operate-icon" (click)="replyPraise(replyc, film)">
+                                                  <i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: #e36159" [hidden]="replyc.PRAISENUMflag"></i>
+                                                  <a><i nz-icon [nzType]="'heart'" [nzTheme]="'outline'" style="color: black"
+                                                        [hidden]="!replyc.PRAISENUMflag"></i></a>
+                                                  <!--<i class="fa fa-thumbs-o-up" style="color:#666"-->
+                                                  <!--[hidden]="replyc.PRAISENUMflag"></i>-->
+                                                  <!--<i class="fa fa-thumbs-up" style="color:#666"-->
+                                                  <!--[hidden]="!replyc.PRAISENUMflag"></i>-->
+                                                  <i class="z-num" *ngIf="replyc.isShowPraise">{{replyc.PRAISENUM}}</i>
+                                                </a>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <!--二级回复输入框 start-->
+                                      <div class="row" style="margin:0;" [hidden]="replyc.isShowReplyFrame">
+                                        <div class="col-xs-1 replyImage">
+                                          <img src="assets/img/navbar/touxiang-comment.png" alt="">
+                                        </div>
+                                        <ul id="reply2-{{replyc.oid}}" class="media-list col-xs-11 commentTxta"
+                                            style="margin-top:20px;border-radius: 3px;"
+                                            [hidden]="replyc.isShowReplyFrame">
+                                          <div class="panel-body" style="padding:0;">
+                                <textarea id="{{replyc.oid}}" placeholder="最多可输入255字" maxlength="255"
+                                          onchange="this.value=this.value.substring(0, 255)"
+                                          onkeyup="this.value=this.value.substring(0, 255)"
+                                          onkeydown="this.value=this.value.substring(0, 255)"
+                                          class="form-control tex1"
+                                          style="resize:none;;outline:none;box-shadow:none;border:none;"
+                                          (focus)="isShowSecondBorder(replyc.oid)"
+                                          (blur)="isNotShowSecondBorder(replyc.oid)"></textarea>
+                                          </div>
+                                          <div class="panel-footer operateReplyFrame"
+                                               style="border: 1px solid #f0f0f0;">
+                                            <div class=" pull-right" style="margin-right: -1%;">
+                                              <button class="btn btn-info btn-xs pull-right"
+                                                      (click)="addChildrenMessageReply(replyc,1,film)">回复
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </ul>
+                                      </div>
+                                      <!--二级回复输入框 end-->
+                                    </li>
+                                  </ng-container>
+                                </ul>
+                                <!--回复内容展示 end-->
+                              </div>
+                            </li>
+                          </ul>
+                          <ul class="media-list pull-right" style="margin-top:20px;">
+                            <p style="font-weight:bold;">
+                              <a style="color:#3c92dc;" (click)="changeIsMore(film)">评论收起</a>
+                            </p>
+                          </ul>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                    <!-- 无数据展示 start-->
+                    <div *ngIf="isExistFilm" class="padding-md" style="margin:15px 10px 15px 18px;padding-left:0;padding-bottom:0;">
+                      <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 442px;">
+                        <div style="margin:auto;">
+                          <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
+                          <span class="text-muted">暂无数据</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 无数据展示 end-->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--个人信息模态框-->
+<nz-modal [(nzVisible)]="filmRePostIsVisible" (nzOnCancel)="filmRePostCancel()" (nzOnOk)="filmRePostOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-film-repost #filmRePost (closeRePostModel)="closeRePostModel(event)" ></app-film-repost>
+</nz-modal>

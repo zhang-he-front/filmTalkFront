@@ -50,7 +50,7 @@ export class FilmCommentHomeComponent implements OnInit {
 
   //获取数据
   getFilmData() {
-    this.filmcommentService.getFilmData(this.currentUser.oid).subscribe(res => {
+    this.filmcommentService.getFilmData(this.currentUser.oid, null).subscribe(res => {
       console.log(res);
       this.dealWithData(res.data);
     });
@@ -66,7 +66,7 @@ export class FilmCommentHomeComponent implements OnInit {
         this.isExistFilm = false;
         this.filmsData = [];
         for (let i = 0; i < res.length; i++) {
-          this.filmcommentService.getCommentDataByFlmOid(res[i].oid, this.currentUser.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(res[i].oid, this.currentUser.oid, null).subscribe(str => {
             this.replyDataSet = [];
             this.replyChildrenDataSet = [];
             let a = new Date(res[i].showTime);
@@ -199,7 +199,7 @@ export class FilmCommentHomeComponent implements OnInit {
       mreply.PRAISENUMflag = false;
       filmOperate.parise = 1;
     }
-    this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid).subscribe(res => {
+    this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
         const newOperate = res.data;
         filmOperate.oid = newOperate.oid;
@@ -303,7 +303,7 @@ export class FilmCommentHomeComponent implements OnInit {
     filmOperate.film_oid = film.oid;
     filmOperate.comment_oid = null;
     filmOperate.pariser_user = this.currentUser.username;
-    this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid).subscribe(res => {
+    this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
         const newOperate = res.data;
         filmOperate.oid = newOperate.oid;
@@ -379,8 +379,8 @@ export class FilmCommentHomeComponent implements OnInit {
     const oid = film.oid;
     if ($(`#i1-${oid}`).val().replace(/^\s+|\s+$/g, '') !== '') {
       filmReply.film_oid = oid;
-      filmReply.commentator_oid = 1;
-      filmReply.commentator_name = 'admin';
+      filmReply.commentator_oid = this.currentUser.oid;
+      filmReply.commentator_name = this.currentUser.username;
       filmReply.commentator_detail = $(`#i1-${oid}`).val();
       filmReply.node_parent_oid = null;
       filmReply.parent_oid = null;
@@ -391,7 +391,7 @@ export class FilmCommentHomeComponent implements OnInit {
           $(`#i1-${oid}`).val('');
           $(`#s1-${oid}`).hide();
           film.numberReply += 1;
-          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid, null).subscribe(str => {
             if (str.data != null) {
               let data = str.data.commentParentVOList;
               this.replyDataSet = [];
@@ -458,8 +458,8 @@ export class FilmCommentHomeComponent implements OnInit {
         filmReply.node_parent_oid = mreply.parentId;   // 回复（动态的回复）的OID
       }
       filmReply.film_oid = film.oid;
-      filmReply.commentator_oid = 1;
-      filmReply.commentator_name = 'admin';
+      filmReply.commentator_oid = this.currentUser.oid;
+      filmReply.commentator_name = this.currentUser.username;
       filmReply.commentator_detail = $(`#${oid}`).val();
       filmReply.replyperson_oid = mreply.commentatorId;
       filmReply.replyperson_name = mreply.commentatorName;
@@ -470,7 +470,7 @@ export class FilmCommentHomeComponent implements OnInit {
           $(`#${oid}`).val('');
           mreply.isShowReplyFrame = true;  // 隐藏回复框
           film.isShowCommentFrame = false;   // 显示评论框
-          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
+          this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid, null).subscribe(str => {
             if (str.data != null) {
               this.replyDataSet = [];
               this.replyChildrenDataSet = [];
@@ -566,7 +566,7 @@ export class FilmCommentHomeComponent implements OnInit {
    * @param {Film} film
    */
   getReplyByOid(film: Film){
-    this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid).subscribe(str => {
+    this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid, null).subscribe(str => {
       if (str.data != null) {
         this.replyDataSet = [];
         this.replyChildrenDataSet = [];

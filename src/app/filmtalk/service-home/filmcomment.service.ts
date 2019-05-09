@@ -17,10 +17,11 @@ export class FilmcommentServiceService {
    * add by zyx 2019-4-12
    * @returns {Observable<any>}
    */
-  getFilmData(oid: number): Observable<any> {
+  getFilmData(oid: number, flag: string): Observable<any> {
     const url = '/film/queryDetail';
     const body = {
-      'currentUserOid': oid
+      'currentUserOid': oid,
+      'flag': flag
     };
     return this.http.post(url, body);
   }
@@ -30,11 +31,12 @@ export class FilmcommentServiceService {
    * add by zyx 2019-4-12
    * @returns {Observable<any>}
    */
-  getCommentDataByFlmOid(filmId: any, currentUserOid: number): Observable<any> {
+  getCommentDataByFlmOid(filmId: any, currentUserOid: number, flag: string): Observable<any> {
     const url = '/comment/query';
     const body = {
       'filmId': filmId,
-      'currentUserOid': currentUserOid
+      'currentUserOid': currentUserOid,
+      'flag': flag
     };
     return this.http.post(url, body);
   }
@@ -93,12 +95,13 @@ export class FilmcommentServiceService {
    * add by zyx 2019-4-30
    * @returns {Observable<any>}
    */
-  queryFilmOperate(filmOid: number, commentOid: number, userid: number): Observable<any> {
+  queryFilmOperate(filmOid: number, commentOid: number, userid: number, flag: string): Observable<any> {
     const url = '/film/queryFilmOperatePrise';
     const body = {
       'filmOid': filmOid,
       'commentOid': commentOid,
-      'userId': userid
+      'userId': userid,
+      'flag': flag
     };
     return this.http.post(url, body);
   }
