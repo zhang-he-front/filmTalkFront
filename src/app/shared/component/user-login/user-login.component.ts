@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {Observable, Observer} from "rxjs/index";
-import {UserHomeService} from "../../service/user-home.service";
-import {User} from "../../model/user";
-import {NzMessageService} from "ng-zorro-antd";
-import {Router} from "@angular/router";
-import {NavbarComponent} from "../navbar/navbar.component";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Observable, Observer} from 'rxjs/index';
+import {UserHomeService} from '../../service/user-home.service';
+import {User} from '../../model/user';
+import {NzMessageService} from 'ng-zorro-antd';
+import {Router} from '@angular/router';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-user-login',

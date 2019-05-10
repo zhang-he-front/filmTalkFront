@@ -54,6 +54,13 @@
                     <!--<i class="fa fa-trash-o"></i>-->
                     <!--</a>&nbsp;&nbsp;-->
 
+                    <!--删除-->
+                     <a>
+                       <i *ngIf="currentUser.role == 'admin'" nz-icon [nzType]="'delete'" [nzTheme]="'outline'" style="font-size: 20px;"
+                          (click)="deleteFilm(film)"></i>
+                     </a>&nbsp;&nbsp;
+
+                    <!--转发-->
                     <a >
                       <i nz-icon [nzType]="'select'" [nzTheme]="'outline'" style="font-size: 20px;" (click)="rePostFilm(film)"></i>
                     </a>&nbsp;&nbsp;
@@ -506,22 +513,21 @@
                       </ng-container>
                     </ng-container>
 
-                    <!-- 无数据展示 start-->
-                    <div *ngIf="isExistFilm" class="padding-md" style="margin:15px 10px 15px 18px;padding-left:0;padding-bottom:0;">
-                      <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 442px;">
-                        <div style="margin:auto;">
-                          <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
-                          <span class="text-muted">暂无数据</span>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- 无数据展示 end-->
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- 无数据展示 start-->
+          <div *ngIf="isExistFilm" class="padding-md" style="margin:15px 10px 15px 18px;padding-left:0;padding-bottom:0;">
+            <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 442px;">
+              <div style="margin:auto;">
+                <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
+                <span class="text-muted">暂无数据</span>
+              </div>
+            </div>
+          </div>
+          <!-- 无数据展示 end-->
         </div>
       </div>
     </div>

@@ -56,7 +56,6 @@ export class FilmcommentServiceService {
       'commentatorId': filmReply.commentator_oid,
       'commentatorName': filmReply.commentator_name,
       'commentDetail': filmReply.commentator_detail,
-      // 'commentCreateTime': filmReply.comment_create_time,
       'replyPersonId': filmReply.replyperson_oid,
       'replyPersonName': filmReply.replyperson_name,
       'flag': filmReply.flag,
@@ -156,6 +155,19 @@ export class FilmcommentServiceService {
       'filmOid': repost.film_oid,
       'replyOid': repost.reply_oid,
       'reason': repost.reason
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 电影转发
+   * add by zyx 2019-5-10
+   * @returns {Observable<any>}
+   */
+  deleteFilm(oid: number): Observable<any> {
+    const url = '/film/deleteFilm';
+    const body = {
+      'oid': oid
     };
     return this.http.post(url, body);
   }

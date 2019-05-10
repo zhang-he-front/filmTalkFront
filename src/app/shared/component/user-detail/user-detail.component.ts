@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {User} from "../../model/user";
-import {UserHomeService} from "../../service/user-home.service";
-import {Router} from "@angular/router";
-import {Observable, Observer} from "rxjs/index";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {User} from '../../model/user';
+import {UserHomeService} from '../../service/user-home.service';
+import {Router} from '@angular/router';
+import {Observable, Observer} from 'rxjs/index';
 declare var $: any;
 
 @Component({

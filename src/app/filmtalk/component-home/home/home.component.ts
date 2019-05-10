@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {FilmpageHomeService} from "../../service-home/filmpage-home.service";
-import {ActivatedRoute} from "@angular/router";
-import {User} from "../../../shared/model/user";
-import {UserHomeService} from "../../../shared/service/user-home.service";
+import {FilmpageHomeService} from '../../service-home/filmpage-home.service';
+import {ActivatedRoute} from '@angular/router';
+import {User} from '../../../shared/model/user';
+import {UserHomeService} from '../../../shared/service/user-home.service';
 
 declare var $: any;
 
@@ -72,9 +72,9 @@ export class HomeComponent implements OnInit {
         let a1 = new Date(res.futureArr[i].showTime);
         if (i < 7) {
           this.futureArr.push({
-            "oid": res.futureArr[i].oid,
-            "film_name": res.futureArr[i].filmName,
-            "show_time": a1.getFullYear() + "-" + (a1.getMonth() + 1) + "-" + a1.getDate()
+            'oid': res.futureArr[i].oid,
+            'film_name': res.futureArr[i].filmName,
+            'show_time': a1.getFullYear() + '-' + (a1.getMonth() + 1) + '-' + a1.getDate()
           });
         }
       }
@@ -89,9 +89,9 @@ export class HomeComponent implements OnInit {
       for (let i = 0; i < res.likeArr.length; i++) {
         if (i < 7) {
           this.likeArr.push({
-            "oid": res.likeArr[i].oid,
-            "film_name": res.likeArr[i].filmName,
-            "star": res.likeArr[i].star * 2
+            'oid': res.likeArr[i].oid,
+            'film_name': res.likeArr[i].filmName,
+            'star': res.likeArr[i].star * 2
           });
         }
       }
@@ -101,33 +101,33 @@ export class HomeComponent implements OnInit {
     for (let i = 0; i < res.recentHotArr.length; i++) {
       let a2 = new Date(res.recentHotArr[i].showTime);
       if (i < 4) {
-        let path = "";
-        let str = res.recentHotArr[i].imagePath.split("/");
-        if (str[3] == "now" || str[3] == "future") {
-          path = "assets/img/film/long/" + str[4];
+        let path = '';
+        let str = res.recentHotArr[i].imagePath.split('/');
+        if (str[3] == 'now' || str[3] == 'future') {
+          path = 'assets/img/film/long/' + str[4];
         }
         this.nowArr.push({
-          "oid": res.recentHotArr[i].oid,
-          "film_name": res.recentHotArr[i].filmName,
-          "filmType": res.recentHotArr[i].filmType,
-          "image_path": path,  // assets/img/film/film1.webp
-          "film_language": res.recentHotArr[i].language,
-          "location": res.recentHotArr[i].location,
-          "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
-          "hour": res.recentHotArr[i].hour,
-          "star": res.recentHotArr[i].star * 2
+          'oid': res.recentHotArr[i].oid,
+          'film_name': res.recentHotArr[i].filmName,
+          'filmType': res.recentHotArr[i].filmType,
+          'image_path': path,  // assets/img/film/film1.webp
+          'film_language': res.recentHotArr[i].language,
+          'location': res.recentHotArr[i].location,
+          'show_time': a2.getFullYear() + '-' + (a2.getMonth() + 1) + '-' + a2.getDate(),
+          'hour': res.recentHotArr[i].hour,
+          'star': res.recentHotArr[i].star * 2
         });
       } else if (i >= 4 && i < 10) {
         this.recentHotArr.push({
-          "oid": res.recentHotArr[i].oid,
-          "film_name": res.recentHotArr[i].filmName,
-          "filmType": res.recentHotArr[i].filmType,
-          "image_path": res.recentHotArr[i].imagePath,
-          "film_language": res.recentHotArr[i].language,
-          "location": res.recentHotArr[i].location,
-          "show_time": a2.getFullYear() + "-" + (a2.getMonth() + 1) + "-" + a2.getDate(),
-          "hour": res.recentHotArr[i].hour,
-          "star": res.recentHotArr[i].star * 2
+          'oid': res.recentHotArr[i].oid,
+          'film_name': res.recentHotArr[i].filmName,
+          'filmType': res.recentHotArr[i].filmType,
+          'image_path': res.recentHotArr[i].imagePath,
+          'film_language': res.recentHotArr[i].language,
+          'location': res.recentHotArr[i].location,
+          'show_time': a2.getFullYear() + '-' + (a2.getMonth() + 1) + '-' + a2.getDate(),
+          'hour': res.recentHotArr[i].hour,
+          'star': res.recentHotArr[i].star * 2
         });
       }
     }
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit {
     // 后面的异步请求中不可直接使用this，在异步中使用的this
     // 和这里的this不同
     var _that = this;
-    this.http.post(url, "").subscribe(function (data) {//请求成功的回调函数
+    this.http.post(url, '').subscribe(function (data) {//请求成功的回调函数
       console.log(data);
     }, function (err) {// 请求失败的回调函数
       console.log(err);

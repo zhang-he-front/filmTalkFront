@@ -1,13 +1,13 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {Filmtype} from "../../model/filmtype";
-import {FilmtypeHomeService} from "../../../filmtalk/service-home/filmtype-home.service";
-import {NzMessageService} from "ng-zorro-antd";
-import {CreateFilmComponent} from "../create-film/create-film.component";
-import {FilmpageHomeService} from "../../../filmtalk/service-home/filmpage-home.service";
-import {Router} from "@angular/router";
-import {UserDetailComponent} from "../user-detail/user-detail.component";
-import {User} from "../../model/user";
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {Filmtype} from '../../model/filmtype';
+import {FilmtypeHomeService} from '../../../filmtalk/service-home/filmtype-home.service';
+import {NzMessageService} from 'ng-zorro-antd';
+import {CreateFilmComponent} from '../create-film/create-film.component';
+import {FilmpageHomeService} from '../../../filmtalk/service-home/filmpage-home.service';
+import {Router} from '@angular/router';
+import {UserDetailComponent} from '../user-detail/user-detail.component';
+import {User} from '../../model/user';
 
 declare var $: any;
 
@@ -56,8 +56,8 @@ export class NavbarComponent implements OnInit {
 
   //关闭模态框,刷新页面
   closeModel(str: any) {
-    if (str == "closeAndRefresh") {
-      this.filmpageHomeService.refreshPageHome.emit("refreshPageHome");
+    if (str == 'closeAndRefresh') {
+      this.filmpageHomeService.refreshPageHome.emit('refreshPageHome');
     }
     this.handleCancel();
   }
@@ -98,7 +98,7 @@ export class NavbarComponent implements OnInit {
 
   // 提交
   onSubmit(): void {
-    let type_name = "";
+    let type_name = '';
     for (const i in this.typeForm.controls) {  // 数据校验
       this.typeForm.controls[i].markAsDirty();
       this.typeForm.controls[i].updateValueAndValidity();
@@ -112,7 +112,7 @@ export class NavbarComponent implements OnInit {
         this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
           if (res.code == 0) {
             this.typeCancel();
-            this.filmtypeHomeService.refreshTypeHome.emit("refreshTypeHome");
+            this.filmtypeHomeService.refreshTypeHome.emit('refreshTypeHome');
             this.alertMessage.success('新建成功', {
               nzDuration: 1500
             });

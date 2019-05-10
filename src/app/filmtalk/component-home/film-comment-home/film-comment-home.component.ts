@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Film} from "../../../shared/model/film";
-import {FilmcommentServiceService} from "../../service-home/filmcomment.service";
-import {isUndefined} from "util";
-import {FilmReply} from "../../../shared/model/filmreply";
-import {Filmoperate} from "../../../shared/model/filmoperate";
-import {ActivatedRoute} from "@angular/router";
-import {UserHomeService} from "../../../shared/service/user-home.service";
-import {User} from "../../../shared/model/user";
-import {FilmRepostComponent} from "../../../shared/component/film-repost/film-repost.component";
-import {UserRePost} from "../../../shared/model/userrepost";
+import {Film} from '../../../shared/model/film';
+import {FilmcommentServiceService} from '../../service-home/filmcomment.service';
+import {isUndefined} from 'util';
+import {FilmReply} from '../../../shared/model/filmreply';
+import {Filmoperate} from '../../../shared/model/filmoperate';
+import {ActivatedRoute} from '@angular/router';
+import {UserHomeService} from '../../../shared/service/user-home.service';
+import {User} from '../../../shared/model/user';
+import {FilmRepostComponent} from '../../../shared/component/film-repost/film-repost.component';
+import {UserRePost} from '../../../shared/model/userrepost';
 
 declare var $: any;
 
@@ -77,7 +77,7 @@ export class FilmCommentHomeComponent implements OnInit {
             f.image_path = res[i].imagePath;
             f.film_language = res[i].filmLanguage;
             f.location = res[i].location;
-            f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
+            f.show_time = a.getFullYear() + '-' + (a.getMonth() + 1) + '-' + a.getDate();
             f.hour_length = res[i].hour;
             f.film_detail = res[i].filmDetail;
             f.producer = res[i].producer;
@@ -99,12 +99,11 @@ export class FilmCommentHomeComponent implements OnInit {
               f.filmSubCountFlag = true;
             }
             f.currentUserIsSub = res[i].currentUserIsSub;
-            // f.praiseNumb = 10;
             if (res[i].star != 0) {
-              f.star = res[i].star * 2 + "";
+              f.star = res[i].star * 2 + '';
               f.nzStar = res[i].star;
-              if(res[i].star.split(".")[1] == "0"){
-                f.nzStar = parseInt(res[i].star.split(".")[0]);
+              if(res[i].star.split('.')[1] == '0'){
+                f.nzStar = parseInt(res[i].star.split('.')[0]);
               }
             } else {
               f.star = '暂无评分';
@@ -217,6 +216,18 @@ export class FilmCommentHomeComponent implements OnInit {
         });
       }
     });
+  }
+
+  //删除电影
+  deleteFilm(film: Film){
+    this.filmcommentService.deleteFilm(film.oid).subscribe(res => {
+      if(res.msg == '成功'){
+        this.getFilmData();
+      } else{
+        alert('删除失败');
+      }
+    });
+
   }
 
 

@@ -1,5 +1,5 @@
 /**
- * 电影数据实体类
+ * 电影类别实体类
  */
 
 export class Filmtype {

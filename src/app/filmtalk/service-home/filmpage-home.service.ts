@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User} from "../../shared/model/user";
-import {Film} from "../../shared/model/film";
+import {User} from '../../shared/model/user';
+import {Film} from '../../shared/model/film';
 
 @Injectable({
   providedIn: 'root'

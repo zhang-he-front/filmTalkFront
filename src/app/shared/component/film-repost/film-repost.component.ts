@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {UserRePost} from "../../model/userrepost";
-import {FilmcommentServiceService} from "../../../filmtalk/service-home/filmcomment.service";
-import {NzMessageService} from "ng-zorro-antd";
-import {FilmReply} from "../../model/filmreply";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {UserRePost} from '../../model/userrepost';
+import {FilmcommentServiceService} from '../../../filmtalk/service-home/filmcomment.service';
+import {NzMessageService} from 'ng-zorro-antd';
+import {FilmReply} from '../../model/filmreply';
 
 @Component({
   selector: 'app-film-repost',
@@ -49,7 +49,7 @@ export class FilmRepostComponent implements OnInit {
 
   //取消
   cancel(){
-    this.closeRePostModel.emit("closeRePostModel");
+    this.closeRePostModel.emit('closeRePostModel');
   }
 
 }

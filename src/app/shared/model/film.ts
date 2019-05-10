@@ -1,7 +1,7 @@
 /**
  * 电影数据实体类
  */
-import {UserRePost} from "./userrepost";
+import {UserRePost} from './userrepost';
 
 export class Film {
   oid: number;
