@@ -13,10 +13,9 @@
     <div class="row carousel-container" style="height: 240px;margin-bottom: 20px;">
       <nz-carousel nzAutoPlay>
         <div nz-carousel-content *ngFor="let now of nowArr" style="height: 240px;">
-          <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : now.oid , userOid: currentUser.oid }" >
+          <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : now.oid , userOid: currentUser.oid }">
             <img src="{{now.image_path}}" style="height: 240px;width: 1195px;">
           </a>
-          <!--<h3>{{ index }}</h3>-->
         </div>
       </nz-carousel>
     </div>
@@ -36,8 +35,10 @@
         <div class="thumbnail row" style="margin-bottom: 5px;">
           <div class="col-md-6">
             <a *ngIf="currentUser.role == 'common'">
-              <img [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }" class="imageStyle" src="{{recentHot.image_path}}"
-                 style="margin-left: 4px;">
+              <img [routerLink]="['/commentDetail']"
+                   [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }" class="imageStyle"
+                   src="{{recentHot.image_path}}"
+                   style="margin-left: 4px;">
             </a>
             <a *ngIf="currentUser.role == 'admin'">
               <img class="imageStyle" src="{{recentHot.image_path}}"
@@ -45,8 +46,7 @@
             </a>
           </div>
           <div class="col-md-6" style="height: 200px;">
-            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }" >
-            <!--<nz-rate [ngModel]="recentHot.star" nzDisabled></nz-rate>-->
+            <a [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : recentHot.oid , userOid: currentUser.oid }">
               <p style="color: red; margin-top: 4px;">{{recentHot.star}}</p>
               <p style="margin-top: 4px;">{{recentHot.film_name}}</p>
               <p style="margin-top: 4px;">{{recentHot.film_language}}</p>
@@ -86,7 +86,8 @@
 
         <!-- 无数据展示 start-->
         <div *ngIf="isExistFutureArr" class="padding-md" style="padding-left:0;padding-bottom:0;">
-          <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
+          <div class="smart-widget-body poi text-center"
+               style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
             <div style="margin:auto;">
               <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
               <span class="text-muted">暂无数据</span>
@@ -132,7 +133,8 @@
 
         <!-- 无数据展示 start-->
         <div *ngIf="isExistLikeArr" class="padding-md" style="padding-left:0;padding-bottom:0;">
-          <div class="smart-widget-body poi text-center" style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
+          <div class="smart-widget-body poi text-center"
+               style="min-height: 300px; background-color: rgb(255, 255, 255); border-radius: 3px; display: flex; height: 303px;">
             <div style="margin:auto;">
               <img src="assets/img/film/comment/nofilm.png" alt="" style="margin-bottom:15px;"><br>
               <span class="text-muted">暂无数据</span>
@@ -146,5 +148,4 @@
     <!--</div>-->
   </div>
 </div>
-<!--<div class="col-md-2" style="margin-top: 29px;width: 324px">-->
 
