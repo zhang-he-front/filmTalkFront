@@ -214,6 +214,7 @@ export class FilmDetailComponent implements OnInit {
         filmOperate.film_oid = mreply.filmOid;
         filmOperate.comment_oid = mreply.oid;
         filmOperate.pariser_user = this.currentUser.username;
+        filmOperate.flag = null;
 
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
           if (str.msg === '成功') {
@@ -311,6 +312,7 @@ export class FilmDetailComponent implements OnInit {
       filmReply.parent_oid = null;
       filmReply.replyperson_oid = null;
       filmReply.replyperson_name = null;
+      filmReply.flag = null;
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         if (res.msg == '成功') {
           $(`#i1-${oid}`).val('');
@@ -389,6 +391,7 @@ export class FilmDetailComponent implements OnInit {
       filmReply.commentator_detail = $(`#${oid}`).val();
       filmReply.replyperson_oid = mreply.commentatorId;
       filmReply.replyperson_name = mreply.commentatorName;
+      filmReply.flag = null;
 
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         console.log(res);

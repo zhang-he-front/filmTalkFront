@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs/index";
-import {HttpClient} from "@angular/common/http";
-import {FilmReply} from "../../shared/model/filmreply";
-import {Filmoperate} from "../../shared/model/filmoperate";
-import {UserRePost} from "../../shared/model/userrepost";
+import {Observable} from 'rxjs/index';
+import {HttpClient} from '@angular/common/http';
+import {FilmReply} from '../../shared/model/filmreply';
+import {Filmoperate} from '../../shared/model/filmoperate';
+import {UserRePost} from '../../shared/model/userrepost';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +59,7 @@ export class FilmcommentServiceService {
       // 'commentCreateTime': filmReply.comment_create_time,
       'replyPersonId': filmReply.replyperson_oid,
       'replyPersonName': filmReply.replyperson_name,
+      'flag': filmReply.flag,
     };
     return this.http.post(url, body);
   }
@@ -120,6 +121,7 @@ export class FilmcommentServiceService {
       'pariseUserOid': filmOperate.parise_user_oid,
       'pariserUser': filmOperate.pariser_user,
       'pariseTime': filmOperate.parise_time,
+      'flag': filmOperate.flag
     };
     return this.http.post(url, body);
   }

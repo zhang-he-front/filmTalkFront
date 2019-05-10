@@ -1,6 +1,7 @@
 /**
  * 电影数据实体类
  */
+import {UserRePost} from "./userrepost";
 
 export class Film {
   oid: number;
@@ -43,4 +44,5 @@ export class Film {
   //----------我的主页用到的数据-------
   rePostTime: string;  //转发时间
   reason: string; // 转发理由
+  userRePost: UserRePost;  //转发信息
 }

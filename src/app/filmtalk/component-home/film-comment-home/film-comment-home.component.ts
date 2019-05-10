@@ -110,14 +110,6 @@ export class FilmCommentHomeComponent implements OnInit {
               f.star = '暂无评分';
               f.nzStar = 0;
             }
-            // 点赞数初始化
-            // if (replyData[j].PRAISENUM > 0) {   // 点赞数大于0
-            //   replyData[j].isShowPraise = true;
-            // } else {                       // 没有点赞
-            //   replyData[j].isShowPraise = false;
-            // }
-
-            // console.log(str.data);
             if (f.numberReply > 0 && str.data == null) {
               f.numberReply = 0;
             }
@@ -199,70 +191,31 @@ export class FilmCommentHomeComponent implements OnInit {
       mreply.PRAISENUMflag = false;
       filmOperate.parise = 1;
     }
+    filmOperate.parise_user_oid = this.currentUser.oid;
+    filmOperate.film_oid = mreply.filmOid;
+    filmOperate.comment_oid = mreply.oid;
+    filmOperate.pariser_user = this.currentUser.username;
+    filmOperate.flag = null;
+
     this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
-        const newOperate = res.data;
-        filmOperate.oid = newOperate.oid;
-        filmOperate.parise_user_oid = this.currentUser.oid;
-        filmOperate.film_oid = mreply.filmOid;
-        filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.currentUser.username;
-
+        filmOperate.oid = res.data.oid;
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
           if (str.msg === '成功') {
             this.getReplyByOid(film);
-            // let flag = '';
-            // if (filmOperate.parise === 1) {   // 点赞
-            //   flag = 'add';
-            //   mreply.PRAISENUM++;
-            //   mreply.isShowPraise = true;
-            // } else {                          // 取消赞
-            //   flag = 'sub';
-            //   mreply.PRAISENUM--;
-            //   if (mreply.PRAISENUM <= 0) {
-            //     mreply.isShowPraise = false;
-            //   } else {
-            //     mreply.isShowPraise = true;
-            //   }
-            // }
           }
         });
       } else {
-        filmOperate.parise_user_oid = this.currentUser.oid;
-        filmOperate.film_oid = mreply.filmOid;
-        filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.currentUser.username;
         filmOperate.parise_time = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1) > 10 ? (new Date().getMonth() + 1) : ('0') + (new Date().getMonth() + 1))
           + '-' + ((new Date().getDate() > 10) ? (new Date().getDate()) : ('0' + new Date().getDate()));
         this.filmcommentService.addFilmOperate(filmOperate).subscribe(data => {
           if (data.msg == '成功') {
             this.getReplyByOid(film);
-            // let flag = '';
-            // if (filmOperate.parise === 1) {   // 点赞
-            //   flag = 'add';
-            //   mreply.PRAISENUM++;
-            //   mreply.isShowPraise = true;
-            // } else {                          // 取消赞
-            //   flag = 'sub';
-            //   mreply.PRAISENUM--;
-            //   if (mreply.PRAISENUM <= 0) {
-            //     mreply.isShowPraise = false;
-            //   } else {
-            //     mreply.isShowPraise = true;
-            //   }
-            // }
-            // this.messagesOperationService.updateMessageoperation(mreply.OID, flag).subscribe(response => {
-            //   if (response.success === false) {
-            //     alert('点赞数修改失败\n');
-            //   }
-            // });
-
           } else {
             alert('点赞失败\n');
           }
         });
       }
-
     });
   }
 
@@ -386,6 +339,7 @@ export class FilmCommentHomeComponent implements OnInit {
       filmReply.parent_oid = null;
       filmReply.replyperson_oid = null;
       filmReply.replyperson_name =null;
+      filmReply.flag = null;
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         if(res.msg == '成功'){
           $(`#i1-${oid}`).val('');
@@ -463,6 +417,7 @@ export class FilmCommentHomeComponent implements OnInit {
       filmReply.commentator_detail = $(`#${oid}`).val();
       filmReply.replyperson_oid = mreply.commentatorId;
       filmReply.replyperson_name = mreply.commentatorName;
+      filmReply.flag = null;
 
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         console.log(res);

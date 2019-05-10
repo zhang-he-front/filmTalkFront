@@ -13,4 +13,5 @@ export class Filmoperate {
   create_time: Date;             // 创建时间
   update_time: Date;             // 修改时间
   isvalid: number;             // 删除标识，0-正常 1-删除
+  flag: string; //
 }

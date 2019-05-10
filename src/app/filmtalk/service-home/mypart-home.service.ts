@@ -20,4 +20,17 @@ export class MypartHomeService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 删除'我的'电影
+   * add by zyx 2019-5-10
+   * @returns {Observable<any>}
+   */
+  deleteMyPartFilmByOid(oid: number): Observable<any> {
+    const url = '/film/myPart/delete';
+    const body = {
+      'oid': oid
+    };
+    return this.http.post(url, body);
+  }
 }
