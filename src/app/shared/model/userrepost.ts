@@ -11,5 +11,8 @@ export class UserRePost {
   isvalid: number;    //删除表示，0-正常 1-删除
   reason: string; //转发理由
   reply_oid: number; //评论oid
+  isread: number; //转发人是否已读：0代表已读，1代表未读
+  informer_oid: number; //通知人oid
+  informer_isread: number; //通知人是否已读：0已读，1未读
 
 }

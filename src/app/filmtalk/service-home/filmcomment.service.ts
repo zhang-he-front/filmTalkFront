@@ -120,7 +120,10 @@ export class FilmcommentServiceService {
       'pariseUserOid': filmOperate.parise_user_oid,
       'pariserUser': filmOperate.pariser_user,
       'pariseTime': filmOperate.parise_time,
-      'flag': filmOperate.flag
+      'flag': filmOperate.flag,
+      'isRead': filmOperate.isread,
+      'informerOid': filmOperate.informer_oid,
+      'informerIsRead': filmOperate.informer_isread
     };
     return this.http.post(url, body);
   }
@@ -154,13 +157,16 @@ export class FilmcommentServiceService {
     const body = {
       'filmOid': repost.film_oid,
       'replyOid': repost.reply_oid,
-      'reason': repost.reason
+      'reason': repost.reason,
+      'isRead': repost.isread,
+      'informerOid': repost.informer_oid,
+      'informerIsRead': repost.informer_isread
     };
     return this.http.post(url, body);
   }
 
   /**
-   * 电影转发
+   * 删除电影
    * add by zyx 2019-5-10
    * @returns {Observable<any>}
    */

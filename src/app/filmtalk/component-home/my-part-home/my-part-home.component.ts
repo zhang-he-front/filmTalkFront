@@ -72,6 +72,7 @@ export class MyPartHomeComponent implements OnInit {
             this.replyDataSet = [];
             this.replyChildrenDataSet = [];
             let f = new Film();
+            f.rePostOid = res[i].rePostOid;
             f.reason = res[i].reason;
             f.rePostTime = this.timeFormat2(userRePostDetail.createTime);
             f.userRePost = userRePostDetail;
@@ -102,7 +103,7 @@ export class MyPartHomeComponent implements OnInit {
             } else{
               f.filmSubCountFlag = true;
             }
-            f.currentUserIsSub = filmDetail.currentUserIsSub;
+            f.currentUserIsSub = res[i].currentUserIsSub;
             if (filmDetail.star != 0) {
               f.star = filmDetail.star * 2 + '';
               f.nzStar = filmDetail.star;
@@ -171,6 +172,7 @@ export class MyPartHomeComponent implements OnInit {
             this.filmsData.push(f);
         }
         this.films = this.filmsData;
+        console.log(this.films);
       }
     } else{
       this.films = [];
@@ -414,6 +416,9 @@ export class MyPartHomeComponent implements OnInit {
     let userRePost = new UserRePost();
     userRePost.film_oid = film.oid;
     userRePost.reply_oid = null;
+    userRePost.isread = 0;
+    userRePost.informer_oid = this.currentUser.oid;
+    userRePost.informer_isread = 0;
     this.filmRePost.userRePost = userRePost;
   }
 
@@ -425,6 +430,13 @@ export class MyPartHomeComponent implements OnInit {
     let userRePost = new UserRePost();
     userRePost.film_oid = film.oid;
     userRePost.reply_oid = mreply.oid;
+    userRePost.isread = 0;
+    userRePost.informer_oid = mreply.commentator_oid;
+    if(mreply.commentator_oid == this.currentUser.oid){
+      userRePost.informer_isread = 0;
+    } else {
+      userRePost.informer_isread = 1;
+    }
     this.filmRePost.userRePost = userRePost;
   }
 
@@ -439,10 +451,13 @@ export class MyPartHomeComponent implements OnInit {
       filmOperate.parise = 0;
     }
     filmOperate.parise_user_oid = this.currentUser.oid;
-    filmOperate.film_oid = film.oid;
+    filmOperate.film_oid = film.rePostOid;
     filmOperate.comment_oid = null;
     filmOperate.pariser_user = this.currentUser.username;
     filmOperate.flag = 'repost';
+    filmOperate.isread = 0;
+    filmOperate.informer_oid = this.currentUser.oid;
+    filmOperate.informer_isread = 0;
 
     this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid, 'repost').subscribe(res => {
       if (res.data != null) {
@@ -482,10 +497,18 @@ export class MyPartHomeComponent implements OnInit {
       filmOperate.parise = 1;
     }
     filmOperate.parise_user_oid = this.currentUser.oid;
-    filmOperate.film_oid = mreply.filmOid;
+    filmOperate.film_oid = film.rePostOid;
     filmOperate.comment_oid = mreply.oid;
     filmOperate.pariser_user = this.currentUser.username;
     filmOperate.flag = 'repost';
+    filmOperate.isread = 0;
+    if(mreply.commentatorId == this.currentUser.oid){
+      filmOperate.informer_oid = this.currentUser.oid;
+      filmOperate.informer_isread = 0;
+    } else {
+      filmOperate.informer_oid = mreply.commentatorId;
+      filmOperate.informer_isread = 1;
+    }
 
     this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, 'repost').subscribe(res => {
       if (res.data != null) {
@@ -514,7 +537,7 @@ export class MyPartHomeComponent implements OnInit {
    * @param {Film} film
    */
   getReplyByOid(film: Film){
-    this.filmcommentService.getCommentDataByFlmOid(film.oid, this.currentUser.oid, 'repost').subscribe(str => {
+    this.filmcommentService.getCommentDataByFlmOid(film.rePostOid, this.currentUser.oid, 'repost').subscribe(str => {
       if (str.data != null) {
         this.replyDataSet = [];
         this.replyChildrenDataSet = [];

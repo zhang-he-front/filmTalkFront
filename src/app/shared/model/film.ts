@@ -45,4 +45,5 @@ export class Film {
   rePostTime: string;  //转发时间
   reason: string; // 转发理由
   userRePost: UserRePost;  //转发信息
+  rePostOid: number;  //转发oid
 }

@@ -51,7 +51,7 @@ export class FilmCommentHomeComponent implements OnInit {
   //获取数据
   getFilmData() {
     this.filmcommentService.getFilmData(this.currentUser.oid, null).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.dealWithData(res.data);
     });
   }
@@ -168,6 +168,7 @@ export class FilmCommentHomeComponent implements OnInit {
           this.filmsData.push(f);
         }
         this.films = this.filmsData;
+        console.log(this.films);
       }
     } else {
       this.films = [];
@@ -179,6 +180,7 @@ export class FilmCommentHomeComponent implements OnInit {
    * 判断评论区是否点赞更改图标
    */
   replyPraise(mreply: any, film: Film): void {
+    console.log(mreply);
     const filmOperate = new Filmoperate();
     // 点赞
     if (mreply.PRAISENUMflag === false) {
@@ -194,6 +196,14 @@ export class FilmCommentHomeComponent implements OnInit {
     filmOperate.comment_oid = mreply.oid;
     filmOperate.pariser_user = this.currentUser.username;
     filmOperate.flag = null;
+    filmOperate.isread = 0;
+    if(mreply.commentatorId == this.currentUser.oid){
+      filmOperate.informer_oid = this.currentUser.oid;
+      filmOperate.informer_isread = 0;
+    } else {
+      filmOperate.informer_oid = mreply.commentatorId;
+      filmOperate.informer_isread = 1;
+    }
 
     this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
@@ -238,6 +248,14 @@ export class FilmCommentHomeComponent implements OnInit {
     let userRePost = new UserRePost();
     userRePost.film_oid = film.oid;
     userRePost.reply_oid = null;
+    userRePost.isread = 0;
+    if(this.currentUser.role == 'admin' ){
+      userRePost.informer_oid = 2;  //管理员
+      userRePost.informer_isread = 0; //已读
+    } else {
+      userRePost.informer_oid = 2;  //管理员
+      userRePost.informer_isread = 1; //未读
+    }
     this.filmRePost.userRePost = userRePost;
   }
 
@@ -249,6 +267,14 @@ export class FilmCommentHomeComponent implements OnInit {
     let userRePost = new UserRePost();
     userRePost.film_oid = film.oid;
     userRePost.reply_oid = mreply.oid;
+    userRePost.isread = 0;
+    if(mreply.commentatorId == this.currentUser.oid){
+      userRePost.informer_oid = this.currentUser.oid;
+      userRePost.informer_isread = 0;
+    }else{
+      userRePost.informer_oid = mreply.commentatorId;
+      userRePost.informer_isread = 1;
+    }
     this.filmRePost.userRePost = userRePost;
   }
 
@@ -266,6 +292,14 @@ export class FilmCommentHomeComponent implements OnInit {
     filmOperate.film_oid = film.oid;
     filmOperate.comment_oid = null;
     filmOperate.pariser_user = this.currentUser.username;
+    filmOperate.isread = 0;
+    if(this.currentUser.role == 'admin'){
+      filmOperate.informer_oid = 2;
+      filmOperate.informer_isread = 0;
+    } else{
+      filmOperate.informer_oid = 2;
+      filmOperate.informer_isread = 1;
+    }
     this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
         const newOperate = res.data;
