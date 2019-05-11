@@ -109,7 +109,7 @@ export class FilmTypeHomeComponent implements OnInit {
           'hot': res.data[i].hot
         });
       }
-      console.log(res);
+      // console.log(res);
     });
   }
 

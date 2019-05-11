@@ -16,7 +16,6 @@ import { FilmTypeHomeComponent } from './filmtalk/component-home/film-type-home/
 import {FilmCommentHomeComponent} from "./filmtalk/component-home/film-comment-home/film-comment-home.component";
 import { CreateFilmComponent } from './shared/component/create-film/create-film.component';
 import { FilmDetailComponent } from './shared/component/film-detail/film-detail.component';
-import { UserRegisterComponent } from './shared/component/user-register/user-register.component';
 import { UserLoginComponent } from './shared/component/user-login/user-login.component';
 import { UserDetailComponent } from './shared/component/user-detail/user-detail.component';
 import { FilmRepostComponent } from './shared/component/film-repost/film-repost.component';
@@ -32,7 +31,6 @@ registerLocaleData(zh);
     FilmCommentHomeComponent,
     CreateFilmComponent,
     FilmDetailComponent,
-    UserRegisterComponent,
     UserLoginComponent,
     UserDetailComponent,
     FilmRepostComponent,

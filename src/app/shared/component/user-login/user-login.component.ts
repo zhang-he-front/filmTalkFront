@@ -49,6 +49,8 @@ export class UserLoginComponent implements OnInit {
         this.isHidden = false;
         this.navbar.currentUser = this.currentUser;
         this.router.navigate(['home/'+ this.currentUser.oid +'']);
+        this.navbar.getInformData();
+        this.navbar.openTimer();
       } else{
         this.alertMessage.error('用户名或密码错误', {
           nzDuration: 1500

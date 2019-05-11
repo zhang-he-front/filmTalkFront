@@ -8,6 +8,7 @@ import {FilmpageHomeService} from '../../../filmtalk/service-home/filmpage-home.
 import {Router} from '@angular/router';
 import {UserDetailComponent} from '../user-detail/user-detail.component';
 import {User} from '../../model/user';
+import {Film} from "../../model/film";
 
 declare var $: any;
 
@@ -27,6 +28,10 @@ export class NavbarComponent implements OnInit {
   userIsVisible: boolean = false;  //个人信息模态框展示
   isTypeVisible: boolean = false;
   currentUser: User = new User();
+  informInfo: any[] = []; //消息集合
+  messageLength: number; //消息总数量
+  saveLength: number; //消息总数量
+  timer;//定时器
 
 
   constructor(private fb: FormBuilder,
@@ -38,6 +43,74 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.createTypeForm();
+  }
+
+  //定时检测信息
+  openTimer(){
+    this.timer = setInterval(() => {
+      //此处为需要定时执行的方法，5000为间隔的时间，单位是毫秒
+      this.getInformData();
+    },5000);
+  }
+
+
+  //获取通知部分数据
+  getInformData(){
+    this.filmpageHomeService.getInformData().subscribe(res => {
+      this.messageLength = res.data.length;
+      this.saveLength = this.messageLength;
+      this.informInfo = [];
+      if(this.messageLength > 9){
+        $('.autoStyle').css('height','750px');
+        $('.autoStyle').css('overflow-y','scroll');
+      }
+      for(let i = 0; i < res.data.length; i++){
+        let data = res.data[i];
+        let film = new Film();
+        film.oid = data.filmDetail.oid;
+        film.film_name = data.filmDetail.filmName;
+        let info;
+        if(data.operate == '点赞'){
+          info = '赞了我的'
+        } else if(data.operate == '转发'){
+          info = '转发了我的';
+        }else{
+          info = '评论了我';
+        }
+        this.informInfo.push({
+          'length': res.data.length,
+          'filmDetail': film,
+          'operate': data.operate,
+          'message': info,
+          'operateInfo': data.operateInfo,
+          'operateTime': this.timeFormat(data.operateTime),
+          'operateName': data.operateName
+        });
+      }
+    });
+  }
+
+  /**
+   * 时间格式化（将日期格式化为 xx月xx日 xx:xx ）
+   */
+  timeFormat(operateTime: Date): string {
+    let d = new Date(operateTime);
+    let date = ((d.getMonth() + 1) >= 10 ? (d.getMonth() + 1) : ('0' + (d.getMonth() + 1))) + '月'
+      + (d.getDate() >= 10 ? d.getDate() : ('0' + d.getDate())) + '日 '
+      + (d.getHours() >= 10 ? d.getHours() : ('0' + d.getHours())) + ':'
+      + (d.getMinutes() >= 10 ? d.getMinutes() : ('0' + d.getMinutes()));
+    let current = ((new Date().getMonth() + 1) >= 10 ? (new Date().getMonth() + 1) : ('0' + (new Date().getMonth() + 1))) + '月'
+      + (new Date().getDate() >= 10 ? new Date().getDate() : ('0' + new Date().getDate())) + '日 ';
+    if(date.split('.')[0] == current){
+      return '今天' + date.split(':')[1];
+    } else {
+      return date;
+    }
+  }
+
+  //展示通知数据
+  showInform(){
+    this.messageLength = 0;
   }
 
   //展示电影模态框

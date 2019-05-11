@@ -7751,3 +7751,8 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
 input:-ms-input-placeholder { /* Internet Explorer 10+ */
   font-size:14px;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 7px;
+}

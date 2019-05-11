@@ -45,7 +45,7 @@ export class FilmDetailComponent implements OnInit {
   //获取数据
   getFilmDataByFilmOid() {
     this.filmcommentService.getFilmDataByFilmOid(this.filmOid, this.currentUser.oid).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.dealWithData(res.data);
     });
   }
@@ -394,7 +394,7 @@ export class FilmDetailComponent implements OnInit {
       filmReply.flag = null;
 
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         if (res.msg == '成功') {
           $(`#${oid}`).val('');
           mreply.isShowReplyFrame = true;  // 隐藏回复框
@@ -457,7 +457,7 @@ export class FilmDetailComponent implements OnInit {
   deleteReply(film: Film, mreply: any): void {
     const oid = mreply.oid;
     this.filmcommentService.deleteReply(oid).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res.msg == '成功') {
         console.log('删除成功');
         film.numberReply = film.numberReply - 1;
@@ -473,7 +473,7 @@ export class FilmDetailComponent implements OnInit {
    */
   deleteReplyChild(film: Film, oid: string): void {
     this.filmcommentService.deleteReply(oid).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res.msg == '成功') {
         console.log('删除成功');
         this.getReplyByOid(film);

@@ -54,4 +54,17 @@ export class FilmpageHomeService {
     };
     return this.http.post(url, body);
   }
+
+
+  /**
+   * 获取通知信息
+   * add by zyx 2019-5-11
+   * @returns {Observable<any>}
+   */
+  getInformData(): Observable<any> {
+    const url = '/film/inform';
+    const body = {
+    };
+    return this.http.post(url, body);
+  }
 }

@@ -149,7 +149,7 @@ export class CreateFilmComponent implements OnInit {
 
   //时间选择框
   onChange(result: Date): void {
-    console.log('onChange: ', result);
+    // console.log('onChange: ', result);
   }
 
   //图片上传

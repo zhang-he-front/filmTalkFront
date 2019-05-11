@@ -382,7 +382,7 @@ export class MyPartHomeComponent implements OnInit {
   deleteReply(film: Film, mreply: any): void {
     const oid = mreply.oid;
     this.filmcommentService.deleteReply(oid).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if(res.msg == '成功'){
         console.log('删除成功');
         film.numberReply = film.numberReply - 1;

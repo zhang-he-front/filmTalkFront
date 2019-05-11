@@ -75,49 +75,53 @@
           <ul class="nav-notification">
             <li>
               <a data-toggle="dropdown"><img src="assets/img/navbar/inform.png" alt=""
-                                             style="height: 24px;width: 24px;"></a>
-              <span class="badge badge-danger bounceIn animation-delay6 active">3</span>
-              <ul class="dropdown-menu message pull-right" style="border: none;margin-top: 3px;">
+                                             style="height: 24px;width: 24px;" (click)="showInform()"></a>
+              <span *ngIf="messageLength != 0" class="badge badge-danger bounceIn animation-delay6 active">{{messageLength}}</span>
+              <ul class="dropdown-menu message pull-right autoStyle" style="border: none;margin-top: 3px;">
                 <li style="padding:10px">
-                  <span>您共有3条消息</span>
+                  <span *ngIf="messageLength != 0">您共有{{saveLength}}条消息</span>
+                  <span *ngIf="messageLength == 0">暂无消息</span>
                   <span class="pull-right"> <i class="fa fa-angle-double-right" style="font-size:18px;"></i></span>
                 </li>
-                <li>
+                <li *ngFor="let inform of informInfo">
                   <a class="clearfix">
-                    <img src="assets/img/navbar/touxiang-men.png" alt="User Avatar">
-                    <div class="detail">
-                      <strong>仲梦阳</strong>
-                      <p class="no-margin">
-                        样式修改更新，请查收
+                    <img src="assets/img/navbar/touxiang-comment.png" alt="User Avatar">
+                    <div class="detail" style="font-size: 14px">
+                      <strong>{{inform.operateName}}</strong>&nbsp;&nbsp;
+                      <span style="color: #04779d;font-size: 14px">{{inform.message}}</span>
+                      <p class="no-margin" style="font-size: 14px">
+                        {{inform.operateInfo}}
                       </p>
-                      <small class="text-muted"><i class="fa fa-check text-success"></i> 27分钟前</small>
+                      <small class="text-muted"><i class="fa fa-check text-success"></i> {{inform.operateTime}}</small>
                     </div>
                   </a>
                 </li>
-                <li>
-                  <a class="clearfix">
-                    <img src="assets/img/navbar/touxiang-women.png" alt="User Avatar">
-                    <div class="detail">
-                      <strong>王凯</strong>
-                      <p class="no-margin">
-                        js效果已部署
-                      </p>
-                      <small class="text-muted"><i class="fa fa-check text-success"></i> 5小时前</small>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="clearfix">
-                    <img src="assets/img/navbar/touxiang-men2.png" alt="User Avatar">
-                    <div class="detail m-left-sm">
-                      <strong>xxx</strong>
-                      <p class="no-margin">
-                        雅典娜发来一条需处理动态
-                      </p>
-                      <small class="text-muted"><i class="fa fa-reply"></i> 11月22日 9:30</small>
-                    </div>
-                  </a>
-                </li>
+
+
+                <!--<li>-->
+                  <!--<a class="clearfix">-->
+                    <!--<img src="assets/img/navbar/touxiang-comment.png" alt="User Avatar">-->
+                    <!--<div class="detail">-->
+                      <!--<strong>王凯</strong>-->
+                      <!--<p class="no-margin">-->
+                        <!--js效果已部署-->
+                      <!--</p>-->
+                      <!--<small class="text-muted"><i class="fa fa-check text-success"></i> 5小时前</small>-->
+                    <!--</div>-->
+                  <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                  <!--<a class="clearfix">-->
+                    <!--<img src="assets/img/navbar/touxiang-comment.png" alt="User Avatar">-->
+                    <!--<div class="detail m-left-sm">-->
+                      <!--<strong>xxx</strong>-->
+                      <!--<p class="no-margin">-->
+                        <!--雅典娜发来一条需处理动态-->
+                      <!--</p>-->
+                      <!--<small class="text-muted"><i class="fa fa-reply"></i> 11月22日 9:30</small>-->
+                    <!--</div>-->
+                  <!--</a>-->
+                <!--</li>-->
               </ul>
             </li>
             <li *ngIf="currentUser.role == 'admin'">
@@ -142,7 +146,7 @@
 
           <div class="user-block hidden-xs" style="margin-left:10px;">
             <a id="userToggle" data-toggle="dropdown">
-              <img src="assets/img/navbar/touxiang-women.png" alt=""
+              <img src="assets/img/navbar/touxiang-comment.png" alt=""
                    class="img-circle inline-block user-profile-pic">
               <div class="user-detail inline-block" style="font-size: 18px">
                 {{currentUser.username}}
