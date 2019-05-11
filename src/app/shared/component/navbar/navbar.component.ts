@@ -53,6 +53,13 @@ export class NavbarComponent implements OnInit {
     },5000);
   }
 
+  //关闭定时器
+  closeTimer(){
+    if (this.timer) {
+      clearInterval(this.timer);// 销毁定时器
+    }
+  }
+
 
   //获取通知部分数据
   getInformData(){
@@ -247,6 +254,7 @@ export class NavbarComponent implements OnInit {
 
   //退出登陆
   logint(){
+    this.closeTimer();
     this.router.navigate(['']);
     this.layout.emit('layout');
   }
