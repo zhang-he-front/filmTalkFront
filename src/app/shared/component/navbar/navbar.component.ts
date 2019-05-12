@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
     this.timer = setInterval(() => {
       //此处为需要定时执行的方法，5000为间隔的时间，单位是毫秒
       this.getInformData();
-    },5000);
+    },10000);
   }
 
   //关闭定时器

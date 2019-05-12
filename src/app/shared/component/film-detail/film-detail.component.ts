@@ -9,6 +9,7 @@ import {UserHomeService} from "../../service/user-home.service";
 import {User} from "../../model/user";
 import {UserRePost} from "../../model/userrepost";
 import {FilmRepostComponent} from "../film-repost/film-repost.component";
+import {FilmtypeHomeService} from "../../../filmtalk/service-home/filmtype-home.service";
 
 declare var $: any;
 
@@ -28,10 +29,13 @@ export class FilmDetailComponent implements OnInit {
   filmOid: any;
   currentUser: User = new User(); //当前登陆者
   filmRePostIsVisible: boolean = false;  //个人信息模态框展示
+  alsoLikeIsExit: boolean = false;  //也喜欢是否有数据
+  alsoLike: any[] = [];  //也喜欢数据集合
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
-              private userHomeService: UserHomeService) {
+              private userHomeService: UserHomeService,
+              private filmTypeHomeService: FilmtypeHomeService) {
   }
 
   ngOnInit() {
@@ -49,7 +53,7 @@ export class FilmDetailComponent implements OnInit {
   //获取数据
   getFilmDataByFilmOid() {
     this.filmcommentService.getFilmDataByFilmOid(this.filmOid, this.currentUser.oid).subscribe(res => {
-      // console.log(res);
+      console.log(res);
       this.dealWithData(res.data);
     });
   }
@@ -59,101 +63,125 @@ export class FilmDetailComponent implements OnInit {
   dealWithData(res: any) {
     if (!isUndefined(res)) {
       this.filmcommentService.getCommentDataByFlmOid(res.oid, this.currentUser.oid, null).subscribe(str => {
-        this.replyDataSet = [];
-        this.replyChildrenDataSet = [];
-        let a = new Date(res.showTime);
-        let f = new Film();
-        f.oid = res.oid;
-        f.film_name = res.filmName;
-        f.filmType = res.filmType;
-        f.image_path = res.imagePath;
-        f.film_language = res.filmLanguage;
-        f.location = res.location;
-        f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
-        f.hour_length = res.hour;
-        f.film_detail = res.filmDetail;
-        f.producer = res.producer;
-        f.director = res.director;
-        f.film_staus = res.filmStatus;
-        f.numberReply = res.commentTotal;
-        f.isShowCommentFrame = true;
-        f.isShowReply = true;
-        f.isShowOperate = true;
-        f.isCollect = false;
-        f.isPraise = false;
-        f.isPraiseNumb = true;
-        f.isMore = 0;
-        // f.praiseNumb = 10;
-        if (res.star != 0) {
-          f.star = res.star * 2 + "";
-          f.nzStar = res.star;
-          if(res.star.split(".")[1] == "0"){
-            f.nzStar = parseInt(res.star.split(".")[0]);
-          }
-        } else {
-          f.star = '暂无评分';
-          f.nzStar = 0;
-        }
-        //评论
-        if (f.numberReply > 0 && str.data == null) {
-          f.numberReply = 0;
-        }
-        if (f.numberReply > 0 && str.data != null) {
-          for (let x = 0; x < str.data.commentParentVOList.length; x++) {
-            let replyData = str.data.commentParentVOList[x];  //一级评论
-
-            // 点赞数初始化
-            if (replyData.parentSubCount > 0) {   // 点赞数大于0
-              replyData.isShowPraise = true;
-            } else {                       // 没有点赞
-              replyData.isShowPraise = false;
+        //喜欢的人也喜欢
+        this.filmTypeHomeService.getTypesByName(res.filmType).subscribe(result => {
+          this.replyDataSet = [];
+          this.replyChildrenDataSet = [];
+          this.alsoLike = [];
+          let a = new Date(res.showTime);
+          let f = new Film();
+          //电影信息
+          f.oid = res.oid;
+          f.film_name = res.filmName;
+          f.filmType = res.filmType;
+          f.image_path = res.imagePath;
+          f.film_language = res.filmLanguage;
+          f.location = res.location;
+          f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
+          f.hour_length = res.hour;
+          f.film_detail = res.filmDetail;
+          f.producer = res.producer;
+          f.director = res.director;
+          f.film_staus = res.filmStatus;
+          f.numberReply = res.commentTotal;
+          f.isShowCommentFrame = true;
+          f.isShowReply = true;
+          f.isShowOperate = true;
+          f.isCollect = false;
+          f.isPraise = false;
+          f.isPraiseNumb = true;
+          f.isMore = 0;
+          if (res.star != 0) {
+            f.star = res.star * 2 + "";
+            f.nzStar = res.star;
+            if(res.star.split(".")[1] == "0"){
+              f.nzStar = parseInt(res.star.split(".")[0]);
             }
-            this.replyDataSet.push({
-              commentCreateTime: this.timeFormat(replyData.commentCreateTime),
-              commentDetail: replyData.commentDetail,
-              commentatorId: replyData.commentatorId,
-              commentatorName: replyData.commentatorName,
-              num: replyData.num,
-              oid: replyData.oid,
-              filmOid: f.oid,
-              isShowDelete: true,
-              isShowReplyFrame: true,
-              PRAISENUMflag: replyData.currentUserSub,
-              PRAISENUM: replyData.parentSubCount,
-              isShowPraise: replyData.isShowPraise
-            });
-            let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
-            if (child != null && child.length > 0) {
-              for (let j = 0; j < child.length; j++) {
-                let info = child[j].childSubCount > 0 ? true : false;
-                this.replyChildrenDataSet.push({
-                  commentDetail: child[j].commentDetail,
-                  commentatorName: child[j].commentatorName,
-                  nodeParentId: child[j].nodeParentId,
-                  commentatorId: child[j].commentatorId,
-                  oid: child[j].oid,
-                  parentId: child[j].parentId,
-                  filmOid: f.oid,
-                  replyCreateTime: this.timeFormat(child[j].replyCreateTime),
-                  replyPersonName: child[j].replyPersonName,
-                  isShowReplyFrame: true,
-                  isShowDelete: true,
-                  PRAISENUMflag: child[j].currentUserSub,
-                  PRAISENUM: child[j].childSubCount,
-                  isShowPraise: info
-                });
+          } else {
+            f.star = '暂无评分';
+            f.nzStar = 0;
+          }
+          //评论信息
+          if (f.numberReply > 0 && str.data == null) {
+            f.numberReply = 0;
+          }
+          if (f.numberReply > 0 && str.data != null) {
+            for (let x = 0; x < str.data.commentParentVOList.length; x++) {
+              let replyData = str.data.commentParentVOList[x];  //一级评论
+              // 点赞数初始化
+              if (replyData.parentSubCount > 0) {   // 点赞数大于0
+                replyData.isShowPraise = true;
+              } else {                       // 没有点赞
+                replyData.isShowPraise = false;
+              }
+              this.replyDataSet.push({
+                commentCreateTime: this.timeFormat(replyData.commentCreateTime),
+                commentDetail: replyData.commentDetail,
+                commentatorId: replyData.commentatorId,
+                commentatorName: replyData.commentatorName,
+                num: replyData.num,
+                oid: replyData.oid,
+                filmOid: f.oid,
+                isShowDelete: true,
+                isShowReplyFrame: true,
+                PRAISENUMflag: replyData.currentUserSub,
+                PRAISENUM: replyData.parentSubCount,
+                isShowPraise: replyData.isShowPraise
+              });
+              let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
+              if (child != null && child.length > 0) {
+                for (let j = 0; j < child.length; j++) {
+                  let info = child[j].childSubCount > 0 ? true : false;
+                  this.replyChildrenDataSet.push({
+                    commentDetail: child[j].commentDetail,
+                    commentatorName: child[j].commentatorName,
+                    nodeParentId: child[j].nodeParentId,
+                    commentatorId: child[j].commentatorId,
+                    oid: child[j].oid,
+                    parentId: child[j].parentId,
+                    filmOid: f.oid,
+                    replyCreateTime: this.timeFormat(child[j].replyCreateTime),
+                    replyPersonName: child[j].replyPersonName,
+                    isShowReplyFrame: true,
+                    isShowDelete: true,
+                    PRAISENUMflag: child[j].currentUserSub,
+                    PRAISENUM: child[j].childSubCount,
+                    isShowPraise: info
+                  });
+                }
               }
             }
           }
-        }
-        // f.numberReply = this.replyDataSet.length + this.replyChildrenDataSet.length;
-        f.numberReply = this.replyDataSet.length;
-        let threeReply = this.getThreeReply(res, this.replyDataSet);
-        f.threeReply = threeReply;
-        f.replyDataSet = this.replyDataSet;
-        f.replyChildrenDataSet = this.replyChildrenDataSet;
-        this.filmsData.push(f);
-        this.isShowReply(this.films[0]);
+          f.numberReply = this.replyDataSet.length;
+          let threeReply = this.getThreeReply(res, this.replyDataSet);
+          f.threeReply = threeReply;
+          f.replyDataSet = this.replyDataSet;
+          f.replyChildrenDataSet = this.replyChildrenDataSet;
+          this.filmsData.push(f);
+          this.isShowReply(this.films[0]);
+          //相关推荐
+          let other = result.data;
+          if(result.data.length > 0){
+            this.alsoLikeIsExit = true;
+            let alsoLikeLength;
+            if(other.length > 10){
+              alsoLikeLength = 9;
+            } else {
+              alsoLikeLength = other.length;
+            }
+            for(let x = 0; x < alsoLikeLength; x++){
+              if(f.oid != other[x].oid){
+                this.alsoLike.push({
+                  'alsoLikeFilmOid': other[x].oid,
+                  'alsoLikeFilmImagePath': other[x].imagePath,
+                  'alsoLikeFilmName': other[x].filmName,
+                });
+              }
+            }
+          } else {
+            this.alsoLikeIsExit = false;
+          }
+        });
       });
       this.films = this.filmsData;
     } else {
@@ -491,7 +519,7 @@ export class FilmDetailComponent implements OnInit {
     this.filmcommentService.deleteReply(oid).subscribe(res => {
       // console.log(res);
       if (res.msg == '成功') {
-        console.log('删除成功');
+        // console.log('删除成功');
         film.numberReply = film.numberReply - 1;
         this.getReplyByOid(film);
       } else {
@@ -507,7 +535,7 @@ export class FilmDetailComponent implements OnInit {
     this.filmcommentService.deleteReply(oid).subscribe(res => {
       // console.log(res);
       if (res.msg == '成功') {
-        console.log('删除成功');
+        // console.log('删除成功');
         this.getReplyByOid(film);
       } else {
         alert('删除失败');

@@ -84,4 +84,17 @@ export class FilmtypeHomeService {
     return this.http.post(url, body);
   }
 
+  /**
+   * 根据电影类型名称获取同类型的电影
+   * add by zyx 2019-5-12
+   * @returns {Observable<any>}
+   */
+  getTypesByName(filmType: string): Observable<any> {
+    const url = '/filmType/getTypesByName';
+    const body = {
+      'typeName': filmType
+    };
+    return this.http.post(url, body);
+  }
+
 }

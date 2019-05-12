@@ -79,38 +79,17 @@
                   <div class="row">
                     <img src="{{film.image_path}}"
                          style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
                   </div>
                 </div>
 
-                <div style="margin-top: 28px;">
+                <div style="margin-top: 28px;" [hidden]="!alsoLikeIsExit">
                   <span style="font-size: 22px;color: #446f86; margin-left: 14px;">喜欢这部电影的人也喜欢...</span>
                   <div class="row">
-                    <img src="{{film.image_path}}"
+                    <a *ngFor="let like of alsoLike"
+                       [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : like.alsoLikeFilmOid , userOid: currentUser.oid }">
+                      <img src="{{like.alsoLikeFilmImagePath}}"
                          style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
-                    <img src="{{film.image_path}}"
-                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    </a>
                   </div>
                 </div>
 
