@@ -17,4 +17,7 @@ export class FilmReply {
   update_time: Date; //修改时间
   isvalid: number; //删除标识，0-正常 1-删除
   flag: string; //标志位：null代表评论的，repost代表转发页评论的
+  isread: number; //0代表已读，1代表未读
+  informer_oid: number; //通知人oid
+  informer_isread: number; //通知人是否已读：0已读，1未读
 }

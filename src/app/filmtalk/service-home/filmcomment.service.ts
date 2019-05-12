@@ -59,6 +59,9 @@ export class FilmcommentServiceService {
       'replyPersonId': filmReply.replyperson_oid,
       'replyPersonName': filmReply.replyperson_name,
       'flag': filmReply.flag,
+      'isRead': filmReply.isread,
+      'informerOid': filmReply.informer_oid,
+      'informerIsRead': filmReply.informer_isread
     };
     return this.http.post(url, body);
   }

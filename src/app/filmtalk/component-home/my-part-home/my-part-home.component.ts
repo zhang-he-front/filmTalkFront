@@ -244,6 +244,15 @@ export class MyPartHomeComponent implements OnInit {
       filmReply.replyperson_oid = null;
       filmReply.replyperson_name =null;
       filmReply.flag = 'repost';
+      filmReply.isread = 0;
+      if(this.currentUser.role == 'admin' ){
+        filmReply.informer_oid = 2;  //管理员
+        filmReply.informer_isread = 0; //已读
+      } else {
+        filmReply.informer_oid = 2;  //管理员
+        filmReply.informer_isread = 1; //未读
+      }
+
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         if(res.msg == '成功'){
           $(`#i1-${oid}`).val('');
@@ -322,6 +331,14 @@ export class MyPartHomeComponent implements OnInit {
       filmReply.replyperson_oid = mreply.commentatorId;
       filmReply.replyperson_name = mreply.commentatorName;
       filmReply.flag = 'repost';
+      filmReply.isread = 0;
+      if(mreply.commentatorId == this.currentUser.oid){
+        filmReply.informer_oid = this.currentUser.oid;
+        filmReply.informer_isread = 0;
+      }else{
+        filmReply.informer_oid = mreply.commentatorId;
+        filmReply.informer_isread = 1;
+      }
 
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         if (res.msg == '成功') {
