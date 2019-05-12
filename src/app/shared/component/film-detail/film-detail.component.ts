@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Film} from "../../model/film";
 import {FilmcommentServiceService} from "../../../filmtalk/service-home/filmcomment.service";
 import {isUndefined} from "util";
@@ -7,6 +7,8 @@ import {Filmoperate} from "../../model/filmoperate";
 import {FilmReply} from "../../model/filmreply";
 import {UserHomeService} from "../../service/user-home.service";
 import {User} from "../../model/user";
+import {UserRePost} from "../../model/userrepost";
+import {FilmRepostComponent} from "../film-repost/film-repost.component";
 
 declare var $: any;
 
@@ -16,6 +18,7 @@ declare var $: any;
   styleUrls: ['./film-detail.component.css']
 })
 export class FilmDetailComponent implements OnInit {
+  @ViewChild('filmRePost') filmRePost: FilmRepostComponent;  // 转发子组件
   films: Film[] = [];
   filmsData: Film[] = [];
   messageTopChk: boolean = false;    // 任务转checkbox是否选中
@@ -24,6 +27,7 @@ export class FilmDetailComponent implements OnInit {
   isExistFilm: boolean = false;    // 是否存在电影
   filmOid: any;
   currentUser: User = new User(); //当前登陆者
+  filmRePostIsVisible: boolean = false;  //个人信息模态框展示
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -121,6 +125,7 @@ export class FilmDetailComponent implements OnInit {
             let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
             if (child != null && child.length > 0) {
               for (let j = 0; j < child.length; j++) {
+                let info = child[j].childSubCount > 0 ? true : false;
                 this.replyChildrenDataSet.push({
                   commentDetail: child[j].commentDetail,
                   commentatorName: child[j].commentatorName,
@@ -135,7 +140,7 @@ export class FilmDetailComponent implements OnInit {
                   isShowDelete: true,
                   PRAISENUMflag: child[j].currentUserSub,
                   PRAISENUM: child[j].childSubCount,
-                  isShowPraise: child[j].childSubCount > 0 ? true : false
+                  isShowPraise: info
                 });
               }
             }
@@ -206,26 +211,29 @@ export class FilmDetailComponent implements OnInit {
       mreply.PRAISENUMflag = false;
       filmOperate.parise = 1;
     }
+    filmOperate.parise_user_oid = this.currentUser.oid;
+    filmOperate.film_oid = mreply.filmOid;
+    filmOperate.comment_oid = mreply.oid;
+    filmOperate.pariser_user = this.currentUser.username;
+    filmOperate.flag = null;
+    filmOperate.isread = 0;
+    if(mreply.commentatorId == this.currentUser.oid){
+      filmOperate.informer_oid = this.currentUser.oid;
+      filmOperate.informer_isread = 0;
+    } else {
+      filmOperate.informer_oid = mreply.commentatorId;
+      filmOperate.informer_isread = 1;
+    }
+
     this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, null).subscribe(res => {
       if (res.data != null) {
-        const newOperate = res.data;
-        filmOperate.oid = newOperate.oid;
-        filmOperate.parise_user_oid = this.currentUser.oid;
-        filmOperate.film_oid = mreply.filmOid;
-        filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.currentUser.username;
-        filmOperate.flag = null;
-
+        filmOperate.oid = res.data.oid;
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
           if (str.msg === '成功') {
             this.getReplyByOid(film);
           }
         });
       } else {
-        filmOperate.parise_user_oid = this.currentUser.oid;
-        filmOperate.film_oid = mreply.filmOid;
-        filmOperate.comment_oid = mreply.oid;
-        filmOperate.pariser_user = this.currentUser.username;
         filmOperate.parise_time = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1) > 10 ? (new Date().getMonth() + 1) : ('0') + (new Date().getMonth() + 1))
           + '-' + ((new Date().getDate() > 10) ? (new Date().getDate()) : ('0' + new Date().getDate()));
         this.filmcommentService.addFilmOperate(filmOperate).subscribe(data => {
@@ -313,6 +321,14 @@ export class FilmDetailComponent implements OnInit {
       filmReply.replyperson_oid = null;
       filmReply.replyperson_name = null;
       filmReply.flag = null;
+      filmReply.isread = 0;
+      if(this.currentUser.role == 'admin' ){
+        filmReply.informer_oid = 2;  //管理员
+        filmReply.informer_isread = 0; //已读
+      } else {
+        filmReply.informer_oid = 2;  //管理员
+        filmReply.informer_isread = 1; //未读
+      }
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         if (res.msg == '成功') {
           $(`#i1-${oid}`).val('');
@@ -335,7 +351,9 @@ export class FilmDetailComponent implements OnInit {
                   filmOid: film.oid,
                   isShowDelete: true,
                   isShowReplyFrame: true,
-                  PRAISENUMflag: replyData.currentUserSub
+                  PRAISENUMflag: replyData.currentUserSub,
+                  PRAISENUM: replyData.parentSubCount,
+                  isShowPraise: replyData.parentSubCount > 0 ? true : false
                 });
                 let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
                 if (child != null && child.length > 0) {
@@ -351,7 +369,9 @@ export class FilmDetailComponent implements OnInit {
                       replyPersonName: child[j].replyPersonName,
                       isShowReplyFrame: true,
                       isShowDelete: true,
-                      PRAISENUMflag: child[j].currentUserSub
+                      PRAISENUMflag: child[j].currentUserSub,
+                      PRAISENUM: child[j].childSubCount,
+                      isShowPraise: child[j].childSubCount > 0 ? true : false
                     });
                   }
                 }
@@ -376,14 +396,14 @@ export class FilmDetailComponent implements OnInit {
    */
   addChildrenMessageReply(mreply: any, num: any, film: Film): void {
     let filmReply = new FilmReply();
-    const oid = mreply.oid; // 回复（电影的回复）的OID
+    const oid = mreply.oid;
     if ($(`#${oid}`).val().replace(/^\s+|\s+$/g, '') !== '') {
       if (num === 0) {
-        filmReply.parent_oid = mreply.oid;   // 回复（动态的回复）的OID
-        filmReply.node_parent_oid = mreply.oid;   // 回复（动态的回复）的OID
+        filmReply.parent_oid = mreply.oid;
+        filmReply.node_parent_oid = mreply.oid;
       } else {
-        filmReply.parent_oid = mreply.oid;   // 回复（动态的回复）的OID
-        filmReply.node_parent_oid = mreply.parentId;   // 回复（动态的回复）的OID
+        filmReply.parent_oid = mreply.oid;
+        filmReply.node_parent_oid = mreply.parentId;
       }
       filmReply.film_oid = film.oid;
       filmReply.commentator_oid = this.currentUser.oid;
@@ -392,6 +412,14 @@ export class FilmDetailComponent implements OnInit {
       filmReply.replyperson_oid = mreply.commentatorId;
       filmReply.replyperson_name = mreply.commentatorName;
       filmReply.flag = null;
+      filmReply.isread = 0;
+      if(mreply.commentatorName == this.currentUser.username){
+        filmReply.informer_oid = this.currentUser.oid;
+        filmReply.informer_isread = 0;
+      }else{
+        filmReply.informer_oid = mreply.commentatorId;
+        filmReply.informer_isread = 1;
+      }
 
       this.filmcommentService.addParentMessageReply(filmReply).subscribe(res => {
         // console.log(res);
@@ -415,7 +443,9 @@ export class FilmDetailComponent implements OnInit {
                   filmOid: film.oid,
                   isShowDelete: true,
                   isShowReplyFrame: true,
-                  PRAISENUMflag: replyData.currentUserSub
+                  PRAISENUMflag: replyData.currentUserSub,
+                  PRAISENUM: replyData.parentSubCount,
+                  isShowPraise: replyData.parentSubCount > 0 ? true : false
                 });
                 let child = str.data.commentParentVOList[x].childCommentVOList;  //一级评论的回复
                 if (child != null && child.length > 0) {
@@ -431,7 +461,9 @@ export class FilmDetailComponent implements OnInit {
                       replyPersonName: child[j].replyPersonName,
                       isShowReplyFrame: true,
                       isShowDelete: true,
-                      PRAISENUMflag: child[j].currentUserSub
+                      PRAISENUMflag: child[j].currentUserSub,
+                      PRAISENUM: child[j].childSubCount,
+                      isShowPraise: child[j].childSubCount > 0 ? true : false
                     });
                   }
                 }
@@ -481,6 +513,40 @@ export class FilmDetailComponent implements OnInit {
         alert('删除失败');
       }
     });
+  }
+
+  //评论处的转发按钮
+  rePostFilmComment(mreply: any, film: Film) {
+    this.filmRePostIsVisible = true;
+    this.filmRePost.createFilmForm();
+    this.filmRePost.rePostReasonValue = null;
+    let userRePost = new UserRePost();
+    userRePost.film_oid = film.oid;
+    userRePost.reply_oid = mreply.oid;
+    userRePost.isread = 0;
+    if(mreply.commentatorId == this.currentUser.oid){
+      userRePost.informer_oid = this.currentUser.oid;
+      userRePost.informer_isread = 0;
+    }else{
+      userRePost.informer_oid = mreply.commentatorId;
+      userRePost.informer_isread = 1;
+    }
+    this.filmRePost.userRePost = userRePost;
+  }
+
+  //确定按钮：关闭转发模态框
+  filmRePostOk() {
+    this.filmRePostCancel();
+  }
+
+  //取消按钮：关闭转发模态框
+  filmRePostCancel() {
+    this.filmRePostIsVisible = false;
+  }
+
+  //关闭转发模态框
+  closeRePostModel(event: any) {
+    this.filmRePostCancel();
   }
 
 
