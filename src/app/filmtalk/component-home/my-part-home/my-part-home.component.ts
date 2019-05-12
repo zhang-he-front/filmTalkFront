@@ -58,6 +58,7 @@ export class MyPartHomeComponent implements OnInit {
 
   //处理数据
   dealWithData(res: any) {
+    console.log(res);
     if(!isUndefined(res)){
       if(res.length < 1){
         this.isExistFilm = true;
@@ -97,7 +98,7 @@ export class MyPartHomeComponent implements OnInit {
             f.isPraiseNumb = true;
             f.isMore = 0;
             //电影点赞
-            f.filmSubCount = filmDetail.filmSubCount;
+            f.filmSubCount = res[i].filmSubCount;
             if(f.filmSubCount == 0){
               f.filmSubCountFlag = false;
             } else{
@@ -144,6 +145,7 @@ export class MyPartHomeComponent implements OnInit {
                 let child = commentDetail.commentParentVOList[x].childCommentVOList;  //一级评论的回复
                 if (child != null && child.length > 0) {
                   for (let j = 0; j < child.length; j++) {
+                    let isSub = child[j].childSubCount > 0 ? true : false;
                     this.replyChildrenDataSet.push({
                       commentDetail: child[j].commentDetail,
                       commentatorName: child[j].commentatorName,
@@ -158,7 +160,7 @@ export class MyPartHomeComponent implements OnInit {
                       isShowDelete: true,
                       PRAISENUMflag: child[j].currentUserSub,
                       PRAISENUM: child[j].childSubCount,
-                      isShowPraise: child[j].childSubCount > 0 ? true : false
+                      isShowPraise: isSub
                     });
                   }
                 }
@@ -459,7 +461,7 @@ export class MyPartHomeComponent implements OnInit {
     filmOperate.informer_oid = this.currentUser.oid;
     filmOperate.informer_isread = 0;
 
-    this.filmcommentService.queryFilmOperate(film.oid, null, this.currentUser.oid, 'repost').subscribe(res => {
+    this.filmcommentService.queryFilmOperate(film.rePostOid, null, this.currentUser.oid, 'repost').subscribe(res => {
       if (res.data != null) {
         filmOperate.oid = res.data.oid;
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
@@ -502,7 +504,7 @@ export class MyPartHomeComponent implements OnInit {
     filmOperate.pariser_user = this.currentUser.username;
     filmOperate.flag = 'repost';
     filmOperate.isread = 0;
-    if(mreply.commentatorId == this.currentUser.oid){
+    if(mreply.commentatorName == this.currentUser.username){
       filmOperate.informer_oid = this.currentUser.oid;
       filmOperate.informer_isread = 0;
     } else {
@@ -510,7 +512,7 @@ export class MyPartHomeComponent implements OnInit {
       filmOperate.informer_isread = 1;
     }
 
-    this.filmcommentService.queryFilmOperate(film.oid, mreply.oid, this.currentUser.oid, 'repost').subscribe(res => {
+    this.filmcommentService.queryFilmOperate(film.rePostOid, mreply.oid, this.currentUser.oid, 'repost').subscribe(res => {
       if (res.data != null) {
         filmOperate.oid = res.data.oid;
         this.filmcommentService.updateFilmOperate(filmOperate).subscribe(str => {
