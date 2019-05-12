@@ -73,20 +73,20 @@ export class NavbarComponent implements OnInit {
       }
       for(let i = 0; i < res.data.length; i++){
         let data = res.data[i];
-        let film = new Film();
-        film.oid = data.filmDetail.oid;
-        film.film_name = data.filmDetail.filmName;
+        // let film = new Film();
+        // film.oid = data.filmDetail.oid;
+        // film.film_name = data.filmDetail.filmName;
         let info;
         if(data.operate == '点赞'){
-          info = '赞了我的'
+          info = '赞了我'
         } else if(data.operate == '转发'){
-          info = '转发了我的';
+          info = '转发了我';
         }else{
           info = '评论了我';
         }
         this.informInfo.push({
           'length': res.data.length,
-          'filmDetail': film,
+          'filmDetail': data.filmDetail,
           'operate': data.operate,
           'message': info,
           'operateInfo': data.operateInfo,
@@ -118,6 +118,11 @@ export class NavbarComponent implements OnInit {
   //展示通知数据
   showInform(){
     this.messageLength = 0;
+    this.filmpageHomeService.updateInformStatues().subscribe(res => {
+      if(res.msg != '成功'){
+        alert('更新通知失败');
+      }
+    });
   }
 
   //展示电影模态框

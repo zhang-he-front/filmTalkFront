@@ -173,9 +173,8 @@ export class MyPartHomeComponent implements OnInit {
             f.replyChildrenDataSet = this.replyChildrenDataSet;
             this.filmsData.push(f);
         }
-        this.films = this.filmsData;
-        console.log(this.films);
       }
+      this.films = this.filmsData;
     } else{
       this.films = [];
       this.isExistFilm = true;
@@ -332,7 +331,7 @@ export class MyPartHomeComponent implements OnInit {
       filmReply.replyperson_name = mreply.commentatorName;
       filmReply.flag = 'repost';
       filmReply.isread = 0;
-      if(mreply.commentatorId == this.currentUser.oid){
+      if(mreply.commentatorName == this.currentUser.username){
         filmReply.informer_oid = this.currentUser.oid;
         filmReply.informer_isread = 0;
       }else{
@@ -450,8 +449,8 @@ export class MyPartHomeComponent implements OnInit {
     userRePost.film_oid = film.oid;
     userRePost.reply_oid = mreply.oid;
     userRePost.isread = 0;
-    userRePost.informer_oid = mreply.commentator_oid;
-    if(mreply.commentator_oid == this.currentUser.oid){
+    userRePost.informer_oid = mreply.commentatorId;
+    if(mreply.commentatorName == this.currentUser.username){
       userRePost.informer_isread = 0;
     } else {
       userRePost.informer_isread = 1;

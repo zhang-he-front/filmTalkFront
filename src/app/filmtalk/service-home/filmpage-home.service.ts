@@ -67,4 +67,16 @@ export class FilmpageHomeService {
     };
     return this.http.post(url, body);
   }
+
+  /**
+   * 更新通知状态
+   * add by zyx 2019-5-12
+   * @returns {Observable<any>}
+   */
+  updateInformStatues(): Observable<any> {
+    const url = '/film/updateInformStatues';
+    const body = {
+    };
+    return this.http.post(url, body);
+  }
 }
