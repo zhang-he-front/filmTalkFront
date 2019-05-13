@@ -1,4 +1,4 @@
-<div [hidden]="!isHidden">
+<div [hidden]="loginHidden">
 <head>
   <link type="text/css" rel="stylesheet"
         href="https://img3.doubanio.com/f/accounts/437102bac4600b61b1743b399aebbe46ecdb4361/passport/build/login/index.css"/>
@@ -88,3 +88,6 @@
   <app-navbar #navbar (layout)="userLayout($event)"></app-navbar>
 </div>
 
+<div [hidden]="registerHidden">
+  <app-user-register #userRegister (toLogin)="toLogin($event)"></app-user-register>
+</div>

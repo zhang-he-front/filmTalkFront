@@ -6,6 +6,7 @@ import {User} from '../../model/user';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {NavbarComponent} from '../navbar/navbar.component';
+import {UserRegisterComponent} from "../user-register/user-register.component";
 
 @Component({
   selector: 'app-user-login',
@@ -15,10 +16,13 @@ import {NavbarComponent} from '../navbar/navbar.component';
 export class UserLoginComponent implements OnInit {
 
   @ViewChild('navbar') navbar: NavbarComponent;  //导航栏
+  @ViewChild('userRegister') userRegister: UserRegisterComponent;  //注册组件
   validateForm: FormGroup;
   user: User = new User();
   currentUser: User = new User;
   isHidden: boolean = true;
+  loginHidden: boolean = false;
+  registerHidden: boolean = true;
 
   constructor(private fb: FormBuilder,
               private userHomeService: UserHomeService,
@@ -47,6 +51,8 @@ export class UserLoginComponent implements OnInit {
       if(str.data != null){
         this.currentUser = str.data;
         this.isHidden = false;
+        this.loginHidden = true;
+        this.registerHidden = true;
         this.navbar.currentUser = this.currentUser;
         this.router.navigate(['home/'+ this.currentUser.oid +'']);
         this.navbar.getInformData();
@@ -56,6 +62,8 @@ export class UserLoginComponent implements OnInit {
           nzDuration: 1500
         });
         this.isHidden = true;
+        this.loginHidden = false;
+        this.registerHidden = true;
       }
     });
 
@@ -69,6 +77,10 @@ export class UserLoginComponent implements OnInit {
       this.validateForm.controls[key].markAsPristine();
       this.validateForm.controls[key].updateValueAndValidity();
     }
+    this.loginHidden = true;
+    this.isHidden = true;
+    this.registerHidden = false;
+    this.router.navigate(['/register']);
   }
 
   //userName校验
@@ -87,7 +99,15 @@ export class UserLoginComponent implements OnInit {
   //退出登陆
   userLayout(){
     this.isHidden = true;
+    this.loginHidden = false;
+    this.registerHidden = true;
     this.currentUser = null;
   }
 
+  //注册成功后登陆
+  toLogin(){
+    this.loginHidden = false;
+    this.registerHidden = true;
+    this.isHidden = true;
+  }
 }

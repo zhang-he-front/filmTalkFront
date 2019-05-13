@@ -37,7 +37,10 @@ export class UserHomeService {
     const url = '/user/register';
     const body = {
       'username': user.username,
-      'password': user.password
+      'password': user.password,
+      'email': user.email,
+      'role': user.role,
+      'isValid': user.isvalid
     };
     return this.http.post(url, body);
   }
@@ -61,13 +64,25 @@ export class UserHomeService {
   /**
    * 根据oid获取用户信息
    * add by zyx 2019-5-7
-   * @param {User} user
    * @returns {Observable<any>}
    */
   getUserByOid(userOid: number): Observable<any> {
     const url = '/user/getUserByOid';
     const body = {
       'oid': userOid
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 根据oid获取用户信息
+   * add by zyx 2019-5-7
+   * @returns {Observable<any>}
+   */
+  getUserByUserName(username: string): Observable<any> {
+    const url = '/user/getUserByUserName';
+    const body = {
+      'username': username
     };
     return this.http.post(url, body);
   }
