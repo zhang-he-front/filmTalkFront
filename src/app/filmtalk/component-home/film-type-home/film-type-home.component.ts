@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {isUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
 import {Filmtype} from '../../../shared/model/filmtype';
@@ -30,6 +30,49 @@ export class FilmTypeHomeComponent implements OnInit {
   oid: any; //电影类型oid
   isExistFilm: boolean = false;    // 是否存在电影
   currentUser: User = new User(); //当前登陆者
+
+  tags = [];
+  inputVisible = false;
+  inputValue = '';
+  @ViewChild('inputElement') inputElement: ElementRef;
+
+  handleClose(removedTag: {}): void {
+    this.tags = this.tags.filter(tag => tag !== removedTag);
+  }
+
+  showInput(): void {
+    this.inputVisible = true;
+    setTimeout(() => {
+      this.inputElement.nativeElement.focus();
+    }, 10);
+  }
+
+  handleInputConfirm(): void {
+    if (this.inputValue && this.tags.indexOf(this.inputValue) === -1) {
+      this.tags = [...this.tags, this.inputValue];
+    }
+    if(this.inputValue != ''){
+      this.filmtypeHomeService.queryFilmTypeByName(this.inputValue).subscribe(str => {
+        if (str.code == 0) {
+          this.filmtypeHomeService.createFilmType(this.inputValue, this.currentUser.oid).subscribe(res => {
+            this.inputValue = '';
+            this.inputVisible = false;
+            if(res.msg == '成功'){
+              this.getFilmType();
+            } else {
+              alert('添加失败');
+            }
+          });
+        } else {
+          alert('该类型已存在');
+        }
+      });
+    } else {
+      this.inputValue = '';
+      this.inputVisible = false;
+    }
+  }
+
 
   constructor(private filmtypeHomeService: FilmtypeHomeService,
               private routeInfo: ActivatedRoute,

@@ -11,4 +11,5 @@ export class Filmtype {
   isValid: string;  //删除表示，0-正常 1-删除
   typesFlag: number;  //全部标志
   typesFlagName: string;  //全部标志代表的值
+  create_oid: number;  //创建者
 }

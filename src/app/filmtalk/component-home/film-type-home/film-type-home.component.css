@@ -67,3 +67,19 @@ a {
   border: 1px solid transparent;
   border-radius: 4px 4px 4px 4px;
 }
+
+
+.ant-tag {
+  box-sizing: border-box;
+  margin: 0 8px 0 0;
+  height: 22px;
+  padding: 0 7px;
+  line-height: 20px;
+  white-space: nowrap;
+  background: #f5f5f5;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 1;
+  transition: all .3s cubic-bezier(.215,.61,.355,1);
+  border: none;
+}

@@ -18,11 +18,13 @@ export class FilmtypeHomeService {
    * add by zyx 2019-4-7
    * @returns {Observable<any>}
    */
-  createFilmType(type_name: any): Observable<any> {
+  createFilmType(type_name: any, oid: number): Observable<any> {
     const url = '/filmType/insert';
-    // const body = {
-    // };
-    return this.http.post(url, type_name);
+    const body = {
+      'createOid': oid,
+      'typeName': type_name
+    };
+    return this.http.post(url, body);
   }
 
 
@@ -93,6 +95,18 @@ export class FilmtypeHomeService {
     const url = '/filmType/getTypesByName';
     const body = {
       'typeName': filmType
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 删除当前登陆者自定义的类型
+   * add by zyx 2019-5-14
+   * @returns {Observable<any>}
+   */
+  deleteTypeByCurrentUser(): Observable<any> {
+    const url = '/filmType/deleteTypeByCurrentUser';
+    const body = {
     };
     return this.http.post(url, body);
   }

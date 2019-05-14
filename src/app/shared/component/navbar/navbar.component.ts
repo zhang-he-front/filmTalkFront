@@ -194,7 +194,7 @@ export class NavbarComponent implements OnInit {
     type_name = this.typeForm.get('TYPENAME').value; // title
     this.filmtypeHomeService.queryFilmTypeByName(type_name).subscribe(str => {
       if (str.code == 0) {
-        this.filmtypeHomeService.createFilmType(type_name).subscribe(res => {
+        this.filmtypeHomeService.createFilmType(type_name, this.currentUser.oid).subscribe(res => {
           if (res.code == 0) {
             this.typeCancel();
             this.filmtypeHomeService.refreshTypeHome.emit('refreshTypeHome');
@@ -259,6 +259,11 @@ export class NavbarComponent implements OnInit {
 
   //退出登陆
   logint(){
+    //删除当前登陆者自定义的类型
+    if(this.currentUser.role != 'admin'){
+      this.filmtypeHomeService.deleteTypeByCurrentUser().subscribe(res => {
+      });
+    }
     this.closeTimer();
     this.router.navigate(['']);
     this.layout.emit('layout');

@@ -70,6 +70,21 @@
           <span class="text-wrapper">全部特色</span>
         </a>
       </li>
+
+      <nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()" style="margin-top: 17px;">
+        <i nz-icon type="plus"></i>自定义标签
+      </nz-tag>
+      <input
+        #inputElement
+        nz-input
+        nzSize="small"
+        *ngIf="inputVisible"
+        type="text"
+        [(ngModel)]="inputValue"
+        style="width: 78px;margin-top: 17px;"
+        (blur)="handleInputConfirm()"
+        (keydown.enter)="handleInputConfirm()"/>
+
       <li class="" (click)="showMySelfTab(myself.oid)" *ngFor="let myself of allMyself">
         <a data-toggle="tab" aria-expanded="true">
           <span class="icon-wrapper"><i class="fa fa-flag-o"></i></span>
