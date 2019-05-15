@@ -31,6 +31,7 @@ export class FilmDetailComponent implements OnInit {
   filmRePostIsVisible: boolean = false;  //个人信息模态框展示
   alsoLikeIsExit: boolean = false;  //也喜欢是否有数据
   alsoLike: any[] = [];  //也喜欢数据集合
+  addImageLike: any[] = [];  //电影图片数据集合
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -75,6 +76,15 @@ export class FilmDetailComponent implements OnInit {
           f.film_name = res.filmName;
           f.filmType = res.filmType;
           f.image_path = res.imagePath;
+          let img = [];
+          if(res.addImage != null){
+            img = res.addImage.split(';');
+            for(let i = 0; i < img.length; i++){
+              this.addImageLike.push({
+                'addImage': img[i]
+              });
+            }
+          }
           f.film_language = res.filmLanguage;
           f.location = res.location;
           f.show_time = a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();

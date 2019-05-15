@@ -47,30 +47,6 @@
                         <p class="cr-blue">&nbsp;&nbsp;&nbsp;&nbsp; {{film.film_detail}}</p>
                       </div>
                     </div>
-
-                    <div class="comment-footer ">
-                      <span class="pull-right">
-                  <span class="action-icons" style="margin-right: 20px;" [hidden]="film.isShowOperate">
-                    <a class="tooltips praise" nz-tooltip nzTitle="关注" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messageSpecial(film)" [hidden]="film.isCollect">
-                      <i class="fa fa-star-o" style="color:#666"></i>
-                    </a>
-                    <a class="tooltips praise" nz-tooltip nzTitle="取消关注" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messageSpecial(film)" [hidden]="!film.isCollect">
-                      <i class="fa fa-star" style="color:#666"></i>
-                    </a>&nbsp;&nbsp;
-                    <a class="tooltips praise" nz-tooltip nzTitle="点赞" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messagePraise(film)" [hidden]="film.isPraise">
-                      <i class="fa fa-thumbs-o-up" style="color:#666"></i>
-                    </a>
-                    <a class="tooltips praise" nz-tooltip nzTitle="取消点赞" [nzOverlayStyle]="{'font-size':'12px'}"
-                       (click)="messagePraise(film)" [hidden]="!film.isPraise">
-                       <i class="fa fa-thumbs-up" style="color:#666"></i>
-                    </a>
-                    <span class="praisenumb" *ngIf="film.isPraiseNumb"><i class="z-num">{{film.praiseNumb}}</i></span>&nbsp;&nbsp;
-                 </span>
-                </span>
-                    </div>
                   </div>
                 </div>
 
@@ -78,6 +54,8 @@
                   <span style="font-size: 22px;color: #446f86; margin-left: 14px;">{{film.film_name}}的图片...</span>
                   <div class="row">
                     <img src="{{film.image_path}}"
+                         style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
+                    <img *ngFor="let img of addImageLike" src="{{img.addImage}}"
                          style="height: 180px;padding-left: 30px;padding-right: 10px;margin-top: 15px;">
                   </div>
                 </div>
