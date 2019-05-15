@@ -120,7 +120,15 @@ export class CreateFilmComponent implements OnInit {
     this.film.location = this.filmForm.get('location').value; // location ;
     this.film.film_detail = this.filmForm.get('filmDetail').value; // location ;
     if(this.fileList.length > 0){
-      this.film.image_path = "assets/img/film/future/" + this.fileList[0].name;
+      let arr = '';
+      for(let i = 0; i < this.fileList.length; i++){
+        if(i == 0){
+          this.film.image_path = "assets/img/film/future/" + this.fileList[0].name;
+        } else{
+          arr += "assets/img/film/future/" + this.fileList[i].name + ';';
+        }
+      }
+      this.film.add_image = arr;
     }
     this.film.film_staus = 1;
     this.film.isValid = 0;

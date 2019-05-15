@@ -9,6 +9,7 @@ import {UserHomeService} from '../../../shared/service/user-home.service';
 import {User} from '../../../shared/model/user';
 import {FilmRepostComponent} from '../../../shared/component/film-repost/film-repost.component';
 import {UserRePost} from '../../../shared/model/userrepost';
+import {FilmInfoComponent} from "../../../shared/component/film-info/film-info.component";
 
 declare var $: any;
 
@@ -19,6 +20,7 @@ declare var $: any;
 })
 export class FilmCommentHomeComponent implements OnInit {
   @ViewChild('filmRePost') filmRePost: FilmRepostComponent;  // 转发子组件
+  @ViewChild('filmInfo') filmInfo: FilmInfoComponent;  // 电影信息子组件
   films: Film[] = [];
   filmsData: Film[] = [];
   messageTopChk: boolean = false;    // 任务转动态checkbox是否选中
@@ -27,6 +29,7 @@ export class FilmCommentHomeComponent implements OnInit {
   isExistFilm: boolean = false;    // 是否存在电影
   currentUser: User = new User(); //当前登陆者
   filmRePostIsVisible: boolean = false;  //个人信息模态框展示
+  filmInfoVisible: boolean = false;  //电影详情打开标志
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -824,4 +827,26 @@ export class FilmCommentHomeComponent implements OnInit {
     this.filmRePostCancel();
   }
 
+  //打开电影信息模态框
+  showFilmInfo(filmOid){
+    this.filmInfoVisible = true;
+    this.filmInfo.currentUser = this.currentUser;
+    this.filmInfo.getFilmInfo(filmOid);
+  }
+
+  handleCancel() {
+    this.filmInfoVisible = false;
+  }
+
+  handleOk() {
+    this.filmInfoVisible = false;
+  }
+
+  //关闭模态框
+  closeModel(str: any) {
+    this.handleCancel();
+    if(str == 'closeAndRefresh'){
+      this.getFilmData();
+    }
+  }
 }

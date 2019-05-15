@@ -17,6 +17,7 @@ const routes: Routes = [
   {path: 'filmType/:userOid', component: FilmTypeHomeComponent}, //分类主页
   {path: 'myPart/:userOid', component: MyPartHomeComponent}, //分类主页
   {path: 'commentDetail', component: FilmDetailComponent},  //电影详情页
+  {path: '**', component: FilmDetailComponent},  //电影详情页
 ];
 
 @NgModule({

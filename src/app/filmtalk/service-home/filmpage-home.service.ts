@@ -50,7 +50,8 @@ export class FilmpageHomeService {
       'image_path': film.image_path,
       'star': 0,
       'film_staus': film.film_staus,
-      'isValid': film.isValid
+      'isValid': film.isValid,
+      'add_image': film.add_image,
     };
     return this.http.post(url, body);
   }

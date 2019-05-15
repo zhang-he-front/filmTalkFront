@@ -16,8 +16,11 @@
                        (mouseleave)="isNotShowOperate(film)">
                     <div class="row">
                       <div class="col-md-1">
-                        <a [routerLink]="['/commentDetail']"
-                           [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
+                        <a *ngIf="currentUser.role == 'common'"
+                          [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }">
+                          <img src="{{film.image_path}}" style="height: 130px;padding-left: 15px;">
+                        </a>
+                        <a *ngIf="currentUser.role == 'admin'" (click)="showFilmInfo(film.oid)">
                           <img src="{{film.image_path}}" style="height: 130px;padding-left: 15px;">
                         </a>
                       </div>
@@ -492,4 +495,11 @@
           [nzClosable]="false"
           [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
   <app-film-repost #filmRePost (closeRePostModel)="closeRePostModel(event)"></app-film-repost>
+</nz-modal>
+
+
+<!--新增电影模态框-->
+<nz-modal [(nzVisible)]="filmInfoVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-film-info #filmInfo (closeModel)="closeModel($event)"></app-film-info>
 </nz-modal>

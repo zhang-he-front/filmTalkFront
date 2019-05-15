@@ -98,8 +98,13 @@
         <div class="thumbnail" style="margin-top: 10px;">
 
           <div class="col-md-6" style="margin-top: 6px;">
-            <a><img [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }" class="imageStyle" src="{{film.image_path}}"
-                    style="margin-left: 4px;"></a>
+            <a *ngIf="currentUser.role == 'common'">
+              <img [routerLink]="['/commentDetail']" [queryParams]="{ filmOid : film.oid , userOid: currentUser.oid }"
+                   class="imageStyle" src="{{film.image_path}}" style="margin-left: 4px;">
+            </a>
+            <a *ngIf="currentUser.role == 'admin'" (click)="showFilmInfo(film.oid)">
+              <img class="imageStyle" src="{{film.image_path}}" style="margin-left: 4px;">
+            </a>
           </div>
           <div class="col-md-6" style="margin-top: 6px;">
             <nz-rate *ngIf="film.star != '0'" [ngModel]="film.star" nzDisabled></nz-rate>
@@ -159,3 +164,8 @@
   </div>
 </div>
 
+<!--新增电影模态框-->
+<nz-modal [(nzVisible)]="filmInfoIsVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-film-info #filmInfo (closeModel)="closeModel($event)"></app-film-info>
+</nz-modal>

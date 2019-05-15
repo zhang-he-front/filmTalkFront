@@ -1,0 +1,139 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 28px;margin-top:-18px;"
+          (click)="cancel()">×
+  </button>
+  <h4 class="modal-title" style="font-size: 24px;margin-top: -24px;">电影详情</h4>
+</div>
+
+<form class="no-margin" [formGroup]="filmInfoForm" data-validate="parsley" novalidate="" style="margin-top: 13px;">
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影名称</span>
+    <div class="col-xs-10">
+      <nz-form-item>
+
+        <nz-input-group>
+          <input type="text" nz-input formControlName="filmName" placeholder="请输入电影名称" style="font-size: 14px;"
+                 class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+        </nz-input-group>
+        <nz-form-explain *ngIf="filmInfoForm.get('filmName')?.dirty && filmInfoForm.get('filmName')?.errors"
+                         style="margin-top: 3px;color: red;font-size:16px;">
+          类型名不能为空
+        </nz-form-explain>
+
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影时长</span>
+    <div class="col-xs-10">
+      <nz-form-item>
+        <nz-input-group>
+          <input type="text" nz-input formControlName="hour" placeholder="请输入时长" style="font-size: 14px;"
+                 class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+        </nz-input-group>
+        <nz-form-explain *ngIf="filmInfoForm.get('hour')?.dirty && filmInfoForm.get('hour')?.errors"
+                         style="margin-top: 3px;color: red;font-size:16px;">
+          时长不能为空
+        </nz-form-explain>
+      </nz-form-item>
+    </div>
+  </div>
+
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">上映时间</span>
+    <div class="col-xs-10">
+      <nz-date-picker [(ngModel)]="date" formControlName="showTime"></nz-date-picker>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影简介</span>
+    <div class="col-xs-10">
+      <textarea
+        nz-input formControlName="filmDetail"
+        placeholder="请输入电影简介"
+        [(ngModel)]="filmDetailValue"
+        [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">类型/状态</span>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="selectType" placeholder="请输入电影类型" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8" disabled="disabled"/>
+    </div>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="filmStatus" placeholder="请输入电影状态" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8" disabled="disabled"/>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">主要演员</span>
+    <div class="col-xs-10">
+      <input type="text" nz-input formControlName="roles" placeholder="请输入主要演员姓名" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">导演/编剧</span>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="director" placeholder="请输入导演姓名" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="producer" placeholder="请输入编剧姓名" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div>
+  </div>
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">其他信息</span>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="language" placeholder="请输入电影语言" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div>
+    <div class="col-xs-5">
+      <input type="text" nz-input formControlName="location" placeholder="请输入上映地点" style="font-size: 14px;"
+             class="form-control" data-parsley-required="true" data-parsley-minlength="8"/>
+    </div>
+  </div>
+
+
+  <div class="form-group row" style="padding:0 15px;">
+    <span class="col-xs-2 control-label text-center" style="margin-top: 10px">电影剧照</span>
+    <div class="col-xs-10">
+      <div class="clearfix">
+        <nz-upload
+          nzAction="http://localhost:8080/film/uploadImg/"
+          nzListType="picture-card"
+          [(nzFileList)]="fileList"
+          [nzShowButton]="fileList.length < 3"
+          [nzShowUploadList]="showUploadList"
+          [nzPreview]="handlePreview">
+          <i nz-icon type="plus"></i>
+          <div class="ant-upload-text" style="font-size: 14px;">Upload</div>
+        </nz-upload>
+        <nz-modal
+          [nzVisible]="previewVisible"
+          [nzContent]="modalContent"
+          [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false">
+          <ng-template #modalContent>
+            <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+          </ng-template>
+        </nz-modal>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer" style="margin-top: -15px;">
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">取消</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="delete()">删除</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">修改</button>
+  </div>
+</form>

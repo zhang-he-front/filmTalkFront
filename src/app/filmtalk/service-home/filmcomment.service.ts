@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {FilmReply} from '../../shared/model/filmreply';
 import {Filmoperate} from '../../shared/model/filmoperate';
 import {UserRePost} from '../../shared/model/userrepost';
+import {Film} from "../../shared/model/film";
 
 @Injectable({
   providedIn: 'root'
@@ -177,6 +178,32 @@ export class FilmcommentServiceService {
     const url = '/film/deleteFilm';
     const body = {
       'oid': oid
+    };
+    return this.http.post(url, body);
+  }
+
+  /**
+   * 修改电影
+   * add by zyx 2019-5-15
+   * @returns {Observable<any>}
+   */
+  updateFilm(film: Film): Observable<any> {
+    const url = '/film/updateFilm';
+    const body = {
+      'oid': film.oid,
+      'film_name': film.film_name,
+      'hour_length': film.hour_length,
+      'show_time': film.show_time,
+      'filmType': film.filmType,
+      'roles': film.roles,
+      'director': film.director,
+      'producer': film.producer,
+      'film_language': film.film_language,
+      'location': film.location,
+      'film_detail': film.film_detail,
+      'image_path': film.image_path,
+      'film_staus': film.film_staus,
+      'add_image': film.add_image
     };
     return this.http.post(url, body);
   }

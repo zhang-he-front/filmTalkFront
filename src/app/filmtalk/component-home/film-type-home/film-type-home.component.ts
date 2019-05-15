@@ -5,6 +5,7 @@ import {Filmtype} from '../../../shared/model/filmtype';
 import {User} from '../../../shared/model/user';
 import {FilmtypeHomeService} from '../../service-home/filmtype-home.service';
 import {UserHomeService} from '../../../shared/service/user-home.service';
+import {FilmInfoComponent} from "../../../shared/component/film-info/film-info.component";
 
 declare var $: any;
 
@@ -14,6 +15,7 @@ declare var $: any;
   styleUrls: ['./film-type-home.component.css']
 })
 export class FilmTypeHomeComponent implements OnInit {
+  @ViewChild('filmInfo') filmInfo: FilmInfoComponent;  // 电影信息子组件
   //查询条件
   filmName: string = null;    //根据电影名模糊查询
   all_type: number = 0;
@@ -30,6 +32,7 @@ export class FilmTypeHomeComponent implements OnInit {
   oid: any; //电影类型oid
   isExistFilm: boolean = false;    // 是否存在电影
   currentUser: User = new User(); //当前登陆者
+  filmInfoIsVisible: boolean = false;  //电影详情打开标志
 
   tags = [];
   inputVisible = false;
@@ -224,5 +227,29 @@ export class FilmTypeHomeComponent implements OnInit {
       }
     }
     this.getFilmByFilmTypeOidOrFilmName();
+  }
+
+  //打开电影信息模态框
+  showFilmInfo(filmOid){
+    this.filmInfoIsVisible = true;
+    this.filmInfo.currentUser = this.currentUser;
+    this.filmInfo.getFilmInfo(filmOid);
+  }
+
+  handleCancel() {
+    this.filmInfoIsVisible = false;
+  }
+
+  handleOk() {
+    this.filmInfoIsVisible = false;
+  }
+
+  //关闭模态框
+  closeModel(str: any) {
+    this.handleCancel();
+    if(str == 'closeAndRefresh'){
+      this.getFilmType();
+      this.getFilmCommentCountInfo();
+    }
   }
 }

@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FilmpageHomeService} from '../../service-home/filmpage-home.service';
 import {ActivatedRoute} from '@angular/router';
 import {User} from '../../../shared/model/user';
 import {UserHomeService} from '../../../shared/service/user-home.service';
+import {FilmInfoComponent} from "../../../shared/component/film-info/film-info.component";
+import {Film} from "../../../shared/model/film";
 
 declare var $: any;
 
@@ -13,6 +15,7 @@ declare var $: any;
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('filmInfo') filmInfo: FilmInfoComponent;  // 电影信息子组件
   futureArr: any[] = []; //即将上映
   likeArr: any[] = []; //猜你喜欢
   nowArr: any[] = []; //正在热播
@@ -20,6 +23,7 @@ export class HomeComponent implements OnInit {
   isExistFutureArr: boolean = false;    // 即将上映是否存在电影
   isExistLikeArr: boolean = false;    // 猜你喜欢是否存在电影
   currentUser: User = new User(); //当前登陆者
+  isVisible: boolean = false;  //电影详情打开标志
 
   constructor(private http: HttpClient,
               private filmpageHomeService: FilmpageHomeService,
@@ -130,6 +134,29 @@ export class HomeComponent implements OnInit {
           'star': res.recentHotArr[i].star * 2
         });
       }
+    }
+  }
+
+  //打开电影信息模态框
+  showFilmInfo(filmOid){
+    this.isVisible = true;
+    this.filmInfo.currentUser = this.currentUser;
+    this.filmInfo.getFilmInfo(filmOid);
+  }
+
+  handleCancel() {
+    this.isVisible = false;
+  }
+
+  handleOk() {
+    this.isVisible = false;
+  }
+
+  //关闭模态框
+  closeModel(str: any) {
+    this.handleCancel();
+    if(str == 'closeAndRefresh'){
+      this.getPageData();
     }
   }
 

@@ -20,6 +20,7 @@ export class Film {
   create_time: Date; //创建时间
   update_time: Date; //修改时间
   roles: any;
+  add_image: string; // 图片
 
   filmType: string; //类型
   isShowOperate: boolean;     // 是否显示操作按钮

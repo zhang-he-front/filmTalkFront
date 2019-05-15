@@ -40,7 +40,7 @@
                    src="{{recentHot.image_path}}"
                    style="margin-left: 4px;">
             </a>
-            <a *ngIf="currentUser.role == 'admin'">
+            <a *ngIf="currentUser.role == 'admin'" (click)="showFilmInfo(recentHot.oid)">
               <img class="imageStyle" src="{{recentHot.image_path}}"
                    style="margin-left: 4px;">
             </a>
@@ -149,3 +149,8 @@
   </div>
 </div>
 
+<!--新增电影模态框-->
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzClosable]="false"
+          [nzFooter]="null" [nzWidth]="900" style="z-index: 15;">
+  <app-film-info #filmInfo (closeModel)="closeModel($event)"></app-film-info>
+</nz-modal>
