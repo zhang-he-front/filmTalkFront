@@ -28,6 +28,10 @@ export class MyPartHomeComponent implements OnInit {
   isExistFilm: boolean = false;    // 是否存在电影
   currentUser: User = new User(); //当前登陆者
   filmRePostIsVisible: boolean = false;  //个人信息模态框展示
+  pageNumber: number = 0;  //页码
+  pageSize: number = 10; //一页个数
+  showMoreHidden: boolean = false;  //点击更多显示标志
+  repostCount: number;  //该用户转发总数
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -37,6 +41,8 @@ export class MyPartHomeComponent implements OnInit {
   ngOnInit() {
     this.getMyPartData();
     let userOid = this.routeInfo.snapshot.params['userOid'];
+    this.pageNumber = 0;
+    this.showMoreHidden = false;
     if(userOid){
       this.getUserByOid(userOid);
     }
@@ -51,8 +57,15 @@ export class MyPartHomeComponent implements OnInit {
 
   //获取数据
   getMyPartData() {
-    this.myPartHomeService.getMyPartData().subscribe(res => {
+    this.pageNumber = 0;
+    this.myPartHomeService.getMyPartData(this.pageNumber, this.pageSize).subscribe(res => {
       this.dealWithData(res.data);
+      if(this.filmsData.length == this.repostCount){
+        this.showMoreHidden = true;
+      } else if(this.filmsData.length < this.repostCount){
+        this.showMoreHidden = false;
+      }
+      this.films = this.filmsData;
     });
   }
 
@@ -67,6 +80,7 @@ export class MyPartHomeComponent implements OnInit {
         this.isExistFilm = false;
         this.filmsData = [];
         for (let i = 0; i < res.length; i++) {
+          this.repostCount = res[i].count;
           let filmDetail = res[i].filmDetail;
           let commentDetail = res[i].commentDetail;
           let userRePostDetail = res[i].userRePostDetail;
@@ -174,9 +188,10 @@ export class MyPartHomeComponent implements OnInit {
             this.filmsData.push(f);
         }
       }
-      this.films = this.filmsData;
+      // this.films = this.filmsData;
     } else{
-      this.films = [];
+      this.filmsData = [];
+      // this.films = [];
       this.isExistFilm = true;
     }
   }
@@ -823,5 +838,22 @@ export class MyPartHomeComponent implements OnInit {
   closeRePostModel(event: any){
     this.filmRePostCancel();
     this.getMyPartData();
+  }
+
+  //分页设置
+  getMoreData(){
+    this.pageNumber += this.pageNumber + this.pageSize;
+    this.myPartHomeService.getMyPartData(this.pageNumber, this.pageSize).subscribe(res => {
+      this.dealWithData(res.data);
+      this.films = this.films.concat(this.filmsData);
+      if((this.films.length) == this.repostCount){
+        this.showMoreHidden = true;
+      } else if(this.films.length < this.repostCount){
+        this.showMoreHidden = false;
+      }
+      if(this.filmsData.length == 0){
+        this.isExistFilm = false;
+      }
+    });
   }
 }

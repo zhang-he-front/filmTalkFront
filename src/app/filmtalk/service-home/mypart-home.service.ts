@@ -14,9 +14,12 @@ export class MypartHomeService {
    * add by zyx 2019-4-9
    * @returns {Observable<any>}
    */
-  getMyPartData(): Observable<any> {
+  getMyPartData(pageNumber: number, pagesize: number): Observable<any> {
     const url = '/film/myPart';
     const body = {
+      'pageNumber': pageNumber,
+      'pageSize': pagesize
+
     };
     return this.http.post(url, body);
   }

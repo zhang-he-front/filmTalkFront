@@ -473,6 +473,12 @@
               </div>
             </div>
           </div>
+
+          <!--分页部分-->
+          <div style="text-align: center">
+            <a (click)="getMoreData()" [hidden]="showMoreHidden" class="text-muted">点击加载更多...</a>
+          </div>
+
           <!-- 无数据展示 start-->
           <div *ngIf="isExistFilm" class="padding-md"
                style="margin:15px 10px 15px 18px;padding-left:0;padding-bottom:0;">
