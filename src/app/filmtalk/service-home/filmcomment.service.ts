@@ -18,11 +18,13 @@ export class FilmcommentServiceService {
    * add by zyx 2019-4-12
    * @returns {Observable<any>}
    */
-  getFilmData(oid: number, flag: string): Observable<any> {
+  getFilmData(oid: number, flag: string, pageNumber: number, pageSize: number): Observable<any> {
     const url = '/film/queryDetail';
     const body = {
       'currentUserOid': oid,
-      'flag': flag
+      'flag': flag,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize
     };
     return this.http.post(url, body);
   }

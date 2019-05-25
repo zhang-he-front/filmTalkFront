@@ -30,6 +30,10 @@ export class FilmCommentHomeComponent implements OnInit {
   currentUser: User = new User(); //当前登陆者
   filmRePostIsVisible: boolean = false;  //个人信息模态框展示
   filmInfoVisible: boolean = false;  //电影详情打开标志
+  pageNumber: number = 0;  //页码
+  pageSize: number = 10; //一页个数
+  showMoreHidden: boolean = false;  //点击更多显示标志
+  filmCount: number;  //电影总数
 
   constructor(private filmcommentService: FilmcommentServiceService,
               private routeInfo: ActivatedRoute,
@@ -39,6 +43,8 @@ export class FilmCommentHomeComponent implements OnInit {
   ngOnInit() {
     this.getFilmData();
     let userOid = this.routeInfo.snapshot.params['userOid'];
+    this.pageNumber = 0;
+    this.showMoreHidden = false;
     if (userOid) {
       this.getUserByOid(userOid);
     }
@@ -53,9 +59,16 @@ export class FilmCommentHomeComponent implements OnInit {
 
   //获取数据
   getFilmData() {
-    this.filmcommentService.getFilmData(this.currentUser.oid, null).subscribe(res => {
+    this.pageNumber = 0;
+    this.filmcommentService.getFilmData(this.currentUser.oid, null, this.pageNumber, this.pageSize).subscribe(res => {
       // console.log(res);
       this.dealWithData(res.data);
+      if(this.filmsData.length == this.filmCount){
+        this.showMoreHidden = true;
+      } else if(this.filmsData.length < this.filmCount){
+        this.showMoreHidden = false;
+      }
+      this.films = this.filmsData;
     });
   }
 
@@ -75,6 +88,7 @@ export class FilmCommentHomeComponent implements OnInit {
           let a = new Date(res[i].showTime);
           let f = new Film();
           f.oid = res[i].oid;
+          this.filmCount = res[i].filmCount;
           f.film_name = res[i].filmName;
           f.filmType = res[i].filmType;
           f.image_path = res[i].imagePath;
@@ -170,11 +184,10 @@ export class FilmCommentHomeComponent implements OnInit {
           f.replyChildrenDataSet = this.replyChildrenDataSet;
           this.filmsData.push(f);
         }
-        this.films = this.filmsData;
-        console.log(this.films);
+        // console.log(this.films);
       }
     } else {
-      this.films = [];
+      // this.films = [];
       this.isExistFilm = true;
     }
   }
@@ -848,5 +861,23 @@ export class FilmCommentHomeComponent implements OnInit {
     if(str == 'closeAndRefresh'){
       this.getFilmData();
     }
+  }
+
+  //分页设置
+  getMoreData(){
+    this.pageNumber = this.pageNumber + 1;
+    let num = this.pageNumber * this.pageSize;
+    this.filmcommentService.getFilmData(this.currentUser.oid, null, num, this.pageSize).subscribe(res => {
+      this.dealWithData(res.data);
+      this.films = this.films.concat(this.filmsData);
+      if((this.films.length) == this.filmCount){
+        this.showMoreHidden = true;
+      } else if(this.films.length < this.filmCount){
+        this.showMoreHidden = false;
+      }
+      if(this.filmsData.length == 0){
+        this.isExistFilm = false;
+      }
+    });
   }
 }

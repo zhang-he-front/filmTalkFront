@@ -842,8 +842,9 @@ export class MyPartHomeComponent implements OnInit {
 
   //分页设置
   getMoreData(){
-    this.pageNumber += this.pageNumber + this.pageSize;
-    this.myPartHomeService.getMyPartData(this.pageNumber, this.pageSize).subscribe(res => {
+    this.pageNumber = this.pageNumber + 1;
+    let num = this.pageNumber * this.pageSize;
+    this.myPartHomeService.getMyPartData(num, this.pageSize).subscribe(res => {
       this.dealWithData(res.data);
       this.films = this.films.concat(this.filmsData);
       if((this.films.length) == this.repostCount){
