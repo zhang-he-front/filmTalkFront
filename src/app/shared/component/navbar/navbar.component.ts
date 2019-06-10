@@ -70,6 +70,8 @@ export class NavbarComponent implements OnInit {
       if(this.messageLength > 9){
         $('.autoStyle').css('height','750px');
         $('.autoStyle').css('overflow-y','scroll');
+      } else {
+        $('.autoStyle').css('height','auto');
       }
       for(let i = 0; i < res.data.length; i++){
         let data = res.data[i];
