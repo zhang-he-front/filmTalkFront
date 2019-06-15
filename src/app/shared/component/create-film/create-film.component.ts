@@ -136,6 +136,7 @@ export class CreateFilmComponent implements OnInit {
 
     this.filmpageHomeService.insertFilm(this.film).subscribe(str => {
       if (str.code == 0) {
+        this.fileList = [];
         this.closeModel.emit("closeAndRefresh");
         this.alertMessage.success('新建成功', {
           nzDuration: 1500

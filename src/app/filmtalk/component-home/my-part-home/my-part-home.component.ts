@@ -60,6 +60,9 @@ export class MyPartHomeComponent implements OnInit {
     this.pageNumber = 0;
     this.myPartHomeService.getMyPartData(this.pageNumber, this.pageSize).subscribe(res => {
       this.dealWithData(res.data);
+      if(res.data.length == 0){
+        this.showMoreHidden = true;
+      }
       if(this.filmsData.length == this.repostCount){
         this.showMoreHidden = true;
       } else if(this.filmsData.length < this.repostCount){

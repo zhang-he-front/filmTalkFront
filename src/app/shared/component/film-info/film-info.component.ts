@@ -86,6 +86,16 @@ export class FilmInfoComponent implements OnInit {
           url: data.imagePath
         }
       ];
+      let arr = [];
+      if(data.addImage != null){
+        arr = data.addImage.split(';');
+      }
+      for(let i = 0; i < arr.length-1; i++){
+        this.fileList.push({
+          name: arr[i],
+          url: arr[i]
+        });
+      }
     });
   }
 
